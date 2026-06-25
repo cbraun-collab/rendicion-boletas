@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Rendición Boletas — SENERCOM</title>
+<meta name="description" content="Rendición de boletas y facturas SENERCOM">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#003B49">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Rendición">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════ */
+:root {
+  --navy:       #003B49;
+  --navy-dark:  #002830;
+  --navy-light: #005066;
+  --accent:     #CF4520;
+  --accent-h:   #b03a1a;
+  --gold:       #C8A951;
+  --bg:         #F0F4F5;
+  --surface:    #FFFFFF;
+  --border:     #D6E2E5;
+  --text:       #1A2B30;
+  --muted:      #6B8A92;
+  --success:    #1A7A4A;
+  --warning:    #C8800A;
+  --error:      #C0392B;
+  --radius:     12px;
+  --radius-sm:  8px;
+  --shadow:     0 2px 12px rgba(0,59,73,.10);
+  --shadow-lg:  0 8px 32px rgba(0,59,73,.16);
+  --font:       'Inter', system-ui, sans-serif;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* ═══════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100dvh;
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+button { font-family: var(--font); cursor: pointer; border: none; }
+input, select, textarea { font-family: var(--font); }
+
+/* ═══════════════════════════════════════════
+   HEADER
+═══════════════════════════════════════════ */
+.header {
+  background: var(--navy);
+  color: #fff;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+.header-logo {
+  width: 36px;
+  height: 36px;
+  background: var(--accent);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: .5px;
+  flex-shrink: 0;
+}
+.header-title { flex: 1; }
+.header-title h1 { font-size: 16px; font-weight: 700; line-height: 1.2; }
+.header-title p  { font-size: 11px; opacity: .7; margin-top: 1px; }
+.header-step {
+  background: rgba(255,255,255,.15);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════
+   PROGRESS BAR
+═══════════════════════════════════════════ */
+.progress-bar {
+  height: 3px;
+  background: rgba(255,255,255,.2);
+  position: relative;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--gold);
+  transition: width .4s ease;
+}
+
+/* ═══════════════════════════════════════════
+   CONTENEDOR PANTALLAS
+═══════════════════════════════════════════ */
+.screen {
+  display: none;
+  padding: 20px 16px;
+  padding-bottom: calc(24px + var(--safe-bottom));
+  max-width: 560px;
+  margin: 0 auto;
+  animation: fadeIn .2s ease;
+}
+.screen.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* ═══════════════════════════════════════════
+   TARJETAS Y SECCIONES
+═══════════════════════════════════════════ */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow);
+  margin-bottom: 14px;
+  border: 1px solid var(--border);
+}
+.card-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--navy);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-title::before {
+  content: '';
+  width: 3px;
+  height: 14px;
+  background: var(--accent);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════
+   CAMPOS DE FORMULARIO
+═══════════════════════════════════════════ */
+.field { margin-bottom: 14px; }
+.field:last-child { margin-bottom: 0; }
+.field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  margin-bottom: 6px;
+}
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 11px 13px;
+  font-size: 15px;
+  color: var(--text);
+  background: var(--surface);
+  transition: border-color .2s, box-shadow .2s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(0,59,73,.12);
+}
+.field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B8A92' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+.field textarea { resize: vertical; min-height: 72px; }
+.field input[type="number"] { -moz-appearance: textfield; }
+.field input[type="number"]::-webkit-inner-spin-button,
+.field input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+/* Campo con prefijo $ */
+.input-money {
+  position: relative;
+}
+.input-money span {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-weight: 600;
+  pointer-events: none;
+}
+.input-money input { padding-left: 28px; }
+
+/* ═══════════════════════════════════════════
+   MODO SELECTOR (OBRA / GENERAL)
+═══════════════════════════════════════════ */
+.mode-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.mode-btn {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .2s;
+}
+.mode-btn .icon { font-size: 28px; margin-bottom: 6px; }
+.mode-btn .label { font-size: 14px; font-weight: 700; color: var(--navy); }
+.mode-btn .sub   { font-size: 11px; color: var(--muted); margin-top: 3px; }
+.mode-btn:hover  { border-color: var(--navy); }
+.mode-btn.selected {
+  border-color: var(--accent);
+  background: #FEF5F2;
+}
+
+/* ═══════════════════════════════════════════
+   BOTONES
+═══════════════════════════════════════════ */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+  transition: all .18s;
+  letter-spacing: .2px;
+}
+.btn-primary {
+  background: var(--navy);
+  color: #fff;
+}
+.btn-primary:hover  { background: var(--navy-dark); }
+.btn-primary:active { transform: scale(.98); }
+
+.btn-accent {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-accent:hover  { background: var(--accent-h); }
+.btn-accent:active { transform: scale(.98); }
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--border);
+  color: var(--text);
+}
+.btn-outline:hover { border-color: var(--navy); color: var(--navy); }
+
+.btn-success {
+  background: var(--success);
+  color: #fff;
+}
+
+.btn-sm {
+  padding: 9px 14px;
+  font-size: 13px;
+  width: auto;
+}
+
+.btn:disabled {
+  opacity: .5;
+  pointer-events: none;
+}
+
+.btn-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+.btn-row .btn { flex: 1; }
+
+/* ═══════════════════════════════════════════
+   ZONA FOTO
+═══════════════════════════════════════════ */
+.foto-zone {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .2s;
+  background: #F8FBFC;
+  position: relative;
+  overflow: hidden;
+}
+.foto-zone:hover { border-color: var(--navy); background: #EEF5F7; }
+.foto-zone.has-image { border-style: solid; border-color: var(--success); padding: 0; }
+.foto-zone img { width: 100%; max-height: 240px; object-fit: contain; border-radius: 10px; }
+.foto-zone .placeholder { pointer-events: none; }
+.foto-zone .placeholder .icon { font-size: 40px; margin-bottom: 8px; }
+.foto-zone .placeholder p    { font-size: 14px; font-weight: 600; color: var(--navy); }
+.foto-zone .placeholder span  { font-size: 12px; color: var(--muted); }
+#inputFoto { display: none; }
+
+.foto-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+/* ═══════════════════════════════════════════
+   ESTADO IA
+═══════════════════════════════════════════ */
+.ia-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+.ia-status.loading  { background: #EBF4F7; color: var(--navy); }
+.ia-status.success  { background: #EAF5EE; color: var(--success); }
+.ia-status.warning  { background: #FEF8EC; color: var(--warning); }
+.ia-status.error    { background: #FDEEEC; color: var(--error); }
+
+.spinner {
+  width: 18px; height: 18px;
+  border: 2px solid rgba(0,59,73,.2);
+  border-top-color: var(--navy);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ═══════════════════════════════════════════
+   DUDAS IA (preguntas)
+═══════════════════════════════════════════ */
+.dudas-box {
+  background: #FEF8EC;
+  border: 1.5px solid #F0C060;
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 14px;
+}
+.dudas-box .duda-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--warning);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.duda-item {
+  margin-bottom: 12px;
+}
+.duda-item:last-child { margin-bottom: 0; }
+.duda-item p {
+  font-size: 13px;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.duda-item input,
+.duda-item select {
+  width: 100%;
+  border: 1.5px solid #F0C060;
+  border-radius: 6px;
+  padding: 9px 11px;
+  font-size: 14px;
+  background: #fff;
+}
+
+/* ═══════════════════════════════════════════
+   LISTA DE BOLETAS (resumen lote)
+═══════════════════════════════════════════ */
+.boleta-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  margin-bottom: 8px;
+  background: var(--surface);
+  cursor: pointer;
+  transition: border-color .18s;
+}
+.boleta-item:hover { border-color: var(--navy); }
+.boleta-thumb {
+  width: 48px; height: 48px;
+  border-radius: 6px;
+  object-fit: cover;
+  background: var(--bg);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+.boleta-thumb img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
+.boleta-info { flex: 1; min-width: 0; }
+.boleta-info strong { font-size: 14px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.boleta-info span   { font-size: 12px; color: var(--muted); }
+.boleta-total { font-size: 15px; font-weight: 700; color: var(--navy); white-space: nowrap; }
+.boleta-status {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.boleta-status.ok      { background: var(--success); }
+.boleta-status.warning { background: var(--warning); }
+.boleta-status.error   { background: var(--error); }
+
+/* ═══════════════════════════════════════════
+   RESUMEN LOTE
+═══════════════════════════════════════════ */
+.resumen-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+.resumen-row:last-child { border-bottom: none; }
+.resumen-row.total {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--navy);
+  padding-top: 14px;
+}
+
+/* ═══════════════════════════════════════════
+   BADGE / CHIP
+═══════════════════════════════════════════ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.badge-navy    { background: #E0EBF0; color: var(--navy); }
+.badge-accent  { background: #FAECE7; color: var(--accent); }
+.badge-success { background: #E5F5ED; color: var(--success); }
+
+/* ═══════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════ */
+#toast {
+  position: fixed;
+  bottom: calc(24px + var(--safe-bottom));
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--navy-dark);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 9999;
+  box-shadow: var(--shadow-lg);
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+  white-space: nowrap;
+  max-width: calc(100vw - 40px);
+}
+#toast.show { transform: translateX(-50%) translateY(0); }
+#toast.error { background: var(--error); }
+#toast.success { background: var(--success); }
+
+/* ═══════════════════════════════════════════
+   PANTALLA ÉXITO
+═══════════════════════════════════════════ */
+.success-screen {
+  text-align: center;
+  padding: 40px 20px;
+}
+.success-icon {
+  width: 72px; height: 72px;
+  background: #E5F5ED;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  margin: 0 auto 20px;
+}
+.success-screen h2 { font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.success-screen p  { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+
+/* ═══════════════════════════════════════════
+   LOADING OVERLAY
+═══════════════════════════════════════════ */
+#loadingOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 9998;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+}
+#loadingOverlay.show { display: flex; }
+#loadingOverlay .spinner {
+  width: 40px; height: 40px;
+  border-width: 3px;
+  border-color: rgba(255,255,255,.3);
+  border-top-color: #fff;
+}
+
+/* ═══════════════════════════════════════════
+   UTILIDADES
+═══════════════════════════════════════════ */
+.text-muted   { color: var(--muted); font-size: 13px; }
+.text-center  { text-align: center; }
+.mt-8  { margin-top: 8px; }
+.mt-12 { margin-top: 12px; }
+.mt-16 { margin-top: 16px; }
+.divider { height: 1px; background: var(--border); margin: 16px 0; }
+
+/* Intro screen */
+.intro-hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+  border-radius: var(--radius);
+  padding: 28px 20px;
+  color: #fff;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.intro-hero .big-icon { font-size: 52px; margin-bottom: 12px; }
+.intro-hero h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+.intro-hero p  { font-size: 13px; opacity: .8; line-height: 1.5; }
+
+.tips-list {
+  list-style: none;
+}
+.tips-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.4;
+}
+.tips-list li:last-child { border-bottom: none; }
+.tips-list li span:first-child { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header" id="appHeader">
+  <div class="header-logo">SEN</div>
+  <div class="header-title">
+    <h1>Rendición Boletas</h1>
+    <p id="headerSub">SENERCOM</p>
+  </div>
+  <div class="header-step" id="headerStep" style="display:none">Paso <span id="stepNum">1</span>/3</div>
+</div>
+<div class="progress-bar">
+  <div class="progress-fill" id="progressFill" style="width:0%"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PANTALLA 0 — INICIO
+═══════════════════════════════════════════ -->
+<div class="screen active" id="screenInicio">
+  <div class="intro-hero">
+    <div class="big-icon">🧾</div>
+    <h2>Rendición de Boletas</h2>
+    <p>Agrupa tus documentos por obra o categoría, fotografíalos y la IA extrae los datos automáticamente.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Consejos para rendir más rápido</div>
+    <ul class="tips-list">
+      <li>
+        <span>📦</span>
+        <span><strong>Agrupa primero</strong> — Junta todas las boletas de una misma obra antes de abrir la app.</span>
+      </li>
+      <li>
+        <span>🏗️</span>
+        <span><strong>Un lote por obra</strong> — Selecciona la obra una vez y carga todas sus boletas seguidas.</span>
+      </li>
+      <li>
+        <span>💡</span>
+        <span><strong>Buena iluminación</strong> — Foto en plano, sin sombras sobre el monto total.</span>
+      </li>
+      <li>
+        <span>✅</span>
+        <span><strong>Revisa los montos</strong> — La IA extrae los datos pero tú confirmas antes de guardar.</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="field">
+      <label>Tu nombre</label>
+      <input type="text" id="inputUsuario" placeholder="Nombre y apellido" autocomplete="name">
+    </div>
+    <div class="field">
+      <label>Fecha de rendición</label>
+      <input type="date" id="inputFechaRendicion">
+    </div>
+  </div>
+
+  <button class="btn btn-primary" onclick="irAPaso1()">
+    <span>Comenzar rendición</span>
+    <span>→</span>
+  </button>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PANTALLA 1 — CONFIGURAR LOTE
+═══════════════════════════════════════════ -->
+<div class="screen" id="screenLote">
+
+  <div class="card">
+    <div class="card-title">Tipo de gasto</div>
+    <div class="mode-selector">
+      <div class="mode-btn selected" id="modeObra" onclick="seleccionarModo('OBRA')">
+        <div class="icon">🏗️</div>
+        <div class="label">Por Obra</div>
+        <div class="sub">Asociado a un proyecto</div>
+      </div>
+      <div class="mode-btn" id="modeGeneral" onclick="seleccionarModo('GENERAL')">
+        <div class="icon">🏢</div>
+        <div class="label">Gasto General</div>
+        <div class="sub">Sin obra asociada</div>
+      </div>
+    </div>
+
+    <!-- Selector obra -->
+    <div id="campoObra" class="field">
+      <label>Obra / Proyecto</label>
+      <select id="selectObra">
+        <option value="">Cargando obras…</option>
+      </select>
+    </div>
+
+    <!-- Selector categoría (gasto general) -->
+    <div id="campoCategoria" class="field" style="display:none">
+      <label>Categoría de gasto</label>
+      <select id="selectCategoria">
+        <option value="">Cargando categorías…</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="card" style="background:#EBF4F7; border-color:#B0D4DF;">
+    <div style="display:flex; align-items:center; gap:10px; font-size:14px; color:var(--navy);">
+      <span style="font-size:20px;">ℹ️</span>
+      <span>Seleccionas <strong>la obra o categoría una sola vez</strong> y luego agregas todas las boletas de ese lote.</span>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-outline" onclick="irA('screenInicio', 0)">← Atrás</button>
+    <button class="btn btn-primary" onclick="iniciarLote()">Continuar →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PANTALLA 2 — CARGAR BOLETA
+═══════════════════════════════════════════ -->
+<div class="screen" id="screenBoleta">
+
+  <!-- Info del lote actual -->
+  <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
+    <div>
+      <div style="font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.4px;">Lote activo</div>
+      <div style="font-weight:700; color:var(--navy);" id="loteLabel">—</div>
+    </div>
+    <div style="margin-left:auto; display:flex; align-items:center; gap:8px;">
+      <span class="badge badge-navy" id="contadorBoletas">0 boletas</span>
+    </div>
+  </div>
+
+  <!-- Foto -->
+  <div class="card">
+    <div class="card-title">Foto del documento</div>
+    <div class="foto-zone" id="fotoZone" onclick="document.getElementById('inputFoto').click()">
+      <div class="placeholder">
+        <div class="icon">📷</div>
+        <p>Toca para fotografiar</p>
+        <span>o seleccionar desde galería</span>
+      </div>
+    </div>
+    <input type="file" id="inputFoto" accept="image/*" capture="environment" onchange="fotoSeleccionada(this)">
+    <div class="foto-actions" id="fotoActions" style="display:none">
+      <button class="btn btn-outline btn-sm" onclick="document.getElementById('inputFoto').click()">📷 Cambiar foto</button>
+      <button class="btn btn-accent btn-sm" id="btnExtraerIA" onclick="extraerConIA()">✨ Extraer con IA</button>
+    </div>
+  </div>
+
+  <!-- Estado IA -->
+  <div id="iaStatus" style="display:none"></div>
+
+  <!-- Dudas IA -->
+  <div id="iaPreguntas" style="display:none"></div>
+
+  <!-- Formulario datos boleta -->
+  <div class="card" id="formDatos" style="display:none">
+    <div class="card-title">Datos del documento</div>
+
+    <div class="field">
+      <label>Descripción del gasto *</label>
+      <textarea id="inputDescripcion" placeholder="Ej: Materiales eléctricos para tablero principal" rows="2"></textarea>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+      <div class="field">
+        <label>N° Documento</label>
+        <input type="text" id="inputNDoc" placeholder="Ej: 003421">
+      </div>
+      <div class="field">
+        <label>Fecha doc.</label>
+        <input type="date" id="inputFechaDoc">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Proveedor / Local</label>
+      <input type="text" id="inputProveedor" placeholder="Ej: Sodimac, Easy, etc.">
+    </div>
+
+    <div class="divider"></div>
+    <div class="card-title" style="margin-bottom:10px;">Montos</div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+      <div class="field">
+        <label>Subtotal</label>
+        <div class="input-money"><span>$</span><input type="number" id="inputSubtotal" placeholder="0" oninput="calcularTotal()"></div>
+      </div>
+      <div class="field">
+        <label>IVA (19%)</label>
+        <div class="input-money"><span>$</span><input type="number" id="inputIva" placeholder="0" oninput="calcularTotal()"></div>
+      </div>
+      <div class="field">
+        <label>Propina</label>
+        <div class="input-money"><span>$</span><input type="number" id="inputPropina" placeholder="0" oninput="calcularTotal()"></div>
+      </div>
+      <div class="field">
+        <label style="color:var(--navy); font-weight:700;">TOTAL</label>
+        <div class="input-money"><span>$</span><input type="number" id="inputTotal" placeholder="0" style="font-weight:700; color:var(--navy); border-color:var(--navy);"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botones -->
+  <div id="botonesFormulario" style="display:none">
+    <div class="btn-row">
+      <button class="btn btn-outline" onclick="cancelarBoleta()">Cancelar</button>
+      <button class="btn btn-success" onclick="agregarBoleta()">✓ Agregar al lote</button>
+    </div>
+    <div class="mt-12">
+      <button class="btn btn-primary" id="btnVerLote" onclick="irA('screenResumen', 100)" style="display:none">
+        Ver lote completo (→ <span id="totalLote">0</span> doc.)
+      </button>
+    </div>
+  </div>
+
+  <!-- Si no hay foto aún, botón de ir a resumen -->
+  <div id="btnIrResumen" style="display:none; margin-top:8px;">
+    <div class="divider"></div>
+    <button class="btn btn-primary" onclick="irA('screenResumen', 100)">
+      Ver lote (<span id="totalLote2">0</span> boletas) →
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PANTALLA 3 — RESUMEN Y ENVÍO
+═══════════════════════════════════════════ -->
+<div class="screen" id="screenResumen">
+
+  <div class="card">
+    <div class="card-title">Resumen del lote</div>
+    <div id="infoLoteResumen" style="margin-bottom:14px; font-size:14px; color:var(--muted);"></div>
+    <div id="listaBoletas"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Totales del lote</div>
+    <div id="totalesLote"></div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-outline" onclick="irA('screenBoleta', 66)">+ Agregar más</button>
+    <button class="btn btn-accent" onclick="enviarLote()">📤 Enviar rendición</button>
+  </div>
+
+  <div class="mt-12">
+    <button class="btn btn-outline" onclick="nuevaRendicion()">Nuevo lote distinto</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PANTALLA ÉXITO
+═══════════════════════════════════════════ -->
+<div class="screen" id="screenExito">
+  <div class="success-screen">
+    <div class="success-icon">✅</div>
+    <h2>¡Lote enviado!</h2>
+    <p id="exitoMsg">Tu rendición fue registrada correctamente.</p>
+    <div id="exitoIds" style="margin-bottom:24px;"></div>
+    <button class="btn btn-primary" onclick="nuevaRendicion()">Rendir otro lote</button>
+    <div class="mt-12">
+      <button class="btn btn-outline" onclick="verSheet()">Ver en Google Sheets</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOADING OVERLAY -->
+<div id="loadingOverlay">
+  <div class="spinner"></div>
+  <span id="loadingMsg">Procesando…</span>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+// ════════════════════════════════════════════════════════════
+// CONFIGURACIÓN
+// ════════════════════════════════════════════════════════════
+const BACKEND_URL = 'https://script.google.com/a/macros/senercom.cl/s/AKfycbw-HcUI_mYDBakK9vOtacmbUtMC-REtBJEuzKWKJjebHRIsGj-caoLOalM1bbO05ixSFg/exec';
+const SHEET_URL   = 'https://docs.google.com/spreadsheets/d/1bw8lfb3ZD375fef2-1Kf-wqimfaPmdNcnvDo5NbPLiU/edit';
+const CLAUDE_API  = 'https://api.anthropic.com/v1/messages';
+
+// ════════════════════════════════════════════════════════════
+// ESTADO GLOBAL
+// ════════════════════════════════════════════════════════════
+let estado = {
+  usuario: '',
+  fechaRendicion: '',
+  modo: 'OBRA',
+  centroCosto: '',
+  categoriaGasto: '',
+  lote: [],               // array de boletas ya agregadas
+  fotoActual: null,       // { base64, mime, nombre, preview }
+  datosIAActual: null,    // datos extraídos por IA
+  obras: [],
+  categorias: []
+};
+
+// ════════════════════════════════════════════════════════════
+// UTILIDADES
+// ════════════════════════════════════════════════════════════
+function toast(msg, tipo = '', ms = 3000) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className   = 'show' + (tipo ? ' ' + tipo : '');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.className = '', ms);
+}
+
+function loading(show, msg = 'Procesando…') {
+  const el = document.getElementById('loadingOverlay');
+  document.getElementById('loadingMsg').textContent = msg;
+  el.classList.toggle('show', show);
+}
+
+function irA(screenId, progreso) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(screenId).classList.add('active');
+  document.getElementById('progressFill').style.width = progreso + '%';
+  window.scrollTo(0, 0);
+}
+
+function formatCLP(n) {
+  const num = parseInt(n) || 0;
+  return '$' + num.toLocaleString('es-CL');
+}
+
+function setIAStatus(tipo, msg) {
+  const el = document.getElementById('iaStatus');
+  if (!tipo) { el.style.display = 'none'; return; }
+  el.style.display = 'flex';
+  const spinnerHTML = tipo === 'loading' ? '<div class="spinner"></div>' : '';
+  const iconos = { success: '✅', warning: '⚠️', error: '❌' };
+  el.innerHTML = `<div class="ia-status ${tipo}">${spinnerHTML}<span>${iconos[tipo] || ''}${msg}</span></div>`;
+}
+
+// ════════════════════════════════════════════════════════════
+// INICIALIZACIÓN
+// ════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  // Fecha de hoy por defecto
+  const hoy = new Date().toISOString().split('T')[0];
+  document.getElementById('inputFechaRendicion').value = hoy;
+
+  // Cargar datos del backend
+  cargarObrasYCategorias();
+});
+
+async function cargarObrasYCategorias() {
+  try {
+    const [rObras, rCats] = await Promise.all([
+      fetch(BACKEND_URL, { method:'POST', body: JSON.stringify({ accion:'getObras' }) }),
+      fetch(BACKEND_URL, { method:'POST', body: JSON.stringify({ accion:'getCategorias' }) })
+    ]);
+    const dObras = await rObras.json();
+    const dCats  = await rCats.json();
+
+    if (dObras.ok) {
+      estado.obras = dObras.obras;
+      const sel = document.getElementById('selectObra');
+      sel.innerHTML = '<option value="">— Selecciona una obra —</option>';
+      dObras.obras.forEach(o => {
+        const opt = document.createElement('option');
+        opt.value = opt.textContent = o;
+        sel.appendChild(opt);
+      });
+    }
+    if (dCats.ok) {
+      estado.categorias = dCats.categorias;
+      const sel = document.getElementById('selectCategoria');
+      sel.innerHTML = '<option value="">— Selecciona categoría —</option>';
+      dCats.categorias.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = opt.textContent = c;
+        sel.appendChild(opt);
+      });
+    }
+  } catch(e) {
+    toast('No se pudieron cargar obras. Verifica conexión.', 'error');
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+// PASO 0 → 1: VALIDAR INICIO
+// ════════════════════════════════════════════════════════════
+function irAPaso1() {
+  const usuario = document.getElementById('inputUsuario').value.trim();
+  const fecha   = document.getElementById('inputFechaRendicion').value;
+  if (!usuario) { toast('Ingresa tu nombre para continuar', 'error'); return; }
+  if (!fecha)   { toast('Selecciona la fecha de rendición', 'error'); return; }
+
+  estado.usuario        = usuario;
+  estado.fechaRendicion = fecha;
+
+  document.getElementById('headerStep').style.display = 'flex';
+  document.getElementById('stepNum').textContent = '1';
+  irA('screenLote', 33);
+}
+
+// ════════════════════════════════════════════════════════════
+// PASO 1: SELECCIÓN MODO Y LOTE
+// ════════════════════════════════════════════════════════════
+function seleccionarModo(modo) {
+  estado.modo = modo;
+  document.getElementById('modeObra').classList.toggle('selected', modo === 'OBRA');
+  document.getElementById('modeGeneral').classList.toggle('selected', modo === 'GENERAL');
+  document.getElementById('campoObra').style.display     = modo === 'OBRA'    ? 'block' : 'none';
+  document.getElementById('campoCategoria').style.display = modo === 'GENERAL' ? 'block' : 'none';
+}
+
+function iniciarLote() {
+  if (estado.modo === 'OBRA') {
+    const obra = document.getElementById('selectObra').value;
+    if (!obra) { toast('Selecciona una obra', 'error'); return; }
+    estado.centroCosto    = obra;
+    estado.categoriaGasto = '';
+  } else {
+    const cat = document.getElementById('selectCategoria').value;
+    if (!cat) { toast('Selecciona una categoría', 'error'); return; }
+    estado.centroCosto    = 'Gasto General';
+    estado.categoriaGasto = cat;
+  }
+
+  // Resetear formulario boleta
+  resetearFormularioBoleta();
+  actualizarLoteLabel();
+  document.getElementById('stepNum').textContent = '2';
+  irA('screenBoleta', 66);
+}
+
+// ════════════════════════════════════════════════════════════
+// PASO 2: FOTO Y EXTRACCIÓN IA
+// ════════════════════════════════════════════════════════════
+function fotoSeleccionada(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    const dataUrl = e.target.result;
+    const base64  = dataUrl.split(',')[1];
+
+    estado.fotoActual = {
+      base64,
+      mime:    file.type,
+      nombre:  file.name,
+      preview: dataUrl
+    };
+
+    // Mostrar preview
+    const zona = document.getElementById('fotoZone');
+    zona.classList.add('has-image');
+    zona.innerHTML = `<img src="${dataUrl}" alt="Boleta">`;
+
+    document.getElementById('fotoActions').style.display = 'flex';
+    setIAStatus(null);
+    document.getElementById('iaPreguntas').style.display = 'none';
+    document.getElementById('formDatos').style.display   = 'none';
+    document.getElementById('botonesFormulario').style.display = 'none';
+
+    // Extraer automáticamente
+    extraerConIA();
+  };
+  reader.readAsDataURL(file);
+}
+
+async function extraerConIA() {
+  if (!estado.fotoActual) { toast('Primero toma una foto', 'error'); return; }
+
+  setIAStatus('loading', 'Analizando documento con IA…');
+  document.getElementById('iaPreguntas').style.display = 'none';
+  document.getElementById('formDatos').style.display   = 'none';
+  document.getElementById('botonesFormulario').style.display = 'none';
+  document.getElementById('btnExtraerIA').disabled = true;
+
+  try {
+    const resp = await fetch(CLAUDE_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: [
+            {
+              type: 'image',
+              source: { type: 'base64', media_type: estado.fotoActual.mime, data: estado.fotoActual.base64 }
+            },
+            {
+              type: 'text',
+              text: `Analiza esta boleta o factura chilena y extrae los siguientes datos. 
+Responde ÚNICAMENTE con un objeto JSON válido, sin texto adicional, sin markdown, sin explicaciones.
+
+Campos a extraer:
+{
+  "nDocumento": "número de boleta o factura (solo dígitos, sin guiones)",
+  "fechaDocumento": "fecha en formato YYYY-MM-DD, si no se ve claramente pon null",
+  "proveedor": "nombre del local o empresa emisora",
+  "subtotal": número entero en pesos chilenos (sin puntos ni comas, 0 si no aplica),
+  "iva": número entero en pesos chilenos (19% si es factura, 0 si es boleta sin IVA separado),
+  "propina": número entero en pesos chilenos (0 si no aplica),
+  "total": número entero en pesos chilenos,
+  "dudas": [
+    {
+      "campo": "nombre del campo",
+      "pregunta": "pregunta corta para confirmar al usuario",
+      "opciones": ["opción1", "opción2"] // solo si aplica, sino array vacío
+    }
+  ],
+  "confianza": "alta|media|baja"
+}
+
+Genera dudas cuando: montos son poco legibles, fecha no se ve claramente, no estás seguro si es boleta o factura, o hay campos que podrían interpretarse de más de una forma. Sé conservador: si tienes dudas, pregunta.`
+            }
+          ]
+        }]
+      })
+    });
+
+    const data = await resp.json();
+    const texto = data.content?.[0]?.text || '';
+
+    let datosia;
+    try {
+      const clean = texto.replace(/```json|```/g, '').trim();
+      datosia = JSON.parse(clean);
+    } catch(e) {
+      throw new Error('No se pudo parsear respuesta IA');
+    }
+
+    estado.datosIAActual = datosia;
+    poblarFormulario(datosia);
+
+    if (datosia.dudas && datosia.dudas.length > 0) {
+      setIAStatus('warning', `IA extrajo los datos — hay ${datosia.dudas.length} punto(s) a confirmar`);
+      mostrarDudas(datosia.dudas);
+    } else {
+      setIAStatus('success', `Datos extraídos con confianza ${datosia.confianza || 'alta'}`);
+    }
+
+    document.getElementById('formDatos').style.display   = 'block';
+    document.getElementById('botonesFormulario').style.display = 'block';
+    actualizarBtnVerLote();
+
+  } catch(e) {
+    setIAStatus('error', 'No se pudo analizar la imagen. Ingresa los datos manualmente.');
+    document.getElementById('formDatos').style.display   = 'block';
+    document.getElementById('botonesFormulario').style.display = 'block';
+    console.error(e);
+  } finally {
+    document.getElementById('btnExtraerIA').disabled = false;
+  }
+}
+
+function poblarFormulario(datos) {
+  if (datos.nDocumento)     document.getElementById('inputNDoc').value         = datos.nDocumento;
+  if (datos.fechaDocumento) document.getElementById('inputFechaDoc').value     = datos.fechaDocumento;
+  if (datos.proveedor)      document.getElementById('inputProveedor').value    = datos.proveedor;
+  if (datos.subtotal)       document.getElementById('inputSubtotal').value     = datos.subtotal;
+  if (datos.iva)            document.getElementById('inputIva').value          = datos.iva;
+  if (datos.propina)        document.getElementById('inputPropina').value      = datos.propina;
+  if (datos.total)          document.getElementById('inputTotal').value        = datos.total;
+}
+
+function mostrarDudas(dudas) {
+  const cont = document.getElementById('iaPreguntas');
+  let html = `<div class="dudas-box">
+    <div class="duda-title">⚠️ La IA necesita confirmar</div>`;
+
+  dudas.forEach((d, i) => {
+    html += `<div class="duda-item">
+      <p>${d.pregunta}</p>`;
+    if (d.opciones && d.opciones.length > 0) {
+      html += `<select id="duda_${i}" data-campo="${d.campo}">
+        <option value="">— Selecciona —</option>`;
+      d.opciones.forEach(op => html += `<option value="${op}">${op}</option>`);
+      html += `</select>`;
+    } else {
+      html += `<input type="text" id="duda_${i}" data-campo="${d.campo}" placeholder="Tu respuesta…">`;
+    }
+    html += `</div>`;
+  });
+
+  html += `</div>`;
+  cont.innerHTML = html;
+  cont.style.display = 'block';
+}
+
+function calcularTotal() {
+  const sub     = parseInt(document.getElementById('inputSubtotal').value) || 0;
+  const iva     = parseInt(document.getElementById('inputIva').value)      || 0;
+  const propina = parseInt(document.getElementById('inputPropina').value)  || 0;
+  if (sub > 0 || iva > 0 || propina > 0) {
+    document.getElementById('inputTotal').value = sub + iva + propina;
+  }
+}
+
+function agregarBoleta() {
+  const descripcion = document.getElementById('inputDescripcion').value.trim();
+  const total       = parseInt(document.getElementById('inputTotal').value) || 0;
+
+  if (!descripcion) { toast('Agrega una descripción del gasto', 'error'); return; }
+  if (total === 0)  { toast('El total no puede ser $0', 'error'); return; }
+
+  // Recopilar respuestas a dudas
+  const respuestasDudas = {};
+  if (estado.datosIAActual?.dudas) {
+    estado.datosIAActual.dudas.forEach((d, i) => {
+      const el = document.getElementById(`duda_${i}`);
+      if (el) respuestasDudas[d.campo] = el.value;
+    });
+  }
+
+  const boleta = {
+    id:               Date.now(),
+    nDocumento:       document.getElementById('inputNDoc').value,
+    fechaDocumento:   document.getElementById('inputFechaDoc').value,
+    proveedor:        document.getElementById('inputProveedor').value,
+    descripcionGasto: descripcion,
+    subtotal:         parseInt(document.getElementById('inputSubtotal').value) || 0,
+    iva:              parseInt(document.getElementById('inputIva').value)      || 0,
+    propina:          parseInt(document.getElementById('inputPropina').value)  || 0,
+    total,
+    foto:             estado.fotoActual,
+    datosIA:          JSON.stringify(estado.datosIAActual),
+    datosConfirmados: true,
+    respuestasDudas
+  };
+
+  estado.lote.push(boleta);
+  toast(`✓ Boleta ${formatCLP(total)} agregada al lote`, 'success');
+
+  // Reset para siguiente boleta
+  resetearFormularioBoleta();
+  actualizarContadores();
+}
+
+function cancelarBoleta() {
+  resetearFormularioBoleta();
+}
+
+function resetearFormularioBoleta() {
+  estado.fotoActual    = null;
+  estado.datosIAActual = null;
+
+  const zona = document.getElementById('fotoZone');
+  zona.classList.remove('has-image');
+  zona.innerHTML = `<div class="placeholder">
+    <div class="icon">📷</div>
+    <p>Toca para fotografiar</p>
+    <span>o seleccionar desde galería</span>
+  </div>`;
+  document.getElementById('inputFoto').value = '';
+  document.getElementById('fotoActions').style.display = 'none';
+  setIAStatus(null);
+  document.getElementById('iaPreguntas').style.display  = 'none';
+  document.getElementById('formDatos').style.display    = 'none';
+  document.getElementById('botonesFormulario').style.display = 'none';
+
+  ['inputNDoc','inputFechaDoc','inputProveedor','inputDescripcion',
+   'inputSubtotal','inputIva','inputPropina','inputTotal'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+}
+
+function actualizarLoteLabel() {
+  const label = estado.modo === 'OBRA' ? estado.centroCosto : `General — ${estado.categoriaGasto}`;
+  document.getElementById('loteLabel').textContent = label;
+  document.getElementById('headerSub').textContent = label;
+}
+
+function actualizarContadores() {
+  const n = estado.lote.length;
+  document.getElementById('contadorBoletas').textContent = `${n} boleta${n !== 1 ? 's' : ''}`;
+  document.getElementById('totalLote').textContent  = n;
+  document.getElementById('totalLote2').textContent = n;
+  actualizarBtnVerLote();
+}
+
+function actualizarBtnVerLote() {
+  const btn = document.getElementById('btnVerLote');
+  const btnR = document.getElementById('btnIrResumen');
+  const show = estado.lote.length > 0;
+  btn.style.display  = show ? 'flex' : 'none';
+  btnR.style.display = show ? 'block' : 'none';
+}
+
+// ════════════════════════════════════════════════════════════
+// PASO 3: RESUMEN Y ENVÍO
+// ════════════════════════════════════════════════════════════
+function mostrarResumen() {
+  document.getElementById('stepNum').textContent = '3';
+
+  const infoEl = document.getElementById('infoLoteResumen');
+  infoEl.textContent = `${estado.modo === 'OBRA' ? '🏗️' : '🏢'} ${estado.centroCosto}${estado.categoriaGasto ? ' — ' + estado.categoriaGasto : ''} · ${estado.lote.length} documento(s)`;
+
+  // Lista boletas
+  const listaEl = document.getElementById('listaBoletas');
+  listaEl.innerHTML = '';
+  estado.lote.forEach((b, i) => {
+    const thumbHTML = b.foto?.preview
+      ? `<div class="boleta-thumb"><img src="${b.foto.preview}" alt="foto"></div>`
+      : `<div class="boleta-thumb">🧾</div>`;
+    listaEl.innerHTML += `
+      <div class="boleta-item">
+        ${thumbHTML}
+        <div class="boleta-info">
+          <strong>${b.descripcionGasto}</strong>
+          <span>${b.proveedor || 'Sin proveedor'} · ${b.nDocumento ? 'N°' + b.nDocumento : 'Sin N°'}</span>
+        </div>
+        <div class="boleta-total">${formatCLP(b.total)}</div>
+        <div class="boleta-status ok"></div>
+      </div>`;
+  });
+
+  // Totales
+  const subtotalSum = estado.lote.reduce((a, b) => a + b.subtotal, 0);
+  const ivaSum      = estado.lote.reduce((a, b) => a + b.iva, 0);
+  const propinaSum  = estado.lote.reduce((a, b) => a + b.propina, 0);
+  const totalSum    = estado.lote.reduce((a, b) => a + b.total, 0);
+
+  document.getElementById('totalesLote').innerHTML = `
+    ${subtotalSum ? `<div class="resumen-row"><span>Subtotal</span><span>${formatCLP(subtotalSum)}</span></div>` : ''}
+    ${ivaSum      ? `<div class="resumen-row"><span>IVA</span><span>${formatCLP(ivaSum)}</span></div>` : ''}
+    ${propinaSum  ? `<div class="resumen-row"><span>Propina</span><span>${formatCLP(propinaSum)}</span></div>` : ''}
+    <div class="resumen-row total"><span>TOTAL LOTE</span><span>${formatCLP(totalSum)}</span></div>
+    <div class="resumen-row"><span style="color:var(--muted); font-size:12px;">${estado.lote.length} documento(s) · Rendido por ${estado.usuario}</span></div>
+  `;
+}
+
+async function enviarLote() {
+  if (estado.lote.length === 0) { toast('No hay boletas en el lote', 'error'); return; }
+
+  loading(true, 'Enviando lote…');
+  const ids = [];
+  let errores = 0;
+
+  for (let i = 0; i < estado.lote.length; i++) {
+    const b = estado.lote[i];
+    loading(true, `Enviando ${i + 1} de ${estado.lote.length}…`);
+    try {
+      const payload = {
+        accion:           'guardarBoleta',
+        usuario:          estado.usuario,
+        fechaRendicion:   estado.fechaRendicion,
+        tipo:             estado.modo,
+        centroCosto:      estado.centroCosto,
+        categoriaGasto:   estado.categoriaGasto,
+        nDocumento:       b.nDocumento,
+        fechaDocumento:   b.fechaDocumento,
+        proveedor:        b.proveedor,
+        descripcionGasto: b.descripcionGasto,
+        subtotal:         b.subtotal,
+        iva:              b.iva,
+        propina:          b.propina,
+        total:            b.total,
+        datosIA:          b.datosIA,
+        datosConfirmados: b.datosConfirmados,
+        imagenBase64:     b.foto?.base64   || null,
+        imagenMime:       b.foto?.mime     || null,
+        imagenNombre:     b.foto?.nombre   || null
+      };
+
+      const resp = await fetch(BACKEND_URL, { method: 'POST', body: JSON.stringify(payload) });
+      const data = await resp.json();
+      if (data.ok) ids.push(data.id);
+      else errores++;
+    } catch(e) {
+      errores++;
+      console.error(e);
+    }
+  }
+
+  loading(false);
+
+  if (errores === 0) {
+    document.getElementById('exitoMsg').textContent =
+      `${ids.length} boleta(s) registradas correctamente para "${estado.centroCosto}".`;
+    document.getElementById('exitoIds').innerHTML =
+      ids.map(id => `<span class="badge badge-navy" style="margin:2px;">${id}</span>`).join('');
+    irA('screenExito', 100);
+  } else {
+    toast(`Se enviaron ${ids.length} boletas. ${errores} fallaron.`, errores === estado.lote.length ? 'error' : 'warning', 5000);
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+// NUEVO LOTE
+// ════════════════════════════════════════════════════════════
+function nuevaRendicion() {
+  estado.lote          = [];
+  estado.centroCosto   = '';
+  estado.categoriaGasto = '';
+  estado.fotoActual    = null;
+  estado.datosIAActual = null;
+  document.getElementById('headerStep').style.display = 'none';
+  document.getElementById('headerSub').textContent = 'SENERCOM';
+  document.getElementById('progressFill').style.width = '0%';
+  irA('screenLote', 33);
+  document.getElementById('headerStep').style.display = 'flex';
+  document.getElementById('stepNum').textContent = '1';
+}
+
+function verSheet() {
+  window.open(SHEET_URL, '_blank');
+}
+
+// ════════════════════════════════════════════════════════════
+// INTERCEPTAR CAMBIO DE PANTALLA RESUMEN
+// ════════════════════════════════════════════════════════════
+const _irA = irA;
+window.irA = function(screenId, progreso) {
+  if (screenId === 'screenResumen') mostrarResumen();
+  _irA(screenId, progreso);
+};
+
+// ════════════════════════════════════════════════════════════
+// SERVICE WORKER
+// ════════════════════════════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+</script>
+</body>
+</html>

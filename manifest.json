@@ -1,0 +1,24 @@
+{
+  "name": "Rendición Boletas — SENERCOM",
+  "short_name": "Rendición",
+  "description": "Rendición de boletas y facturas SENERCOM",
+  "start_url": "/rendicion-boletas/",
+  "display": "standalone",
+  "background_color": "#003B49",
+  "theme_color": "#003B49",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
