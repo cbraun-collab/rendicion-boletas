@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -1032,28 +1033,43 @@ function fotoSeleccionada(input) {
   const reader = new FileReader();
   reader.onload = e => {
     const dataUrl = e.target.result;
-    const base64  = dataUrl.split(',')[1];
  
-    estado.fotoActual = {
-      base64,
-      mime:    file.type,
-      nombre:  file.name,
-      preview: dataUrl
+    // Comprimir imagen antes de enviar al backend
+    const img = new Image();
+    img.onload = () => {
+      const MAX = 800;
+      let w = img.width, h = img.height;
+      if (w > MAX || h > MAX) {
+        if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
+        else       { w = Math.round(w * MAX / h); h = MAX; }
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      const compressed = canvas.toDataURL('image/jpeg', 0.7);
+      const base64 = compressed.split(',')[1];
+ 
+      estado.fotoActual = {
+        base64,
+        mime:    'image/jpeg',
+        nombre:  file.name,
+        preview: compressed
+      };
+ 
+      // Mostrar preview comprimido
+      const zona = document.getElementById('fotoZone');
+      zona.classList.add('has-image');
+      zona.innerHTML = `<img src="${compressed}" alt="Boleta">`;
+      document.getElementById('fotoActions').style.display = 'flex';
+      setIAStatus(null);
+      document.getElementById('iaPreguntas').style.display = 'none';
+      document.getElementById('formDatos').style.display   = 'none';
+      document.getElementById('botonesFormulario').style.display = 'none';
+      extraerConIA();
     };
+    img.src = dataUrl;
+    return; // el resto lo maneja img.onload
  
-    // Mostrar preview
-    const zona = document.getElementById('fotoZone');
-    zona.classList.add('has-image');
-    zona.innerHTML = `<img src="${dataUrl}" alt="Boleta">`;
- 
-    document.getElementById('fotoActions').style.display = 'flex';
-    setIAStatus(null);
-    document.getElementById('iaPreguntas').style.display = 'none';
-    document.getElementById('formDatos').style.display   = 'none';
-    document.getElementById('botonesFormulario').style.display = 'none';
- 
-    // Extraer automáticamente
-    extraerConIA();
   };
   reader.readAsDataURL(file);
 }
@@ -1068,13 +1084,16 @@ async function extraerConIA() {
   document.getElementById('btnExtraerIA').disabled = true;
  
   try {
-    // Llamada al backend Apps Script (seguro, sin exponer API Key)
-    const data = {
-      imagenBase64: estado.fotoActual.base64,
-      imagenMime:   estado.fotoActual.mime
-    };
-    const url  = BACKEND_URL + '?accion=extraerBoleta&data=' + encodeURIComponent(JSON.stringify(data));
-    const resp = await fetch(url);
+    // Llamada POST al backend Apps Script (evita límite de URL)
+    const resp = await fetch(BACKEND_URL, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({
+        accion:       'extraerBoleta',
+        imagenBase64: estado.fotoActual.base64,
+        imagenMime:   estado.fotoActual.mime
+      })
+    });
     const result = await resp.json();
  
     if (!result.ok) throw new Error(result.error || 'Error en servidor');
