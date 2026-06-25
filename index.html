@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -759,7 +758,8 @@ input, select, textarea { font-family: var(--font); }
  
     <div class="field">
       <label>Proveedor / Local</label>
-      <input type="text" id="inputProveedor" placeholder="Ej: Sodimac, Easy, etc.">
+      <input type="text" id="inputProveedor" placeholder="Ej: Sodimac, Easy, etc." list="listaProveedores" autocomplete="off">
+      <datalist id="listaProveedores"></datalist>
     </div>
  
     <div class="divider"></div>
@@ -864,7 +864,7 @@ input, select, textarea { font-family: var(--font); }
 // ════════════════════════════════════════════════════════════
 const BACKEND_URL = 'https://script.google.com/a/macros/senercom.cl/s/AKfycbw-HcUI_mYDBakK9vOtacmbUtMC-REtBJEuzKWKJjebHRIsGj-caoLOalM1bbO05ixSFg/exec';
 const SHEET_URL   = 'https://docs.google.com/spreadsheets/d/1bw8lfb3ZD375fef2-1Kf-wqimfaPmdNcnvDo5NbPLiU/edit';
-const CLAUDE_API  = 'https://api.anthropic.com/v1/messages';
+// OCR procesado en Apps Script backend (seguro)
  
 // ════════════════════════════════════════════════════════════
 // ESTADO GLOBAL
@@ -934,21 +934,21 @@ document.addEventListener('DOMContentLoaded', () => {
  
 async function cargarObrasYCategorias() {
   try {
-    const [rObras, rCats] = await Promise.all([
+    const [rObras, rCats, rProvs] = await Promise.all([
       fetch(BACKEND_URL + '?accion=getObras'),
-      fetch(BACKEND_URL + '?accion=getCategorias')
+      fetch(BACKEND_URL + '?accion=getCategorias'),
+      fetch(BACKEND_URL + '?accion=getProveedores')
     ]);
     const dObras = await rObras.json();
     const dCats  = await rCats.json();
+    const dProvs = await rProvs.json();
  
     if (dObras.ok) {
       estado.obras = dObras.obras;
       const dl = document.getElementById('listaObras');
       dl.innerHTML = '';
       dObras.obras.forEach(o => {
-        const opt = document.createElement('option');
-        opt.value = o;
-        dl.appendChild(opt);
+        const opt = document.createElement('option'); opt.value = o; dl.appendChild(opt);
       });
     }
     if (dCats.ok) {
@@ -956,14 +956,21 @@ async function cargarObrasYCategorias() {
       const dl = document.getElementById('listaCategorias');
       dl.innerHTML = '';
       dCats.categorias.forEach(c => {
-        const opt = document.createElement('option');
-        opt.value = c;
-        dl.appendChild(opt);
+        const opt = document.createElement('option'); opt.value = c; dl.appendChild(opt);
       });
     }
+    if (dProvs.ok) {
+      estado.proveedores = dProvs.proveedores;
+      const dl = document.getElementById('listaProveedores');
+      if (dl) {
+        dl.innerHTML = '';
+        dProvs.proveedores.forEach(p => {
+          const opt = document.createElement('option'); opt.value = p; dl.appendChild(opt);
+        });
+      }
+    }
   } catch(e) {
-    // Sin conexión: igual funciona, el usuario escribe manualmente
-    console.log('Obras no cargadas, modo manual');
+    console.log('Datos no cargados, modo manual');
   }
 }
  
@@ -1061,61 +1068,18 @@ async function extraerConIA() {
   document.getElementById('btnExtraerIA').disabled = true;
  
   try {
-    const resp = await fetch(CLAUDE_API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 1000,
-        messages: [{
-          role: 'user',
-          content: [
-            {
-              type: 'image',
-              source: { type: 'base64', media_type: estado.fotoActual.mime, data: estado.fotoActual.base64 }
-            },
-            {
-              type: 'text',
-              text: `Analiza esta boleta o factura chilena y extrae los siguientes datos. 
-Responde ÚNICAMENTE con un objeto JSON válido, sin texto adicional, sin markdown, sin explicaciones.
+    // Llamada al backend Apps Script (seguro, sin exponer API Key)
+    const data = {
+      imagenBase64: estado.fotoActual.base64,
+      imagenMime:   estado.fotoActual.mime
+    };
+    const url  = BACKEND_URL + '?accion=extraerBoleta&data=' + encodeURIComponent(JSON.stringify(data));
+    const resp = await fetch(url);
+    const result = await resp.json();
  
-Campos a extraer:
-{
-  "nDocumento": "número de boleta o factura (solo dígitos, sin guiones)",
-  "fechaDocumento": "fecha en formato YYYY-MM-DD, si no se ve claramente pon null",
-  "proveedor": "nombre del local o empresa emisora",
-  "subtotal": número entero en pesos chilenos (sin puntos ni comas, 0 si no aplica),
-  "iva": número entero en pesos chilenos (19% si es factura, 0 si es boleta sin IVA separado),
-  "propina": número entero en pesos chilenos (0 si no aplica),
-  "total": número entero en pesos chilenos,
-  "dudas": [
-    {
-      "campo": "nombre del campo",
-      "pregunta": "pregunta corta para confirmar al usuario",
-      "opciones": ["opción1", "opción2"] // solo si aplica, sino array vacío
-    }
-  ],
-  "confianza": "alta|media|baja"
-}
+    if (!result.ok) throw new Error(result.error || 'Error en servidor');
  
-Genera dudas cuando: montos son poco legibles, fecha no se ve claramente, no estás seguro si es boleta o factura, o hay campos que podrían interpretarse de más de una forma. Sé conservador: si tienes dudas, pregunta.`
-            }
-          ]
-        }]
-      })
-    });
- 
-    const data = await resp.json();
-    const texto = data.content?.[0]?.text || '';
- 
-    let datosia;
-    try {
-      const clean = texto.replace(/```json|```/g, '').trim();
-      datosia = JSON.parse(clean);
-    } catch(e) {
-      throw new Error('No se pudo parsear respuesta IA');
-    }
- 
+    const datosia = result.datos;
     estado.datosIAActual = datosia;
     poblarFormulario(datosia);
  
@@ -1126,13 +1090,13 @@ Genera dudas cuando: montos son poco legibles, fecha no se ve claramente, no est
       setIAStatus('success', `Datos extraídos con confianza ${datosia.confianza || 'alta'}`);
     }
  
-    document.getElementById('formDatos').style.display   = 'block';
+    document.getElementById('formDatos').style.display        = 'block';
     document.getElementById('botonesFormulario').style.display = 'block';
     actualizarBtnVerLote();
  
   } catch(e) {
     setIAStatus('error', 'No se pudo analizar la imagen. Ingresa los datos manualmente.');
-    document.getElementById('formDatos').style.display   = 'block';
+    document.getElementById('formDatos').style.display        = 'block';
     document.getElementById('botonesFormulario').style.display = 'block';
     console.error(e);
   } finally {
@@ -1349,7 +1313,9 @@ async function enviarLote() {
         imagenNombre:     b.foto?.nombre   || null
       };
  
-      const resp = await fetch(BACKEND_URL, { method: 'POST', body: JSON.stringify(payload) });
+      // Enviamos via GET con data encapsulada para evitar CORS
+      const url = BACKEND_URL + '?accion=guardarBoleta&data=' + encodeURIComponent(JSON.stringify(payload));
+      const resp = await fetch(url);
       const data = await resp.json();
       if (data.ok) ids.push(data.id);
       else errores++;
