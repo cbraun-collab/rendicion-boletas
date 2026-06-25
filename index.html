@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+ 
 <style>
 /* ═══════════════════════════════════════════
    TOKENS
@@ -41,7 +41,7 @@
   --font:       'Inter', system-ui, sans-serif;
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
-
+ 
 /* ═══════════════════════════════════════════
    RESET & BASE
 ═══════════════════════════════════════════ */
@@ -58,7 +58,7 @@ body {
 img { max-width: 100%; display: block; }
 button { font-family: var(--font); cursor: pointer; border: none; }
 input, select, textarea { font-family: var(--font); }
-
+ 
 /* ═══════════════════════════════════════════
    HEADER
 ═══════════════════════════════════════════ */
@@ -97,7 +97,7 @@ input, select, textarea { font-family: var(--font); }
   font-size: 12px;
   font-weight: 600;
 }
-
+ 
 /* ═══════════════════════════════════════════
    PROGRESS BAR
 ═══════════════════════════════════════════ */
@@ -111,7 +111,7 @@ input, select, textarea { font-family: var(--font); }
   background: var(--gold);
   transition: width .4s ease;
 }
-
+ 
 /* ═══════════════════════════════════════════
    CONTENEDOR PANTALLAS
 ═══════════════════════════════════════════ */
@@ -125,7 +125,7 @@ input, select, textarea { font-family: var(--font); }
 }
 .screen.active { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-
+ 
 /* ═══════════════════════════════════════════
    TARJETAS Y SECCIONES
 ═══════════════════════════════════════════ */
@@ -156,7 +156,7 @@ input, select, textarea { font-family: var(--font); }
   border-radius: 2px;
   flex-shrink: 0;
 }
-
+ 
 /* ═══════════════════════════════════════════
    CAMPOS DE FORMULARIO
 ═══════════════════════════════════════════ */
@@ -202,7 +202,7 @@ input, select, textarea { font-family: var(--font); }
 .field input[type="number"] { -moz-appearance: textfield; }
 .field input[type="number"]::-webkit-inner-spin-button,
 .field input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
-
+ 
 /* Campo con prefijo $ */
 .input-money {
   position: relative;
@@ -217,7 +217,7 @@ input, select, textarea { font-family: var(--font); }
   pointer-events: none;
 }
 .input-money input { padding-left: 28px; }
-
+ 
 /* ═══════════════════════════════════════════
    MODO SELECTOR (OBRA / GENERAL)
 ═══════════════════════════════════════════ */
@@ -244,7 +244,7 @@ input, select, textarea { font-family: var(--font); }
   border-color: var(--accent);
   background: #FEF5F2;
 }
-
+ 
 /* ═══════════════════════════════════════════
    BOTONES
 ═══════════════════════════════════════════ */
@@ -267,44 +267,44 @@ input, select, textarea { font-family: var(--font); }
 }
 .btn-primary:hover  { background: var(--navy-dark); }
 .btn-primary:active { transform: scale(.98); }
-
+ 
 .btn-accent {
   background: var(--accent);
   color: #fff;
 }
 .btn-accent:hover  { background: var(--accent-h); }
 .btn-accent:active { transform: scale(.98); }
-
+ 
 .btn-outline {
   background: transparent;
   border: 2px solid var(--border);
   color: var(--text);
 }
 .btn-outline:hover { border-color: var(--navy); color: var(--navy); }
-
+ 
 .btn-success {
   background: var(--success);
   color: #fff;
 }
-
+ 
 .btn-sm {
   padding: 9px 14px;
   font-size: 13px;
   width: auto;
 }
-
+ 
 .btn:disabled {
   opacity: .5;
   pointer-events: none;
 }
-
+ 
 .btn-row {
   display: flex;
   gap: 10px;
   margin-top: 16px;
 }
 .btn-row .btn { flex: 1; }
-
+ 
 /* ═══════════════════════════════════════════
    ZONA FOTO
 ═══════════════════════════════════════════ */
@@ -327,13 +327,13 @@ input, select, textarea { font-family: var(--font); }
 .foto-zone .placeholder p    { font-size: 14px; font-weight: 600; color: var(--navy); }
 .foto-zone .placeholder span  { font-size: 12px; color: var(--muted); }
 #inputFoto { display: none; }
-
+ 
 .foto-actions {
   display: flex;
   gap: 8px;
   margin-top: 10px;
 }
-
+ 
 /* ═══════════════════════════════════════════
    ESTADO IA
 ═══════════════════════════════════════════ */
@@ -351,7 +351,7 @@ input, select, textarea { font-family: var(--font); }
 .ia-status.success  { background: #EAF5EE; color: var(--success); }
 .ia-status.warning  { background: #FEF8EC; color: var(--warning); }
 .ia-status.error    { background: #FDEEEC; color: var(--error); }
-
+ 
 .spinner {
   width: 18px; height: 18px;
   border: 2px solid rgba(0,59,73,.2);
@@ -361,7 +361,7 @@ input, select, textarea { font-family: var(--font); }
   flex-shrink: 0;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
-
+ 
 /* ═══════════════════════════════════════════
    DUDAS IA (preguntas)
 ═══════════════════════════════════════════ */
@@ -399,7 +399,7 @@ input, select, textarea { font-family: var(--font); }
   font-size: 14px;
   background: #fff;
 }
-
+ 
 /* ═══════════════════════════════════════════
    LISTA DE BOLETAS (resumen lote)
 ═══════════════════════════════════════════ */
@@ -440,7 +440,7 @@ input, select, textarea { font-family: var(--font); }
 .boleta-status.ok      { background: var(--success); }
 .boleta-status.warning { background: var(--warning); }
 .boleta-status.error   { background: var(--error); }
-
+ 
 /* ═══════════════════════════════════════════
    RESUMEN LOTE
 ═══════════════════════════════════════════ */
@@ -459,7 +459,7 @@ input, select, textarea { font-family: var(--font); }
   color: var(--navy);
   padding-top: 14px;
 }
-
+ 
 /* ═══════════════════════════════════════════
    BADGE / CHIP
 ═══════════════════════════════════════════ */
@@ -474,7 +474,7 @@ input, select, textarea { font-family: var(--font); }
 .badge-navy    { background: #E0EBF0; color: var(--navy); }
 .badge-accent  { background: #FAECE7; color: var(--accent); }
 .badge-success { background: #E5F5ED; color: var(--success); }
-
+ 
 /* ═══════════════════════════════════════════
    TOAST
 ═══════════════════════════════════════════ */
@@ -498,7 +498,7 @@ input, select, textarea { font-family: var(--font); }
 #toast.show { transform: translateX(-50%) translateY(0); }
 #toast.error { background: var(--error); }
 #toast.success { background: var(--success); }
-
+ 
 /* ═══════════════════════════════════════════
    PANTALLA ÉXITO
 ═══════════════════════════════════════════ */
@@ -518,7 +518,7 @@ input, select, textarea { font-family: var(--font); }
 }
 .success-screen h2 { font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
 .success-screen p  { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
-
+ 
 /* ═══════════════════════════════════════════
    LOADING OVERLAY
 ═══════════════════════════════════════════ */
@@ -543,7 +543,7 @@ input, select, textarea { font-family: var(--font); }
   border-color: rgba(255,255,255,.3);
   border-top-color: #fff;
 }
-
+ 
 /* ═══════════════════════════════════════════
    UTILIDADES
 ═══════════════════════════════════════════ */
@@ -553,7 +553,7 @@ input, select, textarea { font-family: var(--font); }
 .mt-12 { margin-top: 12px; }
 .mt-16 { margin-top: 16px; }
 .divider { height: 1px; background: var(--border); margin: 16px 0; }
-
+ 
 /* Intro screen */
 .intro-hero {
   background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
@@ -566,7 +566,7 @@ input, select, textarea { font-family: var(--font); }
 .intro-hero .big-icon { font-size: 52px; margin-bottom: 12px; }
 .intro-hero h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
 .intro-hero p  { font-size: 13px; opacity: .8; line-height: 1.5; }
-
+ 
 .tips-list {
   list-style: none;
 }
@@ -582,11 +582,11 @@ input, select, textarea { font-family: var(--font); }
 }
 .tips-list li:last-child { border-bottom: none; }
 .tips-list li span:first-child { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
-
+ 
 </style>
 </head>
 <body>
-
+ 
 <!-- HEADER -->
 <div class="header" id="appHeader">
   <div class="header-logo">SEN</div>
@@ -599,7 +599,7 @@ input, select, textarea { font-family: var(--font); }
 <div class="progress-bar">
   <div class="progress-fill" id="progressFill" style="width:0%"></div>
 </div>
-
+ 
 <!-- ═══════════════════════════════════════════
      PANTALLA 0 — INICIO
 ═══════════════════════════════════════════ -->
@@ -609,7 +609,7 @@ input, select, textarea { font-family: var(--font); }
     <h2>Rendición de Boletas</h2>
     <p>Agrupa tus documentos por obra o categoría, fotografíalos y la IA extrae los datos automáticamente.</p>
   </div>
-
+ 
   <div class="card">
     <div class="card-title">Consejos para rendir más rápido</div>
     <ul class="tips-list">
@@ -631,7 +631,7 @@ input, select, textarea { font-family: var(--font); }
       </li>
     </ul>
   </div>
-
+ 
   <div class="card">
     <div class="field">
       <label>Tu nombre</label>
@@ -642,18 +642,18 @@ input, select, textarea { font-family: var(--font); }
       <input type="date" id="inputFechaRendicion">
     </div>
   </div>
-
+ 
   <button class="btn btn-primary" onclick="irAPaso1()">
     <span>Comenzar rendición</span>
     <span>→</span>
   </button>
 </div>
-
+ 
 <!-- ═══════════════════════════════════════════
      PANTALLA 1 — CONFIGURAR LOTE
 ═══════════════════════════════════════════ -->
 <div class="screen" id="screenLote">
-
+ 
   <div class="card">
     <div class="card-title">Tipo de gasto</div>
     <div class="mode-selector">
@@ -668,7 +668,7 @@ input, select, textarea { font-family: var(--font); }
         <div class="sub">Sin obra asociada</div>
       </div>
     </div>
-
+ 
     <!-- Selector obra -->
     <div id="campoObra" class="field">
       <label>Obra / Proyecto</label>
@@ -676,7 +676,7 @@ input, select, textarea { font-family: var(--font); }
         <option value="">Cargando obras…</option>
       </select>
     </div>
-
+ 
     <!-- Selector categoría (gasto general) -->
     <div id="campoCategoria" class="field" style="display:none">
       <label>Categoría de gasto</label>
@@ -685,25 +685,25 @@ input, select, textarea { font-family: var(--font); }
       </select>
     </div>
   </div>
-
+ 
   <div class="card" style="background:#EBF4F7; border-color:#B0D4DF;">
     <div style="display:flex; align-items:center; gap:10px; font-size:14px; color:var(--navy);">
       <span style="font-size:20px;">ℹ️</span>
       <span>Seleccionas <strong>la obra o categoría una sola vez</strong> y luego agregas todas las boletas de ese lote.</span>
     </div>
   </div>
-
+ 
   <div class="btn-row">
     <button class="btn btn-outline" onclick="irA('screenInicio', 0)">← Atrás</button>
     <button class="btn btn-primary" onclick="iniciarLote()">Continuar →</button>
   </div>
 </div>
-
+ 
 <!-- ═══════════════════════════════════════════
      PANTALLA 2 — CARGAR BOLETA
 ═══════════════════════════════════════════ -->
 <div class="screen" id="screenBoleta">
-
+ 
   <!-- Info del lote actual -->
   <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
     <div>
@@ -714,7 +714,7 @@ input, select, textarea { font-family: var(--font); }
       <span class="badge badge-navy" id="contadorBoletas">0 boletas</span>
     </div>
   </div>
-
+ 
   <!-- Foto -->
   <div class="card">
     <div class="card-title">Foto del documento</div>
@@ -731,22 +731,22 @@ input, select, textarea { font-family: var(--font); }
       <button class="btn btn-accent btn-sm" id="btnExtraerIA" onclick="extraerConIA()">✨ Extraer con IA</button>
     </div>
   </div>
-
+ 
   <!-- Estado IA -->
   <div id="iaStatus" style="display:none"></div>
-
+ 
   <!-- Dudas IA -->
   <div id="iaPreguntas" style="display:none"></div>
-
+ 
   <!-- Formulario datos boleta -->
   <div class="card" id="formDatos" style="display:none">
     <div class="card-title">Datos del documento</div>
-
+ 
     <div class="field">
       <label>Descripción del gasto *</label>
       <textarea id="inputDescripcion" placeholder="Ej: Materiales eléctricos para tablero principal" rows="2"></textarea>
     </div>
-
+ 
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
       <div class="field">
         <label>N° Documento</label>
@@ -757,15 +757,15 @@ input, select, textarea { font-family: var(--font); }
         <input type="date" id="inputFechaDoc">
       </div>
     </div>
-
+ 
     <div class="field">
       <label>Proveedor / Local</label>
       <input type="text" id="inputProveedor" placeholder="Ej: Sodimac, Easy, etc.">
     </div>
-
+ 
     <div class="divider"></div>
     <div class="card-title" style="margin-bottom:10px;">Montos</div>
-
+ 
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
       <div class="field">
         <label>Subtotal</label>
@@ -785,7 +785,7 @@ input, select, textarea { font-family: var(--font); }
       </div>
     </div>
   </div>
-
+ 
   <!-- Botones -->
   <div id="botonesFormulario" style="display:none">
     <div class="btn-row">
@@ -798,7 +798,7 @@ input, select, textarea { font-family: var(--font); }
       </button>
     </div>
   </div>
-
+ 
   <!-- Si no hay foto aún, botón de ir a resumen -->
   <div id="btnIrResumen" style="display:none; margin-top:8px;">
     <div class="divider"></div>
@@ -807,33 +807,33 @@ input, select, textarea { font-family: var(--font); }
     </button>
   </div>
 </div>
-
+ 
 <!-- ═══════════════════════════════════════════
      PANTALLA 3 — RESUMEN Y ENVÍO
 ═══════════════════════════════════════════ -->
 <div class="screen" id="screenResumen">
-
+ 
   <div class="card">
     <div class="card-title">Resumen del lote</div>
     <div id="infoLoteResumen" style="margin-bottom:14px; font-size:14px; color:var(--muted);"></div>
     <div id="listaBoletas"></div>
   </div>
-
+ 
   <div class="card">
     <div class="card-title">Totales del lote</div>
     <div id="totalesLote"></div>
   </div>
-
+ 
   <div class="btn-row">
     <button class="btn btn-outline" onclick="irA('screenBoleta', 66)">+ Agregar más</button>
     <button class="btn btn-accent" onclick="enviarLote()">📤 Enviar rendición</button>
   </div>
-
+ 
   <div class="mt-12">
     <button class="btn btn-outline" onclick="nuevaRendicion()">Nuevo lote distinto</button>
   </div>
 </div>
-
+ 
 <!-- ═══════════════════════════════════════════
      PANTALLA ÉXITO
 ═══════════════════════════════════════════ -->
@@ -849,16 +849,16 @@ input, select, textarea { font-family: var(--font); }
     </div>
   </div>
 </div>
-
+ 
 <!-- LOADING OVERLAY -->
 <div id="loadingOverlay">
   <div class="spinner"></div>
   <span id="loadingMsg">Procesando…</span>
 </div>
-
+ 
 <!-- TOAST -->
 <div id="toast"></div>
-
+ 
 <script>
 // ════════════════════════════════════════════════════════════
 // CONFIGURACIÓN
@@ -866,7 +866,7 @@ input, select, textarea { font-family: var(--font); }
 const BACKEND_URL = 'https://script.google.com/a/macros/senercom.cl/s/AKfycbw-HcUI_mYDBakK9vOtacmbUtMC-REtBJEuzKWKJjebHRIsGj-caoLOalM1bbO05ixSFg/exec';
 const SHEET_URL   = 'https://docs.google.com/spreadsheets/d/1bw8lfb3ZD375fef2-1Kf-wqimfaPmdNcnvDo5NbPLiU/edit';
 const CLAUDE_API  = 'https://api.anthropic.com/v1/messages';
-
+ 
 // ════════════════════════════════════════════════════════════
 // ESTADO GLOBAL
 // ════════════════════════════════════════════════════════════
@@ -882,7 +882,7 @@ let estado = {
   obras: [],
   categorias: []
 };
-
+ 
 // ════════════════════════════════════════════════════════════
 // UTILIDADES
 // ════════════════════════════════════════════════════════════
@@ -893,25 +893,25 @@ function toast(msg, tipo = '', ms = 3000) {
   clearTimeout(el._t);
   el._t = setTimeout(() => el.className = '', ms);
 }
-
+ 
 function loading(show, msg = 'Procesando…') {
   const el = document.getElementById('loadingOverlay');
   document.getElementById('loadingMsg').textContent = msg;
   el.classList.toggle('show', show);
 }
-
+ 
 function irA(screenId, progreso) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(screenId).classList.add('active');
   document.getElementById('progressFill').style.width = progreso + '%';
   window.scrollTo(0, 0);
 }
-
+ 
 function formatCLP(n) {
   const num = parseInt(n) || 0;
   return '$' + num.toLocaleString('es-CL');
 }
-
+ 
 function setIAStatus(tipo, msg) {
   const el = document.getElementById('iaStatus');
   if (!tipo) { el.style.display = 'none'; return; }
@@ -920,7 +920,7 @@ function setIAStatus(tipo, msg) {
   const iconos = { success: '✅', warning: '⚠️', error: '❌' };
   el.innerHTML = `<div class="ia-status ${tipo}">${spinnerHTML}<span>${iconos[tipo] || ''}${msg}</span></div>`;
 }
-
+ 
 // ════════════════════════════════════════════════════════════
 // INICIALIZACIÓN
 // ════════════════════════════════════════════════════════════
@@ -928,20 +928,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // Fecha de hoy por defecto
   const hoy = new Date().toISOString().split('T')[0];
   document.getElementById('inputFechaRendicion').value = hoy;
-
+ 
   // Cargar datos del backend
   cargarObrasYCategorias();
 });
-
+ 
 async function cargarObrasYCategorias() {
   try {
     const [rObras, rCats] = await Promise.all([
-      fetch(BACKEND_URL, { method:'POST', body: JSON.stringify({ accion:'getObras' }) }),
-      fetch(BACKEND_URL, { method:'POST', body: JSON.stringify({ accion:'getCategorias' }) })
+      fetch(BACKEND_URL + '?accion=getObras'),
+      fetch(BACKEND_URL + '?accion=getCategorias')
     ]);
     const dObras = await rObras.json();
     const dCats  = await rCats.json();
-
+ 
     if (dObras.ok) {
       estado.obras = dObras.obras;
       const sel = document.getElementById('selectObra');
@@ -966,7 +966,7 @@ async function cargarObrasYCategorias() {
     toast('No se pudieron cargar obras. Verifica conexión.', 'error');
   }
 }
-
+ 
 // ════════════════════════════════════════════════════════════
 // PASO 0 → 1: VALIDAR INICIO
 // ════════════════════════════════════════════════════════════
@@ -975,15 +975,15 @@ function irAPaso1() {
   const fecha   = document.getElementById('inputFechaRendicion').value;
   if (!usuario) { toast('Ingresa tu nombre para continuar', 'error'); return; }
   if (!fecha)   { toast('Selecciona la fecha de rendición', 'error'); return; }
-
+ 
   estado.usuario        = usuario;
   estado.fechaRendicion = fecha;
-
+ 
   document.getElementById('headerStep').style.display = 'flex';
   document.getElementById('stepNum').textContent = '1';
   irA('screenLote', 33);
 }
-
+ 
 // ════════════════════════════════════════════════════════════
 // PASO 1: SELECCIÓN MODO Y LOTE
 // ════════════════════════════════════════════════════════════
@@ -994,7 +994,7 @@ function seleccionarModo(modo) {
   document.getElementById('campoObra').style.display     = modo === 'OBRA'    ? 'block' : 'none';
   document.getElementById('campoCategoria').style.display = modo === 'GENERAL' ? 'block' : 'none';
 }
-
+ 
 function iniciarLote() {
   if (estado.modo === 'OBRA') {
     const obra = document.getElementById('selectObra').value;
@@ -1007,59 +1007,59 @@ function iniciarLote() {
     estado.centroCosto    = 'Gasto General';
     estado.categoriaGasto = cat;
   }
-
+ 
   // Resetear formulario boleta
   resetearFormularioBoleta();
   actualizarLoteLabel();
   document.getElementById('stepNum').textContent = '2';
   irA('screenBoleta', 66);
 }
-
+ 
 // ════════════════════════════════════════════════════════════
 // PASO 2: FOTO Y EXTRACCIÓN IA
 // ════════════════════════════════════════════════════════════
 function fotoSeleccionada(input) {
   const file = input.files[0];
   if (!file) return;
-
+ 
   const reader = new FileReader();
   reader.onload = e => {
     const dataUrl = e.target.result;
     const base64  = dataUrl.split(',')[1];
-
+ 
     estado.fotoActual = {
       base64,
       mime:    file.type,
       nombre:  file.name,
       preview: dataUrl
     };
-
+ 
     // Mostrar preview
     const zona = document.getElementById('fotoZone');
     zona.classList.add('has-image');
     zona.innerHTML = `<img src="${dataUrl}" alt="Boleta">`;
-
+ 
     document.getElementById('fotoActions').style.display = 'flex';
     setIAStatus(null);
     document.getElementById('iaPreguntas').style.display = 'none';
     document.getElementById('formDatos').style.display   = 'none';
     document.getElementById('botonesFormulario').style.display = 'none';
-
+ 
     // Extraer automáticamente
     extraerConIA();
   };
   reader.readAsDataURL(file);
 }
-
+ 
 async function extraerConIA() {
   if (!estado.fotoActual) { toast('Primero toma una foto', 'error'); return; }
-
+ 
   setIAStatus('loading', 'Analizando documento con IA…');
   document.getElementById('iaPreguntas').style.display = 'none';
   document.getElementById('formDatos').style.display   = 'none';
   document.getElementById('botonesFormulario').style.display = 'none';
   document.getElementById('btnExtraerIA').disabled = true;
-
+ 
   try {
     const resp = await fetch(CLAUDE_API, {
       method: 'POST',
@@ -1078,7 +1078,7 @@ async function extraerConIA() {
               type: 'text',
               text: `Analiza esta boleta o factura chilena y extrae los siguientes datos. 
 Responde ÚNICAMENTE con un objeto JSON válido, sin texto adicional, sin markdown, sin explicaciones.
-
+ 
 Campos a extraer:
 {
   "nDocumento": "número de boleta o factura (solo dígitos, sin guiones)",
@@ -1097,17 +1097,17 @@ Campos a extraer:
   ],
   "confianza": "alta|media|baja"
 }
-
+ 
 Genera dudas cuando: montos son poco legibles, fecha no se ve claramente, no estás seguro si es boleta o factura, o hay campos que podrían interpretarse de más de una forma. Sé conservador: si tienes dudas, pregunta.`
             }
           ]
         }]
       })
     });
-
+ 
     const data = await resp.json();
     const texto = data.content?.[0]?.text || '';
-
+ 
     let datosia;
     try {
       const clean = texto.replace(/```json|```/g, '').trim();
@@ -1115,21 +1115,21 @@ Genera dudas cuando: montos son poco legibles, fecha no se ve claramente, no est
     } catch(e) {
       throw new Error('No se pudo parsear respuesta IA');
     }
-
+ 
     estado.datosIAActual = datosia;
     poblarFormulario(datosia);
-
+ 
     if (datosia.dudas && datosia.dudas.length > 0) {
       setIAStatus('warning', `IA extrajo los datos — hay ${datosia.dudas.length} punto(s) a confirmar`);
       mostrarDudas(datosia.dudas);
     } else {
       setIAStatus('success', `Datos extraídos con confianza ${datosia.confianza || 'alta'}`);
     }
-
+ 
     document.getElementById('formDatos').style.display   = 'block';
     document.getElementById('botonesFormulario').style.display = 'block';
     actualizarBtnVerLote();
-
+ 
   } catch(e) {
     setIAStatus('error', 'No se pudo analizar la imagen. Ingresa los datos manualmente.');
     document.getElementById('formDatos').style.display   = 'block';
@@ -1139,7 +1139,7 @@ Genera dudas cuando: montos son poco legibles, fecha no se ve claramente, no est
     document.getElementById('btnExtraerIA').disabled = false;
   }
 }
-
+ 
 function poblarFormulario(datos) {
   if (datos.nDocumento)     document.getElementById('inputNDoc').value         = datos.nDocumento;
   if (datos.fechaDocumento) document.getElementById('inputFechaDoc').value     = datos.fechaDocumento;
@@ -1149,12 +1149,12 @@ function poblarFormulario(datos) {
   if (datos.propina)        document.getElementById('inputPropina').value      = datos.propina;
   if (datos.total)          document.getElementById('inputTotal').value        = datos.total;
 }
-
+ 
 function mostrarDudas(dudas) {
   const cont = document.getElementById('iaPreguntas');
   let html = `<div class="dudas-box">
     <div class="duda-title">⚠️ La IA necesita confirmar</div>`;
-
+ 
   dudas.forEach((d, i) => {
     html += `<div class="duda-item">
       <p>${d.pregunta}</p>`;
@@ -1168,12 +1168,12 @@ function mostrarDudas(dudas) {
     }
     html += `</div>`;
   });
-
+ 
   html += `</div>`;
   cont.innerHTML = html;
   cont.style.display = 'block';
 }
-
+ 
 function calcularTotal() {
   const sub     = parseInt(document.getElementById('inputSubtotal').value) || 0;
   const iva     = parseInt(document.getElementById('inputIva').value)      || 0;
@@ -1182,14 +1182,14 @@ function calcularTotal() {
     document.getElementById('inputTotal').value = sub + iva + propina;
   }
 }
-
+ 
 function agregarBoleta() {
   const descripcion = document.getElementById('inputDescripcion').value.trim();
   const total       = parseInt(document.getElementById('inputTotal').value) || 0;
-
+ 
   if (!descripcion) { toast('Agrega una descripción del gasto', 'error'); return; }
   if (total === 0)  { toast('El total no puede ser $0', 'error'); return; }
-
+ 
   // Recopilar respuestas a dudas
   const respuestasDudas = {};
   if (estado.datosIAActual?.dudas) {
@@ -1198,7 +1198,7 @@ function agregarBoleta() {
       if (el) respuestasDudas[d.campo] = el.value;
     });
   }
-
+ 
   const boleta = {
     id:               Date.now(),
     nDocumento:       document.getElementById('inputNDoc').value,
@@ -1214,23 +1214,23 @@ function agregarBoleta() {
     datosConfirmados: true,
     respuestasDudas
   };
-
+ 
   estado.lote.push(boleta);
   toast(`✓ Boleta ${formatCLP(total)} agregada al lote`, 'success');
-
+ 
   // Reset para siguiente boleta
   resetearFormularioBoleta();
   actualizarContadores();
 }
-
+ 
 function cancelarBoleta() {
   resetearFormularioBoleta();
 }
-
+ 
 function resetearFormularioBoleta() {
   estado.fotoActual    = null;
   estado.datosIAActual = null;
-
+ 
   const zona = document.getElementById('fotoZone');
   zona.classList.remove('has-image');
   zona.innerHTML = `<div class="placeholder">
@@ -1244,19 +1244,19 @@ function resetearFormularioBoleta() {
   document.getElementById('iaPreguntas').style.display  = 'none';
   document.getElementById('formDatos').style.display    = 'none';
   document.getElementById('botonesFormulario').style.display = 'none';
-
+ 
   ['inputNDoc','inputFechaDoc','inputProveedor','inputDescripcion',
    'inputSubtotal','inputIva','inputPropina','inputTotal'].forEach(id => {
     document.getElementById(id).value = '';
   });
 }
-
+ 
 function actualizarLoteLabel() {
   const label = estado.modo === 'OBRA' ? estado.centroCosto : `General — ${estado.categoriaGasto}`;
   document.getElementById('loteLabel').textContent = label;
   document.getElementById('headerSub').textContent = label;
 }
-
+ 
 function actualizarContadores() {
   const n = estado.lote.length;
   document.getElementById('contadorBoletas').textContent = `${n} boleta${n !== 1 ? 's' : ''}`;
@@ -1264,7 +1264,7 @@ function actualizarContadores() {
   document.getElementById('totalLote2').textContent = n;
   actualizarBtnVerLote();
 }
-
+ 
 function actualizarBtnVerLote() {
   const btn = document.getElementById('btnVerLote');
   const btnR = document.getElementById('btnIrResumen');
@@ -1272,16 +1272,16 @@ function actualizarBtnVerLote() {
   btn.style.display  = show ? 'flex' : 'none';
   btnR.style.display = show ? 'block' : 'none';
 }
-
+ 
 // ════════════════════════════════════════════════════════════
 // PASO 3: RESUMEN Y ENVÍO
 // ════════════════════════════════════════════════════════════
 function mostrarResumen() {
   document.getElementById('stepNum').textContent = '3';
-
+ 
   const infoEl = document.getElementById('infoLoteResumen');
   infoEl.textContent = `${estado.modo === 'OBRA' ? '🏗️' : '🏢'} ${estado.centroCosto}${estado.categoriaGasto ? ' — ' + estado.categoriaGasto : ''} · ${estado.lote.length} documento(s)`;
-
+ 
   // Lista boletas
   const listaEl = document.getElementById('listaBoletas');
   listaEl.innerHTML = '';
@@ -1300,13 +1300,13 @@ function mostrarResumen() {
         <div class="boleta-status ok"></div>
       </div>`;
   });
-
+ 
   // Totales
   const subtotalSum = estado.lote.reduce((a, b) => a + b.subtotal, 0);
   const ivaSum      = estado.lote.reduce((a, b) => a + b.iva, 0);
   const propinaSum  = estado.lote.reduce((a, b) => a + b.propina, 0);
   const totalSum    = estado.lote.reduce((a, b) => a + b.total, 0);
-
+ 
   document.getElementById('totalesLote').innerHTML = `
     ${subtotalSum ? `<div class="resumen-row"><span>Subtotal</span><span>${formatCLP(subtotalSum)}</span></div>` : ''}
     ${ivaSum      ? `<div class="resumen-row"><span>IVA</span><span>${formatCLP(ivaSum)}</span></div>` : ''}
@@ -1315,14 +1315,14 @@ function mostrarResumen() {
     <div class="resumen-row"><span style="color:var(--muted); font-size:12px;">${estado.lote.length} documento(s) · Rendido por ${estado.usuario}</span></div>
   `;
 }
-
+ 
 async function enviarLote() {
   if (estado.lote.length === 0) { toast('No hay boletas en el lote', 'error'); return; }
-
+ 
   loading(true, 'Enviando lote…');
   const ids = [];
   let errores = 0;
-
+ 
   for (let i = 0; i < estado.lote.length; i++) {
     const b = estado.lote[i];
     loading(true, `Enviando ${i + 1} de ${estado.lote.length}…`);
@@ -1348,7 +1348,7 @@ async function enviarLote() {
         imagenMime:       b.foto?.mime     || null,
         imagenNombre:     b.foto?.nombre   || null
       };
-
+ 
       const resp = await fetch(BACKEND_URL, { method: 'POST', body: JSON.stringify(payload) });
       const data = await resp.json();
       if (data.ok) ids.push(data.id);
@@ -1358,9 +1358,9 @@ async function enviarLote() {
       console.error(e);
     }
   }
-
+ 
   loading(false);
-
+ 
   if (errores === 0) {
     document.getElementById('exitoMsg').textContent =
       `${ids.length} boleta(s) registradas correctamente para "${estado.centroCosto}".`;
@@ -1371,7 +1371,7 @@ async function enviarLote() {
     toast(`Se enviaron ${ids.length} boletas. ${errores} fallaron.`, errores === estado.lote.length ? 'error' : 'warning', 5000);
   }
 }
-
+ 
 // ════════════════════════════════════════════════════════════
 // NUEVO LOTE
 // ════════════════════════════════════════════════════════════
@@ -1388,11 +1388,11 @@ function nuevaRendicion() {
   document.getElementById('headerStep').style.display = 'flex';
   document.getElementById('stepNum').textContent = '1';
 }
-
+ 
 function verSheet() {
   window.open(SHEET_URL, '_blank');
 }
-
+ 
 // ════════════════════════════════════════════════════════════
 // INTERCEPTAR CAMBIO DE PANTALLA RESUMEN
 // ════════════════════════════════════════════════════════════
@@ -1401,7 +1401,7 @@ window.irA = function(screenId, progreso) {
   if (screenId === 'screenResumen') mostrarResumen();
   _irA(screenId, progreso);
 };
-
+ 
 // ════════════════════════════════════════════════════════════
 // SERVICE WORKER
 // ════════════════════════════════════════════════════════════
@@ -1411,3 +1411,4 @@ if ('serviceWorker' in navigator) {
 </script>
 </body>
 </html>
+ 
