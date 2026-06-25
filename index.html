@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -669,20 +670,18 @@ input, select, textarea { font-family: var(--font); }
       </div>
     </div>
  
-    <!-- Selector obra -->
+    <!-- Campo obra -->
     <div id="campoObra" class="field">
       <label>Obra / Proyecto</label>
-      <select id="selectObra">
-        <option value="">Cargando obras…</option>
-      </select>
+      <input type="text" id="selectObra" placeholder="Escribe el nombre de la obra…" list="listaObras" autocomplete="off">
+      <datalist id="listaObras"></datalist>
     </div>
  
-    <!-- Selector categoría (gasto general) -->
+    <!-- Campo categoría (gasto general) -->
     <div id="campoCategoria" class="field" style="display:none">
       <label>Categoría de gasto</label>
-      <select id="selectCategoria">
-        <option value="">Cargando categorías…</option>
-      </select>
+      <input type="text" id="selectCategoria" placeholder="Ej: Alimentación, Combustible…" list="listaCategorias" autocomplete="off">
+      <datalist id="listaCategorias"></datalist>
     </div>
   </div>
  
@@ -944,26 +943,27 @@ async function cargarObrasYCategorias() {
  
     if (dObras.ok) {
       estado.obras = dObras.obras;
-      const sel = document.getElementById('selectObra');
-      sel.innerHTML = '<option value="">— Selecciona una obra —</option>';
+      const dl = document.getElementById('listaObras');
+      dl.innerHTML = '';
       dObras.obras.forEach(o => {
         const opt = document.createElement('option');
-        opt.value = opt.textContent = o;
-        sel.appendChild(opt);
+        opt.value = o;
+        dl.appendChild(opt);
       });
     }
     if (dCats.ok) {
       estado.categorias = dCats.categorias;
-      const sel = document.getElementById('selectCategoria');
-      sel.innerHTML = '<option value="">— Selecciona categoría —</option>';
+      const dl = document.getElementById('listaCategorias');
+      dl.innerHTML = '';
       dCats.categorias.forEach(c => {
         const opt = document.createElement('option');
-        opt.value = opt.textContent = c;
-        sel.appendChild(opt);
+        opt.value = c;
+        dl.appendChild(opt);
       });
     }
   } catch(e) {
-    toast('No se pudieron cargar obras. Verifica conexión.', 'error');
+    // Sin conexión: igual funciona, el usuario escribe manualmente
+    console.log('Obras no cargadas, modo manual');
   }
 }
  
@@ -997,13 +997,13 @@ function seleccionarModo(modo) {
  
 function iniciarLote() {
   if (estado.modo === 'OBRA') {
-    const obra = document.getElementById('selectObra').value;
-    if (!obra) { toast('Selecciona una obra', 'error'); return; }
+    const obra = document.getElementById('selectObra').value.trim();
+    if (!obra) { toast('Escribe el nombre de la obra', 'error'); return; }
     estado.centroCosto    = obra;
     estado.categoriaGasto = '';
   } else {
-    const cat = document.getElementById('selectCategoria').value;
-    if (!cat) { toast('Selecciona una categoría', 'error'); return; }
+    const cat = document.getElementById('selectCategoria').value.trim();
+    if (!cat) { toast('Escribe la categoría de gasto', 'error'); return; }
     estado.centroCosto    = 'Gasto General';
     estado.categoriaGasto = cat;
   }
@@ -1411,4 +1411,3 @@ if ('serviceWorker' in navigator) {
 </script>
 </body>
 </html>
- 
