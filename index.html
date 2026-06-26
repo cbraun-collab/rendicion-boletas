@@ -1,6 +1,4 @@
 
-
-Index · HTML
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -1174,15 +1172,9 @@ function fotoSeleccionada(input) {
 }
  
 async function subirImagenDrive() {
-  // Si no tenemos token, pedirlo
+  // Usar token existente del login
   if (!driveToken) {
-    await new Promise((resolve) => {
-      tokenClient.callback = (resp) => {
-        driveToken = resp.access_token;
-        resolve();
-      };
-      tokenClient.requestAccessToken({ prompt: 'consent' });
-    });
+    throw new Error('No hay sesión activa. Por favor recarga la página e inicia sesión.');
   }
  
   // Convertir base64 a blob
