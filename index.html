@@ -1,6 +1,3 @@
-
-
-Index · HTML
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -604,42 +601,58 @@ input, select, textarea { font-family: var(--font); }
 </div>
  
 <!-- ═══════════════════════════════════════════
+     PANTALLA LOGIN
+═══════════════════════════════════════════ -->
+<div class="screen active" id="screenLogin">
+  <div class="intro-hero">
+    <div class="big-icon">🧾</div>
+    <h2>Rendición de Boletas</h2>
+    <p>Sistema interno SENERCOM — acceso restringido a usuarios autorizados.</p>
+  </div>
+ 
+  <div class="card" style="text-align:center; padding:28px 20px;">
+    <div style="font-size:48px; margin-bottom:16px;">🔐</div>
+    <p style="font-size:15px; color:var(--text); margin-bottom:20px; line-height:1.5;">
+      Inicia sesión con tu cuenta Google corporativa para continuar.
+    </p>
+    <button class="btn btn-primary" onclick="loginGoogle()" id="btnLogin">
+      <span>Iniciar sesión con Google</span>
+    </button>
+    <p class="text-muted mt-12" style="font-size:12px;">Solo cuentas autorizadas por SENERCOM tienen acceso.</p>
+  </div>
+</div>
+ 
+<!-- ═══════════════════════════════════════════
      PANTALLA 0 — INICIO
 ═══════════════════════════════════════════ -->
-<div class="screen active" id="screenInicio">
+<div class="screen" id="screenInicio">
   <div class="intro-hero">
     <div class="big-icon">🧾</div>
     <h2>Rendición de Boletas</h2>
     <p>Agrupa tus documentos por obra o categoría, fotografíalos y la IA extrae los datos automáticamente.</p>
   </div>
  
+  <!-- Info usuario logueado -->
+  <div class="card" style="display:flex; align-items:center; gap:12px; padding:14px 16px;" id="cardUsuario">
+    <img id="fotoUsuario" src="" style="width:40px;height:40px;border-radius:50%;display:none;" alt="foto">
+    <div>
+      <div style="font-weight:700; font-size:15px;" id="nombreUsuario">—</div>
+      <div style="font-size:12px; color:var(--muted);" id="emailUsuario">—</div>
+    </div>
+    <button class="btn btn-outline btn-sm" style="margin-left:auto;" onclick="cerrarSesion()">Salir</button>
+  </div>
+ 
   <div class="card">
     <div class="card-title">Consejos para rendir más rápido</div>
     <ul class="tips-list">
-      <li>
-        <span>📦</span>
-        <span><strong>Agrupa primero</strong> — Junta todas las boletas de una misma obra antes de abrir la app.</span>
-      </li>
-      <li>
-        <span>🏗️</span>
-        <span><strong>Un lote por obra</strong> — Selecciona la obra una vez y carga todas sus boletas seguidas.</span>
-      </li>
-      <li>
-        <span>💡</span>
-        <span><strong>Buena iluminación</strong> — Foto en plano, sin sombras sobre el monto total.</span>
-      </li>
-      <li>
-        <span>✅</span>
-        <span><strong>Revisa los montos</strong> — La IA extrae los datos pero tú confirmas antes de guardar.</span>
-      </li>
+      <li><span>📦</span><span><strong>Agrupa primero</strong> — Junta todas las boletas de una misma obra antes de abrir la app.</span></li>
+      <li><span>🏗️</span><span><strong>Un lote por obra</strong> — Selecciona la obra una vez y carga todas sus boletas seguidas.</span></li>
+      <li><span>💡</span><span><strong>Buena iluminación</strong> — Foto en plano, sin sombras sobre el monto total.</span></li>
+      <li><span>✅</span><span><strong>Revisa los montos</strong> — La IA extrae los datos pero tú confirmas antes de guardar.</span></li>
     </ul>
   </div>
  
   <div class="card">
-    <div class="field">
-      <label>Tu nombre</label>
-      <input type="text" id="inputUsuario" placeholder="Nombre y apellido" autocomplete="name">
-    </div>
     <div class="field">
       <label>Fecha de rendición</label>
       <input type="date" id="inputFechaRendicion">
@@ -861,13 +874,17 @@ input, select, textarea { font-family: var(--font); }
 <!-- TOAST -->
 <div id="toast"></div>
  
+<script src="https://accounts.google.com/gsi/client" async defer onload="initGIS()"></script>
 <script>
 // ════════════════════════════════════════════════════════════
 // CONFIGURACIÓN
 // ════════════════════════════════════════════════════════════
 const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbwFjuZyJswfc09jm0mIXNhLdJFG5KP74fEwIX8usrhbfHcUV0wis3JKvKxmPlZ_QvF0yA/exec';
 const SHEET_URL   = 'https://docs.google.com/spreadsheets/d/1bw8lfb3ZD375fef2-1Kf-wqimfaPmdNcnvDo5NbPLiU/edit';
-// OCR procesado en Apps Script backend (seguro)
+const DRIVE_FOLDER = '1Ynr_uL7mgUz0940PMefgawGXk_z7CeFx';
+const CLIENT_ID   = '72369192874-rgv4vqjl243p39fv0dntkl5a4m13s8k6.apps.googleusercontent.com';
+let driveToken    = null;
+let usuarioGoogle = null; // { email, nombre, foto }
  
 // ════════════════════════════════════════════════════════════
 // ESTADO GLOBAL
@@ -926,13 +943,76 @@ function setIAStatus(tipo, msg) {
 // ════════════════════════════════════════════════════════════
 // INICIALIZACIÓN
 // ════════════════════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', () => {
-  // Fecha de hoy por defecto
-  const hoy = new Date().toISOString().split('T')[0];
-  document.getElementById('inputFechaRendicion').value = hoy;
+let tokenClient;
  
-  // Cargar datos del backend
-  cargarObrasYCategorias();
+function initGIS() {
+  tokenClient = google.accounts.oauth2.initTokenClient({
+    client_id: CLIENT_ID,
+    scope: 'https://www.googleapis.com/auth/drive.file openid email profile',
+    callback: async (resp) => {
+      if (!resp.access_token) return;
+      driveToken = resp.access_token;
+ 
+      // Obtener info del usuario
+      try {
+        const r = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: { Authorization: 'Bearer ' + driveToken }
+        });
+        const info = await r.json();
+        usuarioGoogle = { email: info.email, nombre: info.name, foto: info.picture };
+ 
+        // Verificar acceso en el backend
+        const vUrl = BACKEND_URL + '?accion=verificarAcceso&email=' + encodeURIComponent(info.email);
+        const vResp = await fetch(vUrl);
+        const vData = await vResp.json();
+ 
+        if (!vData.ok || !vData.autorizado) {
+          toast('⛔ Tu cuenta no tiene acceso a esta aplicación.', 'error', 6000);
+          driveToken    = null;
+          usuarioGoogle = null;
+          return;
+        }
+ 
+        // Mostrar datos usuario
+        document.getElementById('nombreUsuario').textContent = info.name;
+        document.getElementById('emailUsuario').textContent  = info.email;
+        const fotoEl = document.getElementById('fotoUsuario');
+        if (info.picture) { fotoEl.src = info.picture; fotoEl.style.display = 'block'; }
+ 
+        // Ir a inicio
+        irA('screenInicio', 0);
+        cargarObrasYCategorias();
+        const hoy = new Date().toISOString().split('T')[0];
+        document.getElementById('inputFechaRendicion').value = hoy;
+ 
+      } catch(e) {
+        toast('Error al verificar acceso. Intenta de nuevo.', 'error');
+        console.error(e);
+      }
+    }
+  });
+}
+ 
+function loginGoogle() {
+  document.getElementById('btnLogin').disabled = true;
+  document.getElementById('btnLogin').textContent = 'Verificando…';
+  tokenClient.requestAccessToken({ prompt: '' });
+  setTimeout(() => {
+    document.getElementById('btnLogin').disabled = false;
+    document.getElementById('btnLogin').textContent = 'Iniciar sesión con Google';
+  }, 5000);
+}
+ 
+function cerrarSesion() {
+  driveToken    = null;
+  usuarioGoogle = null;
+  google.accounts.oauth2.revoke(driveToken, () => {});
+  irA('screenLogin', 0);
+}
+ 
+document.addEventListener('DOMContentLoaded', () => {
+  // Solo mostrar pantalla de login al inicio
+  // Las obras se cargan después del login exitoso
 });
  
 async function cargarObrasYCategorias() {
@@ -981,12 +1061,11 @@ async function cargarObrasYCategorias() {
 // PASO 0 → 1: VALIDAR INICIO
 // ════════════════════════════════════════════════════════════
 function irAPaso1() {
-  const usuario = document.getElementById('inputUsuario').value.trim();
-  const fecha   = document.getElementById('inputFechaRendicion').value;
-  if (!usuario) { toast('Ingresa tu nombre para continuar', 'error'); return; }
-  if (!fecha)   { toast('Selecciona la fecha de rendición', 'error'); return; }
+  const fecha = document.getElementById('inputFechaRendicion').value;
+  if (!fecha) { toast('Selecciona la fecha de rendición', 'error'); return; }
  
-  estado.usuario        = usuario;
+  estado.usuario        = usuarioGoogle?.nombre || 'Usuario';
+  estado.emailUsuario   = usuarioGoogle?.email  || '';
   estado.fechaRendicion = fecha;
  
   document.getElementById('headerStep').style.display = 'flex';
@@ -1083,22 +1162,59 @@ function fotoSeleccionada(input) {
   reader.readAsDataURL(file);
 }
  
+async function subirImagenDrive() {
+  // Si no tenemos token, pedirlo
+  if (!driveToken) {
+    await new Promise((resolve) => {
+      tokenClient.callback = (resp) => {
+        driveToken = resp.access_token;
+        resolve();
+      };
+      tokenClient.requestAccessToken({ prompt: 'consent' });
+    });
+  }
+ 
+  // Convertir base64 a blob
+  const byteChars = atob(estado.fotoActual.base64);
+  const byteArr   = new Uint8Array(byteChars.length);
+  for (let i = 0; i < byteChars.length; i++) byteArr[i] = byteChars.charCodeAt(i);
+  const blob = new Blob([byteArr], { type: estado.fotoActual.mime });
+ 
+  // Subir a Drive
+  const nombre = 'boleta_' + Date.now() + '.jpg';
+  const metadata = JSON.stringify({ name: nombre, parents: [DRIVE_FOLDER] });
+  const form = new FormData();
+  form.append('metadata', new Blob([metadata], { type: 'application/json' }));
+  form.append('file', blob);
+ 
+  const resp = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+    method:  'POST',
+    headers: { Authorization: 'Bearer ' + driveToken },
+    body:    form
+  });
+  const data = await resp.json();
+  return data.id; // fileId en Drive
+}
+ 
 async function extraerConIA() {
   if (!estado.fotoActual) { toast('Primero toma una foto', 'error'); return; }
  
-  setIAStatus('loading', 'Analizando documento con IA…');
+  setIAStatus('loading', 'Subiendo imagen…');
   document.getElementById('iaPreguntas').style.display = 'none';
   document.getElementById('formDatos').style.display   = 'none';
   document.getElementById('botonesFormulario').style.display = 'none';
   document.getElementById('btnExtraerIA').disabled = true;
  
   try {
-    // Llamada GET al backend Apps Script (sin CORS)
-    const dataImg = encodeURIComponent(JSON.stringify({
-      imagenBase64: estado.fotoActual.base64,
-      imagenMime:   estado.fotoActual.mime
-    }));
-    const resp = await fetch(BACKEND_URL + '?accion=extraerBoleta&data=' + dataImg);
+    // Paso 1: subir imagen a Drive
+    const fileId = await subirImagenDrive();
+    estado.fotoActual.driveFileId = fileId;
+ 
+    setIAStatus('loading', 'Analizando con IA…');
+ 
+    // Paso 2: pedir al backend que analice desde Drive
+    const url = BACKEND_URL + '?accion=extraerBoleta&fileId=' + fileId;
+    const resp = await fetch(url);
     const result = await resp.json();
  
     if (!result.ok) throw new Error(result.error || 'Error en servidor');
@@ -1332,14 +1448,30 @@ async function enviarLote() {
         total:            b.total,
         datosIA:          b.datosIA,
         datosConfirmados: b.datosConfirmados,
-        imagenBase64:     b.foto?.base64   || null,
-        imagenMime:       b.foto?.mime     || null,
-        imagenNombre:     b.foto?.nombre   || null
+        driveFileId:      b.foto?.driveFileId || 
       };
  
-      // Enviamos via GET con data encapsulada para evitar CORS
-      const url = BACKEND_URL + '?accion=guardarBoleta&data=' + encodeURIComponent(JSON.stringify(payload));
-      const resp = await fetch(url);
+      // Enviamos via GET — imagen ya está en Drive
+      const params = new URLSearchParams({
+        accion:           'guardarBoleta',
+        usuario:          payload.usuario,
+        fechaRendicion:   payload.fechaRendicion,
+        tipo:             payload.tipo,
+        centroCosto:      payload.centroCosto,
+        categoriaGasto:   payload.categoriaGasto,
+        nDocumento:       payload.nDocumento       || '',
+        fechaDocumento:   payload.fechaDocumento   || '',
+        proveedor:        payload.proveedor        || '',
+        descripcionGasto: payload.descripcionGasto || '',
+        subtotal:         payload.subtotal         || 0,
+        iva:              payload.iva              || 0,
+        propina:          payload.propina          || 0,
+        total:            payload.total            || 0,
+        datosIA:          payload.datosIA          || '',
+        datosConfirmados: payload.datosConfirmados ? 'SI' : 'NO',
+        driveFileId:      payload.driveFileId      || ''
+      });
+      const resp = await fetch(BACKEND_URL + '?' + params.toString());
       const data = await resp.json();
       if (data.ok) ids.push(data.id);
       else errores++;
