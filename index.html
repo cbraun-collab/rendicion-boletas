@@ -1,4 +1,6 @@
 
+
+Index · HTML
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -1024,16 +1026,37 @@ document.addEventListener('DOMContentLoaded', () => {
   // Las obras se cargan después del login exitoso
 });
  
+// Llamada JSONP al backend — evita CORS completamente
+function jsonpCall(url) {
+  return new Promise((resolve, reject) => {
+    const cbName = 'jsonp_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+    const timeout = setTimeout(() => {
+      delete window[cbName];
+      script.remove();
+      reject(new Error('JSONP timeout'));
+    }, 10000);
+ 
+    window[cbName] = (data) => {
+      clearTimeout(timeout);
+      delete window[cbName];
+      script.remove();
+      resolve(data);
+    };
+ 
+    const script = document.createElement('script');
+    script.src = url + '&callback=' + cbName;
+    script.onerror = () => { clearTimeout(timeout); reject(new Error('JSONP error')); };
+    document.head.appendChild(script);
+  });
+}
+ 
 async function cargarObrasYCategorias() {
   try {
-    const [rObras, rCats, rProvs] = await Promise.all([
-      fetch(BACKEND_URL + '?accion=getObras'),
-      fetch(BACKEND_URL + '?accion=getCategorias'),
-      fetch(BACKEND_URL + '?accion=getProveedores')
+    const [dObras, dCats, dProvs] = await Promise.all([
+      jsonpCall(BACKEND_URL + '?accion=getObras'),
+      jsonpCall(BACKEND_URL + '?accion=getCategorias'),
+      jsonpCall(BACKEND_URL + '?accion=getProveedores')
     ]);
-    const dObras = await rObras.json();
-    const dCats  = await rCats.json();
-    const dProvs = await rProvs.json();
  
     if (dObras.ok) {
       estado.obras = dObras.obras;
@@ -1051,7 +1074,7 @@ async function cargarObrasYCategorias() {
         const opt = document.createElement('option'); opt.value = c; dl.appendChild(opt);
       });
     }
-    if (dProvs.ok) {
+    if (dProvs?.ok) {
       estado.proveedores = dProvs.proveedores;
       const dl = document.getElementById('listaProveedores');
       if (dl) {
@@ -1215,10 +1238,8 @@ async function extraerConIA() {
  
     setIAStatus('loading', 'Analizando con IA…');
  
-    // Paso 2: pedir al backend que analice desde Drive
-    const url = BACKEND_URL + '?accion=extraerBoleta&fileId=' + fileId;
-    const resp = await fetch(url);
-    const result = await resp.json();
+    // Paso 2: pedir al backend que analice desde Drive (JSONP)
+    const result = await jsonpCall(BACKEND_URL + '?accion=extraerBoleta&fileId=' + fileId);
  
     if (!result.ok) throw new Error(result.error || 'Error en servidor');
  
@@ -1474,8 +1495,7 @@ async function enviarLote() {
         datosConfirmados: payload.datosConfirmados ? 'SI' : 'NO',
         driveFileId:      payload.driveFileId      || ''
       });
-      const resp = await fetch(BACKEND_URL + '?' + params.toString());
-      const data = await resp.json();
+      const data = await jsonpCall(BACKEND_URL + '?' + params.toString());
       if (data.ok) ids.push(data.id);
       else errores++;
     } catch(e) {
