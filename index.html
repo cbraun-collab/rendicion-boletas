@@ -1148,7 +1148,7 @@ function fotoSeleccionada(input) {
     const img = new Image();
     img.onload = () => {
       // Comprimir agresivamente para que quepa en URL GET
-      const MAX = 1000;
+      const MAX = 400;
       let w = img.width, h = img.height;
       if (w > MAX || h > MAX) {
         if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
@@ -1160,7 +1160,7 @@ function fotoSeleccionada(input) {
       // Comprimir hasta que quepa en URL (~100KB max)
       let quality = 0.5;
       let compressed = canvas.toDataURL('image/jpeg', quality);
-      while (compressed.length > 130000 && quality > 0.1) {
+      while (compressed.length > 25000 && quality > 0.05) {
         quality -= 0.05;
         compressed = canvas.toDataURL('image/jpeg', quality);
       }
