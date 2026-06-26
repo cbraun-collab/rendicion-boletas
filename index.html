@@ -1310,6 +1310,126 @@ Responde ÚNICAMENTE con JSON válido, sin texto adicional ni markdown.
     document.getElementById('btnExtraerIA').disabled = false;
   }
 }
+function poblarFormulario(datos) {
+  if (datos.nDocumento)     document.getElementById('inputNDoc').value      = datos.nDocumento;
+  if (datos.fechaDocumento) document.getElementById('inputFechaDoc').value  = datos.fechaDocumento;
+  if (datos.proveedor)      document.getElementById('inputProveedor').value = datos.proveedor;
+  if (datos.subtotal)       document.getElementById('inputSubtotal').value  = datos.subtotal;
+  if (datos.iva)            document.getElementById('inputIva').value       = datos.iva;
+  if (datos.propina)        document.getElementById('inputPropina').value   = datos.propina;
+  if (datos.total)          document.getElementById('inputTotal').value     = datos.total;
+}
+
+function mostrarDudas(dudas) {
+  const cont = document.getElementById('iaPreguntas');
+  let html = `<div class="dudas-box"><div class="duda-title">⚠️ La IA necesita confirmar</div>`;
+  dudas.forEach((d, i) => {
+    html += `<div class="duda-item"><p>${d.pregunta}</p>`;
+    if (d.opciones && d.opciones.length > 0) {
+      html += `<select id="duda_${i}" data-campo="${d.campo}"><option value="">— Selecciona —</option>`;
+      d.opciones.forEach(op => html += `<option value="${op}">${op}</option>`);
+      html += `</select>`;
+    } else {
+      html += `<input type="text" id="duda_${i}" data-campo="${d.campo}" placeholder="Tu respuesta…">`;
+    }
+    html += `</div>`;
+  });
+  html += `</div>`;
+  cont.innerHTML = html;
+  cont.style.display = 'block';
+}
+
+function calcularTotal() {
+  const sub     = parseInt(document.getElementById('inputSubtotal').value) || 0;
+  const iva     = parseInt(document.getElementById('inputIva').value)      || 0;
+  const propina = parseInt(document.getElementById('inputPropina').value)  || 0;
+  if (sub > 0 || iva > 0 || propina > 0) {
+    document.getElementById('inputTotal').value = sub + iva + propina;
+  }
+}
+
+function agregarBoleta() {
+  const descripcion = document.getElementById('inputDescripcion').value.trim();
+  const total       = parseInt(document.getElementById('inputTotal').value) || 0;
+  if (!descripcion) { toast('Agrega una descripción del gasto', 'error'); return; }
+  if (total === 0)  { toast('El total no puede ser $0', 'error'); return; }
+
+  const respuestasDudas = {};
+  if (estado.datosIAActual?.dudas) {
+    estado.datosIAActual.dudas.forEach((d, i) => {
+      const el = document.getElementById(`duda_${i}`);
+      if (el) respuestasDudas[d.campo] = el.value;
+    });
+  }
+
+  estado.lote.push({
+    id:               Date.now(),
+    nDocumento:       document.getElementById('inputNDoc').value,
+    fechaDocumento:   document.getElementById('inputFechaDoc').value,
+    proveedor:        document.getElementById('inputProveedor').value,
+    descripcionGasto: descripcion,
+    subtotal:         parseInt(document.getElementById('inputSubtotal').value) || 0,
+    iva:              parseInt(document.getElementById('inputIva').value)      || 0,
+    propina:          parseInt(document.getElementById('inputPropina').value)  || 0,
+    total,
+    foto:             estado.fotoActual,
+    datosIA:          JSON.stringify(estado.datosIAActual),
+    datosConfirmados: true,
+    respuestasDudas
+  });
+
+  toast(`✓ Boleta ${formatCLP(total)} agregada al lote`, 'success');
+  resetearFormularioBoleta();
+  actualizarContadores();
+}
+
+function cancelarBoleta() {
+  resetearFormularioBoleta();
+}
+
+function resetearFormularioBoleta() {
+  estado.fotoActual    = null;
+  estado.datosIAActual = null;
+  const zona = document.getElementById('fotoZone');
+  zona.classList.remove('has-image');
+  zona.innerHTML = `<div class="placeholder"><div class="icon">📷</div><p>Toca para fotografiar</p><span>o seleccionar desde galería</span></div>`;
+  document.getElementById('inputFoto').value = '';
+  document.getElementById('fotoActions').style.display = 'none';
+  setIAStatus(null);
+  document.getElementById('iaPreguntas').style.display  = 'none';
+  document.getElementById('formDatos').style.display    = 'none';
+  document.getElementById('botonesFormulario').style.display = 'none';
+  ['inputNDoc','inputFechaDoc','inputProveedor','inputDescripcion',
+   'inputSubtotal','inputIva','inputPropina','inputTotal'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+}
+
+function actualizarLoteLabel() {
+  const label = estado.modo === 'OBRA' ? estado.centroCosto : `General — ${estado.categoriaGasto}`;
+  document.getElementById('loteLabel').textContent = label;
+  document.getElementById('headerSub').textContent = label;
+}
+
+function actualizarContadores() {
+  const n = estado.lote.length;
+  document.getElementById('contadorBoletas').textContent = `${n} boleta${n !== 1 ? 's' : ''}`;
+  document.getElementById('totalLote').textContent  = n;
+  document.getElementById('totalLote2').textContent = n;
+  actualizarBtnVerLote();
+}
+
+function actualizarBtnVerLote() {
+  const show = estado.lote.length > 0;
+  document.getElementById('btnVerLote').style.display  = show ? 'flex' : 'none';
+  document.getElementById('btnIrResumen').style.display = show ? 'block' : 'none';
+}
+
+
+
+
+
+ 
 // ════════════════════════════════════════════════════════════
 // PASO 3: RESUMEN Y ENVÍO
 // ════════════════════════════════════════════════════════════
