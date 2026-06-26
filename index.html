@@ -1,3 +1,6 @@
+
+
+Index · HTML
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -16,9 +19,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
  
 <style>
-/* ═══════════════════════════════════════════
-   TOKENS
-═══════════════════════════════════════════ */
 :root {
   --navy:       #003B49;
   --navy-dark:  #002830;
@@ -41,10 +41,6 @@
   --font:       'Inter', system-ui, sans-serif;
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
- 
-/* ═══════════════════════════════════════════
-   RESET & BASE
-═══════════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { font-size: 16px; -webkit-text-size-adjust: 100%; }
 body {
@@ -58,10 +54,6 @@ body {
 img { max-width: 100%; display: block; }
 button { font-family: var(--font); cursor: pointer; border: none; }
 input, select, textarea { font-family: var(--font); }
- 
-/* ═══════════════════════════════════════════
-   HEADER
-═══════════════════════════════════════════ */
 .header {
   background: var(--navy);
   color: #fff;
@@ -75,249 +67,101 @@ input, select, textarea { font-family: var(--font); }
   box-shadow: 0 2px 8px rgba(0,0,0,.25);
 }
 .header-logo {
-  width: 36px;
-  height: 36px;
+  width: 36px; height: 36px;
   background: var(--accent);
   border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: .5px;
-  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 13px; letter-spacing: .5px; flex-shrink: 0;
 }
 .header-title { flex: 1; }
 .header-title h1 { font-size: 16px; font-weight: 700; line-height: 1.2; }
 .header-title p  { font-size: 11px; opacity: .7; margin-top: 1px; }
 .header-step {
   background: rgba(255,255,255,.15);
-  border-radius: 20px;
-  padding: 4px 12px;
-  font-size: 12px;
-  font-weight: 600;
+  border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 600;
 }
- 
-/* ═══════════════════════════════════════════
-   PROGRESS BAR
-═══════════════════════════════════════════ */
-.progress-bar {
-  height: 3px;
-  background: rgba(255,255,255,.2);
-  position: relative;
-}
-.progress-fill {
-  height: 100%;
-  background: var(--gold);
-  transition: width .4s ease;
-}
- 
-/* ═══════════════════════════════════════════
-   CONTENEDOR PANTALLAS
-═══════════════════════════════════════════ */
+.progress-bar { height: 3px; background: rgba(255,255,255,.2); position: relative; }
+.progress-fill { height: 100%; background: var(--gold); transition: width .4s ease; }
 .screen {
-  display: none;
-  padding: 20px 16px;
+  display: none; padding: 20px 16px;
   padding-bottom: calc(24px + var(--safe-bottom));
-  max-width: 560px;
-  margin: 0 auto;
-  animation: fadeIn .2s ease;
+  max-width: 560px; margin: 0 auto; animation: fadeIn .2s ease;
 }
 .screen.active { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
- 
-/* ═══════════════════════════════════════════
-   TARJETAS Y SECCIONES
-═══════════════════════════════════════════ */
 .card {
-  background: var(--surface);
-  border-radius: var(--radius);
-  padding: 18px;
-  box-shadow: var(--shadow);
-  margin-bottom: 14px;
-  border: 1px solid var(--border);
+  background: var(--surface); border-radius: var(--radius);
+  padding: 18px; box-shadow: var(--shadow); margin-bottom: 14px; border: 1px solid var(--border);
 }
 .card-title {
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .6px;
-  color: var(--navy);
-  margin-bottom: 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .6px; color: var(--navy); margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
 }
 .card-title::before {
-  content: '';
-  width: 3px;
-  height: 14px;
-  background: var(--accent);
-  border-radius: 2px;
-  flex-shrink: 0;
+  content: ''; width: 3px; height: 14px;
+  background: var(--accent); border-radius: 2px; flex-shrink: 0;
 }
- 
-/* ═══════════════════════════════════════════
-   CAMPOS DE FORMULARIO
-═══════════════════════════════════════════ */
 .field { margin-bottom: 14px; }
 .field:last-child { margin-bottom: 0; }
 .field label {
-  display: block;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: .4px;
-  margin-bottom: 6px;
+  display: block; font-size: 12px; font-weight: 600; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .4px; margin-bottom: 6px;
 }
-.field input,
-.field select,
-.field textarea {
-  width: 100%;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 11px 13px;
-  font-size: 15px;
-  color: var(--text);
-  background: var(--surface);
-  transition: border-color .2s, box-shadow .2s;
-  -webkit-appearance: none;
-  appearance: none;
+.field input, .field select, .field textarea {
+  width: 100%; border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  padding: 11px 13px; font-size: 15px; color: var(--text); background: var(--surface);
+  transition: border-color .2s, box-shadow .2s; -webkit-appearance: none; appearance: none;
 }
-.field input:focus,
-.field select:focus,
-.field textarea:focus {
-  outline: none;
-  border-color: var(--navy);
-  box-shadow: 0 0 0 3px rgba(0,59,73,.12);
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: none; border-color: var(--navy); box-shadow: 0 0 0 3px rgba(0,59,73,.12);
 }
 .field select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B8A92' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  padding-right: 36px;
+  background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px;
 }
 .field textarea { resize: vertical; min-height: 72px; }
 .field input[type="number"] { -moz-appearance: textfield; }
 .field input[type="number"]::-webkit-inner-spin-button,
 .field input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
- 
-/* Campo con prefijo $ */
-.input-money {
-  position: relative;
-}
+.input-money { position: relative; }
 .input-money span {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--muted);
-  font-weight: 600;
-  pointer-events: none;
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  color: var(--muted); font-weight: 600; pointer-events: none;
 }
 .input-money input { padding-left: 28px; }
- 
-/* ═══════════════════════════════════════════
-   MODO SELECTOR (OBRA / GENERAL)
-═══════════════════════════════════════════ */
-.mode-selector {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 20px;
-}
+.mode-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
 .mode-btn {
-  background: var(--surface);
-  border: 2px solid var(--border);
-  border-radius: var(--radius);
-  padding: 16px 12px;
-  text-align: center;
-  cursor: pointer;
-  transition: all .2s;
+  background: var(--surface); border: 2px solid var(--border);
+  border-radius: var(--radius); padding: 16px 12px; text-align: center; cursor: pointer; transition: all .2s;
 }
 .mode-btn .icon { font-size: 28px; margin-bottom: 6px; }
 .mode-btn .label { font-size: 14px; font-weight: 700; color: var(--navy); }
 .mode-btn .sub   { font-size: 11px; color: var(--muted); margin-top: 3px; }
 .mode-btn:hover  { border-color: var(--navy); }
-.mode-btn.selected {
-  border-color: var(--accent);
-  background: #FEF5F2;
-}
- 
-/* ═══════════════════════════════════════════
-   BOTONES
-═══════════════════════════════════════════ */
+.mode-btn.selected { border-color: var(--accent); background: #FEF5F2; }
 .btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 14px 20px;
-  border-radius: var(--radius-sm);
-  font-size: 15px;
-  font-weight: 600;
-  transition: all .18s;
-  letter-spacing: .2px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 14px 20px; border-radius: var(--radius-sm);
+  font-size: 15px; font-weight: 600; transition: all .18s; letter-spacing: .2px;
 }
-.btn-primary {
-  background: var(--navy);
-  color: #fff;
-}
+.btn-primary { background: var(--navy); color: #fff; }
 .btn-primary:hover  { background: var(--navy-dark); }
 .btn-primary:active { transform: scale(.98); }
- 
-.btn-accent {
-  background: var(--accent);
-  color: #fff;
-}
+.btn-accent { background: var(--accent); color: #fff; }
 .btn-accent:hover  { background: var(--accent-h); }
 .btn-accent:active { transform: scale(.98); }
- 
-.btn-outline {
-  background: transparent;
-  border: 2px solid var(--border);
-  color: var(--text);
-}
+.btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text); }
 .btn-outline:hover { border-color: var(--navy); color: var(--navy); }
- 
-.btn-success {
-  background: var(--success);
-  color: #fff;
-}
- 
-.btn-sm {
-  padding: 9px 14px;
-  font-size: 13px;
-  width: auto;
-}
- 
-.btn:disabled {
-  opacity: .5;
-  pointer-events: none;
-}
- 
-.btn-row {
-  display: flex;
-  gap: 10px;
-  margin-top: 16px;
-}
+.btn-success { background: var(--success); color: #fff; }
+.btn-sm { padding: 9px 14px; font-size: 13px; width: auto; }
+.btn:disabled { opacity: .5; pointer-events: none; }
+.btn-row { display: flex; gap: 10px; margin-top: 16px; }
 .btn-row .btn { flex: 1; }
- 
-/* ═══════════════════════════════════════════
-   ZONA FOTO
-═══════════════════════════════════════════ */
 .foto-zone {
-  border: 2px dashed var(--border);
-  border-radius: var(--radius);
-  padding: 24px 16px;
-  text-align: center;
-  cursor: pointer;
-  transition: all .2s;
-  background: #F8FBFC;
-  position: relative;
-  overflow: hidden;
+  border: 2px dashed var(--border); border-radius: var(--radius);
+  padding: 24px 16px; text-align: center; cursor: pointer; transition: all .2s;
+  background: #F8FBFC; position: relative; overflow: hidden;
 }
 .foto-zone:hover { border-color: var(--navy); background: #EEF5F7; }
 .foto-zone.has-image { border-style: solid; border-color: var(--success); padding: 0; }
@@ -327,267 +171,117 @@ input, select, textarea { font-family: var(--font); }
 .foto-zone .placeholder p    { font-size: 14px; font-weight: 600; color: var(--navy); }
 .foto-zone .placeholder span  { font-size: 12px; color: var(--muted); }
 #inputFoto { display: none; }
- 
-.foto-actions {
-  display: flex;
-  gap: 8px;
-  margin-top: 10px;
-}
- 
-/* ═══════════════════════════════════════════
-   ESTADO IA
-═══════════════════════════════════════════ */
+.foto-actions { display: flex; gap: 8px; margin-top: 10px; }
 .ia-status {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 14px;
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  font-weight: 500;
-  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px; border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 500; margin-bottom: 14px;
 }
 .ia-status.loading  { background: #EBF4F7; color: var(--navy); }
 .ia-status.success  { background: #EAF5EE; color: var(--success); }
 .ia-status.warning  { background: #FEF8EC; color: var(--warning); }
 .ia-status.error    { background: #FDEEEC; color: var(--error); }
- 
 .spinner {
   width: 18px; height: 18px;
-  border: 2px solid rgba(0,59,73,.2);
-  border-top-color: var(--navy);
-  border-radius: 50%;
-  animation: spin .7s linear infinite;
-  flex-shrink: 0;
+  border: 2px solid rgba(0,59,73,.2); border-top-color: var(--navy);
+  border-radius: 50%; animation: spin .7s linear infinite; flex-shrink: 0;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
- 
-/* ═══════════════════════════════════════════
-   DUDAS IA (preguntas)
-═══════════════════════════════════════════ */
 .dudas-box {
-  background: #FEF8EC;
-  border: 1.5px solid #F0C060;
-  border-radius: var(--radius);
-  padding: 14px;
-  margin-bottom: 14px;
+  background: #FEF8EC; border: 1.5px solid #F0C060;
+  border-radius: var(--radius); padding: 14px; margin-bottom: 14px;
 }
 .dudas-box .duda-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--warning);
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  font-size: 13px; font-weight: 700; color: var(--warning);
+  margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
 }
-.duda-item {
-  margin-bottom: 12px;
-}
+.duda-item { margin-bottom: 12px; }
 .duda-item:last-child { margin-bottom: 0; }
-.duda-item p {
-  font-size: 13px;
-  color: var(--text);
-  margin-bottom: 6px;
+.duda-item p { font-size: 13px; color: var(--text); margin-bottom: 6px; }
+.duda-item input, .duda-item select {
+  width: 100%; border: 1.5px solid #F0C060; border-radius: 6px;
+  padding: 9px 11px; font-size: 14px; background: #fff;
 }
-.duda-item input,
-.duda-item select {
-  width: 100%;
-  border: 1.5px solid #F0C060;
-  border-radius: 6px;
-  padding: 9px 11px;
-  font-size: 14px;
-  background: #fff;
-}
- 
-/* ═══════════════════════════════════════════
-   LISTA DE BOLETAS (resumen lote)
-═══════════════════════════════════════════ */
 .boleta-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  margin-bottom: 8px;
-  background: var(--surface);
-  cursor: pointer;
-  transition: border-color .18s;
+  display: flex; align-items: center; gap: 12px; padding: 12px;
+  border-radius: var(--radius-sm); border: 1px solid var(--border);
+  margin-bottom: 8px; background: var(--surface); cursor: pointer; transition: border-color .18s;
 }
 .boleta-item:hover { border-color: var(--navy); }
 .boleta-thumb {
-  width: 48px; height: 48px;
-  border-radius: 6px;
-  object-fit: cover;
-  background: var(--bg);
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
+  width: 48px; height: 48px; border-radius: 6px; object-fit: cover;
+  background: var(--bg); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 20px;
 }
 .boleta-thumb img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
 .boleta-info { flex: 1; min-width: 0; }
 .boleta-info strong { font-size: 14px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .boleta-info span   { font-size: 12px; color: var(--muted); }
 .boleta-total { font-size: 15px; font-weight: 700; color: var(--navy); white-space: nowrap; }
-.boleta-status {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
+.boleta-status { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .boleta-status.ok      { background: var(--success); }
 .boleta-status.warning { background: var(--warning); }
 .boleta-status.error   { background: var(--error); }
- 
-/* ═══════════════════════════════════════════
-   RESUMEN LOTE
-═══════════════════════════════════════════ */
 .resumen-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--border);
-  font-size: 14px;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px;
 }
 .resumen-row:last-child { border-bottom: none; }
-.resumen-row.total {
-  font-weight: 700;
-  font-size: 16px;
-  color: var(--navy);
-  padding-top: 14px;
-}
- 
-/* ═══════════════════════════════════════════
-   BADGE / CHIP
-═══════════════════════════════════════════ */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-}
+.resumen-row.total { font-weight: 700; font-size: 16px; color: var(--navy); padding-top: 14px; }
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
 .badge-navy    { background: #E0EBF0; color: var(--navy); }
 .badge-accent  { background: #FAECE7; color: var(--accent); }
 .badge-success { background: #E5F5ED; color: var(--success); }
- 
-/* ═══════════════════════════════════════════
-   TOAST
-═══════════════════════════════════════════ */
 #toast {
-  position: fixed;
-  bottom: calc(24px + var(--safe-bottom));
-  left: 50%;
+  position: fixed; bottom: calc(24px + var(--safe-bottom)); left: 50%;
   transform: translateX(-50%) translateY(80px);
-  background: var(--navy-dark);
-  color: #fff;
-  padding: 12px 20px;
-  border-radius: 24px;
-  font-size: 14px;
-  font-weight: 500;
-  z-index: 9999;
-  box-shadow: var(--shadow-lg);
-  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
-  white-space: nowrap;
-  max-width: calc(100vw - 40px);
+  background: var(--navy-dark); color: #fff; padding: 12px 20px;
+  border-radius: 24px; font-size: 14px; font-weight: 500; z-index: 9999;
+  box-shadow: var(--shadow-lg); transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+  white-space: nowrap; max-width: calc(100vw - 40px);
 }
 #toast.show { transform: translateX(-50%) translateY(0); }
 #toast.error { background: var(--error); }
 #toast.success { background: var(--success); }
- 
-/* ═══════════════════════════════════════════
-   PANTALLA ÉXITO
-═══════════════════════════════════════════ */
-.success-screen {
-  text-align: center;
-  padding: 40px 20px;
-}
+.success-screen { text-align: center; padding: 40px 20px; }
 .success-icon {
-  width: 72px; height: 72px;
-  background: #E5F5ED;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 36px;
-  margin: 0 auto 20px;
+  width: 72px; height: 72px; background: #E5F5ED; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px; margin: 0 auto 20px;
 }
 .success-screen h2 { font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
 .success-screen p  { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
- 
-/* ═══════════════════════════════════════════
-   LOADING OVERLAY
-═══════════════════════════════════════════ */
 #loadingOverlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.5);
-  z-index: 9998;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 16px;
-  color: #fff;
-  font-weight: 600;
-  font-size: 15px;
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5);
+  z-index: 9998; align-items: center; justify-content: center;
+  flex-direction: column; gap: 16px; color: #fff; font-weight: 600; font-size: 15px;
 }
 #loadingOverlay.show { display: flex; }
-#loadingOverlay .spinner {
-  width: 40px; height: 40px;
-  border-width: 3px;
-  border-color: rgba(255,255,255,.3);
-  border-top-color: #fff;
-}
- 
-/* ═══════════════════════════════════════════
-   UTILIDADES
-═══════════════════════════════════════════ */
+#loadingOverlay .spinner { width: 40px; height: 40px; border-width: 3px; border-color: rgba(255,255,255,.3); border-top-color: #fff; }
 .text-muted   { color: var(--muted); font-size: 13px; }
 .text-center  { text-align: center; }
 .mt-8  { margin-top: 8px; }
 .mt-12 { margin-top: 12px; }
 .mt-16 { margin-top: 16px; }
 .divider { height: 1px; background: var(--border); margin: 16px 0; }
- 
-/* Intro screen */
 .intro-hero {
   background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
-  border-radius: var(--radius);
-  padding: 28px 20px;
-  color: #fff;
-  margin-bottom: 20px;
-  text-align: center;
+  border-radius: var(--radius); padding: 28px 20px; color: #fff; margin-bottom: 20px; text-align: center;
 }
 .intro-hero .big-icon { font-size: 52px; margin-bottom: 12px; }
 .intro-hero h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
 .intro-hero p  { font-size: 13px; opacity: .8; line-height: 1.5; }
- 
-.tips-list {
-  list-style: none;
-}
+.tips-list { list-style: none; }
 .tips-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--border);
-  font-size: 14px;
-  color: var(--text);
-  line-height: 1.4;
+  display: flex; align-items: flex-start; gap: 10px; padding: 10px 0;
+  border-bottom: 1px solid var(--border); font-size: 14px; color: var(--text); line-height: 1.4;
 }
 .tips-list li:last-child { border-bottom: none; }
 .tips-list li span:first-child { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
- 
 </style>
 </head>
 <body>
  
-<!-- HEADER -->
 <div class="header" id="appHeader">
   <div class="header-logo">SEN</div>
   <div class="header-title">
@@ -600,16 +294,12 @@ input, select, textarea { font-family: var(--font); }
   <div class="progress-fill" id="progressFill" style="width:0%"></div>
 </div>
  
-<!-- ═══════════════════════════════════════════
-     PANTALLA LOGIN
-═══════════════════════════════════════════ -->
 <div class="screen active" id="screenLogin">
   <div class="intro-hero">
     <div class="big-icon">🧾</div>
     <h2>Rendición de Boletas</h2>
     <p>Sistema interno SENERCOM — acceso restringido a usuarios autorizados.</p>
   </div>
- 
   <div class="card" style="text-align:center; padding:28px 20px;">
     <div style="font-size:48px; margin-bottom:16px;">🔐</div>
     <p style="font-size:15px; color:var(--text); margin-bottom:20px; line-height:1.5;">
@@ -622,17 +312,12 @@ input, select, textarea { font-family: var(--font); }
   </div>
 </div>
  
-<!-- ═══════════════════════════════════════════
-     PANTALLA 0 — INICIO
-═══════════════════════════════════════════ -->
 <div class="screen" id="screenInicio">
   <div class="intro-hero">
     <div class="big-icon">🧾</div>
     <h2>Rendición de Boletas</h2>
     <p>Agrupa tus documentos por obra o categoría, fotografíalos y la IA extrae los datos automáticamente.</p>
   </div>
- 
-  <!-- Info usuario logueado -->
   <div class="card" style="display:flex; align-items:center; gap:12px; padding:14px 16px;" id="cardUsuario">
     <img id="fotoUsuario" src="" style="width:40px;height:40px;border-radius:50%;display:none;" alt="foto">
     <div>
@@ -641,7 +326,6 @@ input, select, textarea { font-family: var(--font); }
     </div>
     <button class="btn btn-outline btn-sm" style="margin-left:auto;" onclick="cerrarSesion()">Salir</button>
   </div>
- 
   <div class="card">
     <div class="card-title">Consejos para rendir más rápido</div>
     <ul class="tips-list">
@@ -651,25 +335,18 @@ input, select, textarea { font-family: var(--font); }
       <li><span>✅</span><span><strong>Revisa los montos</strong> — La IA extrae los datos pero tú confirmas antes de guardar.</span></li>
     </ul>
   </div>
- 
   <div class="card">
     <div class="field">
       <label>Fecha de rendición</label>
       <input type="date" id="inputFechaRendicion">
     </div>
   </div>
- 
   <button class="btn btn-primary" onclick="irAPaso1()">
-    <span>Comenzar rendición</span>
-    <span>→</span>
+    <span>Comenzar rendición</span><span>→</span>
   </button>
 </div>
  
-<!-- ═══════════════════════════════════════════
-     PANTALLA 1 — CONFIGURAR LOTE
-═══════════════════════════════════════════ -->
 <div class="screen" id="screenLote">
- 
   <div class="card">
     <div class="card-title">Tipo de gasto</div>
     <div class="mode-selector">
@@ -684,41 +361,30 @@ input, select, textarea { font-family: var(--font); }
         <div class="sub">Sin obra asociada</div>
       </div>
     </div>
- 
-    <!-- Campo obra -->
     <div id="campoObra" class="field">
       <label>Obra / Proyecto</label>
       <input type="text" id="selectObra" placeholder="Escribe el nombre de la obra…" list="listaObras" autocomplete="off">
       <datalist id="listaObras"></datalist>
     </div>
- 
-    <!-- Campo categoría (gasto general) -->
     <div id="campoCategoria" class="field" style="display:none">
       <label>Categoría de gasto</label>
       <input type="text" id="selectCategoria" placeholder="Ej: Alimentación, Combustible…" list="listaCategorias" autocomplete="off">
       <datalist id="listaCategorias"></datalist>
     </div>
   </div>
- 
   <div class="card" style="background:#EBF4F7; border-color:#B0D4DF;">
     <div style="display:flex; align-items:center; gap:10px; font-size:14px; color:var(--navy);">
       <span style="font-size:20px;">ℹ️</span>
       <span>Seleccionas <strong>la obra o categoría una sola vez</strong> y luego agregas todas las boletas de ese lote.</span>
     </div>
   </div>
- 
   <div class="btn-row">
     <button class="btn btn-outline" onclick="irA('screenInicio', 0)">← Atrás</button>
     <button class="btn btn-primary" onclick="iniciarLote()">Continuar →</button>
   </div>
 </div>
  
-<!-- ═══════════════════════════════════════════
-     PANTALLA 2 — CARGAR BOLETA
-═══════════════════════════════════════════ -->
 <div class="screen" id="screenBoleta">
- 
-  <!-- Info del lote actual -->
   <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
     <div>
       <div style="font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.4px;">Lote activo</div>
@@ -728,8 +394,6 @@ input, select, textarea { font-family: var(--font); }
       <span class="badge badge-navy" id="contadorBoletas">0 boletas</span>
     </div>
   </div>
- 
-  <!-- Foto -->
   <div class="card">
     <div class="card-title">Foto del documento</div>
     <div class="foto-zone" id="fotoZone" onclick="document.getElementById('inputFoto').click()">
@@ -745,22 +409,14 @@ input, select, textarea { font-family: var(--font); }
       <button class="btn btn-accent btn-sm" id="btnExtraerIA" onclick="extraerConIA()">✨ Extraer con IA</button>
     </div>
   </div>
- 
-  <!-- Estado IA -->
   <div id="iaStatus" style="display:none"></div>
- 
-  <!-- Dudas IA -->
   <div id="iaPreguntas" style="display:none"></div>
- 
-  <!-- Formulario datos boleta -->
   <div class="card" id="formDatos" style="display:none">
     <div class="card-title">Datos del documento</div>
- 
     <div class="field">
       <label>Descripción del gasto *</label>
       <textarea id="inputDescripcion" placeholder="Ej: Materiales eléctricos para tablero principal" rows="2"></textarea>
     </div>
- 
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
       <div class="field">
         <label>N° Documento</label>
@@ -771,16 +427,13 @@ input, select, textarea { font-family: var(--font); }
         <input type="date" id="inputFechaDoc">
       </div>
     </div>
- 
     <div class="field">
       <label>Proveedor / Local</label>
       <input type="text" id="inputProveedor" placeholder="Ej: Sodimac, Easy, etc." list="listaProveedores" autocomplete="off">
       <datalist id="listaProveedores"></datalist>
     </div>
- 
     <div class="divider"></div>
     <div class="card-title" style="margin-bottom:10px;">Montos</div>
- 
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
       <div class="field">
         <label>Subtotal</label>
@@ -800,8 +453,6 @@ input, select, textarea { font-family: var(--font); }
       </div>
     </div>
   </div>
- 
-  <!-- Botones -->
   <div id="botonesFormulario" style="display:none">
     <div class="btn-row">
       <button class="btn btn-outline" onclick="cancelarBoleta()">Cancelar</button>
@@ -813,8 +464,6 @@ input, select, textarea { font-family: var(--font); }
       </button>
     </div>
   </div>
- 
-  <!-- Si no hay foto aún, botón de ir a resumen -->
   <div id="btnIrResumen" style="display:none; margin-top:8px;">
     <div class="divider"></div>
     <button class="btn btn-primary" onclick="irA('screenResumen', 100)">
@@ -823,35 +472,25 @@ input, select, textarea { font-family: var(--font); }
   </div>
 </div>
  
-<!-- ═══════════════════════════════════════════
-     PANTALLA 3 — RESUMEN Y ENVÍO
-═══════════════════════════════════════════ -->
 <div class="screen" id="screenResumen">
- 
   <div class="card">
     <div class="card-title">Resumen del lote</div>
     <div id="infoLoteResumen" style="margin-bottom:14px; font-size:14px; color:var(--muted);"></div>
     <div id="listaBoletas"></div>
   </div>
- 
   <div class="card">
     <div class="card-title">Totales del lote</div>
     <div id="totalesLote"></div>
   </div>
- 
   <div class="btn-row">
     <button class="btn btn-outline" onclick="irA('screenBoleta', 66)">+ Agregar más</button>
     <button class="btn btn-accent" onclick="enviarLote()">📤 Enviar rendición</button>
   </div>
- 
   <div class="mt-12">
     <button class="btn btn-outline" onclick="nuevaRendicion()">Nuevo lote distinto</button>
   </div>
 </div>
  
-<!-- ═══════════════════════════════════════════
-     PANTALLA ÉXITO
-═══════════════════════════════════════════ -->
 <div class="screen" id="screenExito">
   <div class="success-screen">
     <div class="success-icon">✅</div>
@@ -865,40 +504,32 @@ input, select, textarea { font-family: var(--font); }
   </div>
 </div>
  
-<!-- LOADING OVERLAY -->
 <div id="loadingOverlay">
   <div class="spinner"></div>
   <span id="loadingMsg">Procesando…</span>
 </div>
- 
-<!-- TOAST -->
 <div id="toast"></div>
  
 <script>
 // ════════════════════════════════════════════════════════════
 // CONFIGURACIÓN
 // ════════════════════════════════════════════════════════════
-const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbwFjuZyJswfc09jm0mIXNhLdJFG5KP74fEwIX8usrhbfHcUV0wis3JKvKxmPlZ_QvF0yA/exec';
-const SHEET_URL   = 'https://docs.google.com/spreadsheets/d/1bVZIy8HPkIkOv2MoR34bnO-wXKAa3Y5hF9DtnWorCo8/edit';
+const BACKEND_URL  = 'https://script.google.com/macros/s/AKfycbwFjuZyJswfc09jm0mIXNhLdJFG5KP74fEwIX8usrhbfHcUV0wis3JKvKxmPlZ_QvF0yA/exec';
+const SHEET_URL    = 'https://docs.google.com/spreadsheets/d/1bVZIy8HPkIkOv2MoR34bnO-wXKAa3Y5hF9DtnWorCo8/edit';
 const DRIVE_FOLDER = '1Ynr_uL7mgUz0940PMefgawGXk_z7CeFx';
-const CLIENT_ID   = '72369192874-rgv4vqjl243p39fv0dntkl5a4m13s8k6.apps.googleusercontent.com';
-let driveToken    = null;
-let usuarioGoogle = null; // { email, nombre, foto }
+const CLIENT_ID    = '72369192874-rgv4vqjl243p39fv0dntkl5a4m13s8k6.apps.googleusercontent.com';
+const CLAUDE_KEY   = 'REEMPLAZAR_CON_KEY_REAL';
+let driveToken     = null;
+let usuarioGoogle  = null;
  
 // ════════════════════════════════════════════════════════════
 // ESTADO GLOBAL
 // ════════════════════════════════════════════════════════════
 let estado = {
-  usuario: '',
-  fechaRendicion: '',
-  modo: 'OBRA',
-  centroCosto: '',
-  categoriaGasto: '',
-  lote: [],               // array de boletas ya agregadas
-  fotoActual: null,       // { base64, mime, nombre, preview }
-  datosIAActual: null,    // datos extraídos por IA
-  obras: [],
-  categorias: []
+  usuario: '', fechaRendicion: '', modo: 'OBRA',
+  centroCosto: '', categoriaGasto: '',
+  lote: [], fotoActual: null, datosIAActual: null,
+  obras: [], categorias: []
 };
  
 // ════════════════════════════════════════════════════════════
@@ -913,9 +544,8 @@ function toast(msg, tipo = '', ms = 3000) {
 }
  
 function loading(show, msg = 'Procesando…') {
-  const el = document.getElementById('loadingOverlay');
   document.getElementById('loadingMsg').textContent = msg;
-  el.classList.toggle('show', show);
+  document.getElementById('loadingOverlay').classList.toggle('show', show);
 }
  
 function irA(screenId, progreso) {
@@ -926,8 +556,7 @@ function irA(screenId, progreso) {
 }
  
 function formatCLP(n) {
-  const num = parseInt(n) || 0;
-  return '$' + num.toLocaleString('es-CL');
+  return '$' + (parseInt(n) || 0).toLocaleString('es-CL');
 }
  
 function setIAStatus(tipo, msg) {
@@ -940,7 +569,31 @@ function setIAStatus(tipo, msg) {
 }
  
 // ════════════════════════════════════════════════════════════
-// INICIALIZACIÓN
+// JSONP
+// ════════════════════════════════════════════════════════════
+function jsonpCall(url) {
+  return new Promise((resolve, reject) => {
+    const cbName = 'jsonp_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+    const timeout = setTimeout(() => {
+      delete window[cbName];
+      script.remove();
+      reject(new Error('JSONP timeout'));
+    }, 60000);
+    window[cbName] = (data) => {
+      clearTimeout(timeout);
+      delete window[cbName];
+      script.remove();
+      resolve(data);
+    };
+    const script = document.createElement('script');
+    script.src = url + '&callback=' + cbName;
+    script.onerror = () => { clearTimeout(timeout); reject(new Error('JSONP error')); };
+    document.head.appendChild(script);
+  });
+}
+ 
+// ════════════════════════════════════════════════════════════
+// INICIALIZACIÓN GIS
 // ════════════════════════════════════════════════════════════
 let tokenClient;
  
@@ -951,46 +604,28 @@ function initGIS() {
     callback: async (resp) => {
       if (!resp.access_token) return;
       driveToken = resp.access_token;
- 
-      // Obtener info del usuario
       try {
         const r = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
           headers: { Authorization: 'Bearer ' + driveToken }
         });
         const info = await r.json();
         usuarioGoogle = { email: info.email, nombre: info.name, foto: info.picture };
- 
-        // Verificar acceso por lista local (sin llamada al backend)
         const AUTORIZADOS = [
-          'cbraun@senercom.cl',
-          'carlos.braun@gmail.com',
-          'cmenendez@senercom.cl',
-          'psalas@senercom.cl',
-          'maro@senercom.cl',
-          'ogallo@senercom.cl',
-          'craddatz@senercom.cl',
-          'lmiranda@senercom.cl'
+          'cbraun@senercom.cl','carlos.braun@gmail.com','cmenendez@senercom.cl',
+          'psalas@senercom.cl','maro@senercom.cl','ogallo@senercom.cl',
+          'craddatz@senercom.cl','lmiranda@senercom.cl'
         ];
- 
         if (!AUTORIZADOS.includes(info.email.toLowerCase())) {
           toast('⛔ Tu cuenta no tiene acceso a esta aplicación.', 'error', 6000);
-          driveToken    = null;
-          usuarioGoogle = null;
-          return;
+          driveToken = null; usuarioGoogle = null; return;
         }
- 
-        // Mostrar datos usuario
         document.getElementById('nombreUsuario').textContent = info.name;
         document.getElementById('emailUsuario').textContent  = info.email;
         const fotoEl = document.getElementById('fotoUsuario');
         if (info.picture) { fotoEl.src = info.picture; fotoEl.style.display = 'block'; }
- 
-        // Ir a inicio
         irA('screenInicio', 0);
         cargarObrasYCategorias();
-        const hoy = new Date().toISOString().split('T')[0];
-        document.getElementById('inputFechaRendicion').value = hoy;
- 
+        document.getElementById('inputFechaRendicion').value = new Date().toISOString().split('T')[0];
       } catch(e) {
         toast('Error al verificar acceso. Intenta de nuevo.', 'error');
         console.error(e);
@@ -1012,39 +647,9 @@ function loginGoogle() {
 }
  
 function cerrarSesion() {
-  driveToken    = null;
-  usuarioGoogle = null;
+  driveToken = null; usuarioGoogle = null;
   google.accounts.oauth2.revoke(driveToken, () => {});
   irA('screenLogin', 0);
-}
- 
-document.addEventListener('DOMContentLoaded', () => {
-  // Solo mostrar pantalla de login al inicio
-  // Las obras se cargan después del login exitoso
-});
- 
-// Llamada JSONP al backend — evita CORS completamente
-function jsonpCall(url) {
-  return new Promise((resolve, reject) => {
-    const cbName = 'jsonp_' + Date.now() + '_' + Math.random().toString(36).slice(2);
-    const timeout = setTimeout(() => {
-      delete window[cbName];
-      script.remove();
-      reject(new Error('JSONP timeout'));
-    }, 60000);
- 
-    window[cbName] = (data) => {
-      clearTimeout(timeout);
-      delete window[cbName];
-      script.remove();
-      resolve(data);
-    };
- 
-    const script = document.createElement('script');
-    script.src = url + '&callback=' + cbName;
-    script.onerror = () => { clearTimeout(timeout); reject(new Error('JSONP error')); };
-    document.head.appendChild(script);
-  });
 }
  
 async function cargarObrasYCategorias() {
@@ -1054,62 +659,50 @@ async function cargarObrasYCategorias() {
       jsonpCall(BACKEND_URL + '?accion=getCategorias'),
       jsonpCall(BACKEND_URL + '?accion=getProveedores')
     ]);
- 
     if (dObras.ok) {
       estado.obras = dObras.obras;
       const dl = document.getElementById('listaObras');
       dl.innerHTML = '';
-      dObras.obras.forEach(o => {
-        const opt = document.createElement('option'); opt.value = o; dl.appendChild(opt);
-      });
+      dObras.obras.forEach(o => { const opt = document.createElement('option'); opt.value = o; dl.appendChild(opt); });
     }
     if (dCats.ok) {
       estado.categorias = dCats.categorias;
       const dl = document.getElementById('listaCategorias');
       dl.innerHTML = '';
-      dCats.categorias.forEach(c => {
-        const opt = document.createElement('option'); opt.value = c; dl.appendChild(opt);
-      });
+      dCats.categorias.forEach(c => { const opt = document.createElement('option'); opt.value = c; dl.appendChild(opt); });
     }
     if (dProvs?.ok) {
-      estado.proveedores = dProvs.proveedores;
       const dl = document.getElementById('listaProveedores');
       if (dl) {
         dl.innerHTML = '';
-        dProvs.proveedores.forEach(p => {
-          const opt = document.createElement('option'); opt.value = p; dl.appendChild(opt);
-        });
+        dProvs.proveedores.forEach(p => { const opt = document.createElement('option'); opt.value = p; dl.appendChild(opt); });
       }
     }
-  } catch(e) {
-    console.log('Datos no cargados, modo manual');
-  }
+  } catch(e) { console.log('Datos no cargados, modo manual'); }
 }
  
 // ════════════════════════════════════════════════════════════
-// PASO 0 → 1: VALIDAR INICIO
+// PASO 0 → 1
 // ════════════════════════════════════════════════════════════
 function irAPaso1() {
   const fecha = document.getElementById('inputFechaRendicion').value;
   if (!fecha) { toast('Selecciona la fecha de rendición', 'error'); return; }
- 
   estado.usuario        = usuarioGoogle?.nombre || 'Usuario';
   estado.emailUsuario   = usuarioGoogle?.email  || '';
   estado.fechaRendicion = fecha;
- 
   document.getElementById('headerStep').style.display = 'flex';
   document.getElementById('stepNum').textContent = '1';
   irA('screenLote', 33);
 }
  
 // ════════════════════════════════════════════════════════════
-// PASO 1: SELECCIÓN MODO Y LOTE
+// PASO 1: LOTE
 // ════════════════════════════════════════════════════════════
 function seleccionarModo(modo) {
   estado.modo = modo;
   document.getElementById('modeObra').classList.toggle('selected', modo === 'OBRA');
   document.getElementById('modeGeneral').classList.toggle('selected', modo === 'GENERAL');
-  document.getElementById('campoObra').style.display     = modo === 'OBRA'    ? 'block' : 'none';
+  document.getElementById('campoObra').style.display      = modo === 'OBRA'    ? 'block' : 'none';
   document.getElementById('campoCategoria').style.display = modo === 'GENERAL' ? 'block' : 'none';
 }
  
@@ -1117,16 +710,12 @@ function iniciarLote() {
   if (estado.modo === 'OBRA') {
     const obra = document.getElementById('selectObra').value.trim();
     if (!obra) { toast('Escribe el nombre de la obra', 'error'); return; }
-    estado.centroCosto    = obra;
-    estado.categoriaGasto = '';
+    estado.centroCosto = obra; estado.categoriaGasto = '';
   } else {
     const cat = document.getElementById('selectCategoria').value.trim();
     if (!cat) { toast('Escribe la categoría de gasto', 'error'); return; }
-    estado.centroCosto    = 'Gasto General';
-    estado.categoriaGasto = cat;
+    estado.centroCosto = 'Gasto General'; estado.categoriaGasto = cat;
   }
- 
-  // Resetear formulario boleta
   resetearFormularioBoleta();
   actualizarLoteLabel();
   document.getElementById('stepNum').textContent = '2';
@@ -1139,15 +728,10 @@ function iniciarLote() {
 function fotoSeleccionada(input) {
   const file = input.files[0];
   if (!file) return;
- 
   const reader = new FileReader();
   reader.onload = e => {
-    const dataUrl = e.target.result;
- 
-    // Comprimir imagen antes de enviar al backend
     const img = new Image();
     img.onload = () => {
-      // Comprimir agresivamente para que quepa en URL GET
       const MAX = 400;
       let w = img.width, h = img.height;
       if (w > MAX || h > MAX) {
@@ -1157,7 +741,6 @@ function fotoSeleccionada(input) {
       const canvas = document.createElement('canvas');
       canvas.width = w; canvas.height = h;
       canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      // Comprimir hasta que quepa en URL (~100KB max)
       let quality = 0.5;
       let compressed = canvas.toDataURL('image/jpeg', quality);
       while (compressed.length > 25000 && quality > 0.05) {
@@ -1165,15 +748,7 @@ function fotoSeleccionada(input) {
         compressed = canvas.toDataURL('image/jpeg', quality);
       }
       const base64 = compressed.split(',')[1];
- 
-      estado.fotoActual = {
-        base64,
-        mime:    'image/jpeg',
-        nombre:  file.name,
-        preview: compressed
-      };
- 
-      // Mostrar preview comprimido
+      estado.fotoActual = { base64, mime: 'image/jpeg', nombre: file.name, preview: compressed };
       const zona = document.getElementById('fotoZone');
       zona.classList.add('has-image');
       zona.innerHTML = `<img src="${compressed}" alt="Boleta">`;
@@ -1184,82 +759,69 @@ function fotoSeleccionada(input) {
       document.getElementById('botonesFormulario').style.display = 'none';
       extraerConIA();
     };
-    img.src = dataUrl;
-    return; // el resto lo maneja img.onload
- 
+    img.src = e.target.result;
   };
   reader.readAsDataURL(file);
 }
  
 async function subirImagenDrive() {
-  // Usar token existente del login
-  if (!driveToken) {
-    throw new Error('No hay sesión activa. Por favor recarga la página e inicia sesión.');
-  }
- 
-  // Convertir base64 a blob
+  if (!driveToken) throw new Error('No hay sesión activa. Por favor recarga la página e inicia sesión.');
   const byteChars = atob(estado.fotoActual.base64);
   const byteArr   = new Uint8Array(byteChars.length);
   for (let i = 0; i < byteChars.length; i++) byteArr[i] = byteChars.charCodeAt(i);
   const blob = new Blob([byteArr], { type: estado.fotoActual.mime });
- 
-  // Subir a Drive
   const nombre = 'boleta_' + Date.now() + '.jpg';
   const metadata = JSON.stringify({ name: nombre, parents: [DRIVE_FOLDER] });
   const form = new FormData();
   form.append('metadata', new Blob([metadata], { type: 'application/json' }));
   form.append('file', blob);
- 
   const resp = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
-    method:  'POST',
-    headers: { Authorization: 'Bearer ' + driveToken },
-    body:    form
+    method: 'POST', headers: { Authorization: 'Bearer ' + driveToken }, body: form
   });
   const data = await resp.json();
-  return data.id; // fileId en Drive
+  return data.id;
 }
  
 async function extraerConIA() {
   if (!estado.fotoActual) { toast('Primero toma una foto', 'error'); return; }
-
+ 
   setIAStatus('loading', 'Subiendo imagen…');
   document.getElementById('iaPreguntas').style.display = 'none';
   document.getElementById('formDatos').style.display   = 'none';
   document.getElementById('botonesFormulario').style.display = 'none';
   document.getElementById('btnExtraerIA').disabled = true;
-
+ 
   try {
-    // Paso 1: subir imagen a Drive
+    // Paso 1: subir a Drive
     const fileId = await subirImagenDrive();
     estado.fotoActual.driveFileId = fileId;
-
+ 
     setIAStatus('loading', 'Analizando con IA…');
-
-    // Paso 2: enviar base64 directo via JSONP
-    const url = BACKEND_URL 
+ 
+    // Paso 2: enviar base64 via JSONP (imagen pequeña ~20KB)
+    const url = BACKEND_URL
       + '?accion=extraerBoleta'
       + '&imagenBase64=' + encodeURIComponent(estado.fotoActual.base64)
       + '&imagenMime=image%2Fjpeg';
-
+ 
     const result = await jsonpCall(url);
-
     if (!result.ok) throw new Error(result.error || 'Error en servidor');
-
+ 
     const datosia = result.datos;
     estado.datosIAActual = datosia;
     poblarFormulario(datosia);
-
+ 
     if (datosia.dudas && datosia.dudas.length > 0) {
       setIAStatus('warning', `IA extrajo los datos — hay ${datosia.dudas.length} punto(s) a confirmar`);
       mostrarDudas(datosia.dudas);
     } else {
       setIAStatus('success', `Datos extraídos con confianza ${datosia.confianza || 'alta'}`);
     }
-
+ 
     document.getElementById('formDatos').style.display        = 'block';
     document.getElementById('botonesFormulario').style.display = 'block';
     actualizarBtnVerLote();
-
+ 
   } catch(e) {
     setIAStatus('error', 'No se pudo analizar la imagen. Ingresa los datos manualmente.');
     document.getElementById('formDatos').style.display        = 'block';
@@ -1269,21 +831,126 @@ async function extraerConIA() {
     document.getElementById('btnExtraerIA').disabled = false;
   }
 }
-
+ 
+function poblarFormulario(datos) {
+  if (datos.nDocumento)     document.getElementById('inputNDoc').value      = datos.nDocumento;
+  if (datos.fechaDocumento) document.getElementById('inputFechaDoc').value  = datos.fechaDocumento;
+  if (datos.proveedor)      document.getElementById('inputProveedor').value = datos.proveedor;
+  if (datos.subtotal)       document.getElementById('inputSubtotal').value  = datos.subtotal;
+  if (datos.iva)            document.getElementById('inputIva').value       = datos.iva;
+  if (datos.propina)        document.getElementById('inputPropina').value   = datos.propina;
+  if (datos.total)          document.getElementById('inputTotal').value     = datos.total;
+}
+ 
+function mostrarDudas(dudas) {
+  const cont = document.getElementById('iaPreguntas');
+  let html = `<div class="dudas-box"><div class="duda-title">⚠️ La IA necesita confirmar</div>`;
+  dudas.forEach((d, i) => {
+    html += `<div class="duda-item"><p>${d.pregunta}</p>`;
+    if (d.opciones && d.opciones.length > 0) {
+      html += `<select id="duda_${i}" data-campo="${d.campo}"><option value="">— Selecciona —</option>`;
+      d.opciones.forEach(op => html += `<option value="${op}">${op}</option>`);
+      html += `</select>`;
+    } else {
+      html += `<input type="text" id="duda_${i}" data-campo="${d.campo}" placeholder="Tu respuesta…">`;
+    }
+    html += `</div>`;
+  });
+  html += `</div>`;
+  cont.innerHTML = html;
+  cont.style.display = 'block';
+}
+ 
+function calcularTotal() {
+  const sub     = parseInt(document.getElementById('inputSubtotal').value) || 0;
+  const iva     = parseInt(document.getElementById('inputIva').value)      || 0;
+  const propina = parseInt(document.getElementById('inputPropina').value)  || 0;
+  if (sub > 0 || iva > 0 || propina > 0) {
+    document.getElementById('inputTotal').value = sub + iva + propina;
+  }
+}
+ 
+function agregarBoleta() {
+  const descripcion = document.getElementById('inputDescripcion').value.trim();
+  const total       = parseInt(document.getElementById('inputTotal').value) || 0;
+  if (!descripcion) { toast('Agrega una descripción del gasto', 'error'); return; }
+  if (total === 0)  { toast('El total no puede ser $0', 'error'); return; }
+  const respuestasDudas = {};
+  if (estado.datosIAActual?.dudas) {
+    estado.datosIAActual.dudas.forEach((d, i) => {
+      const el = document.getElementById(`duda_${i}`);
+      if (el) respuestasDudas[d.campo] = el.value;
+    });
+  }
+  estado.lote.push({
+    id: Date.now(),
+    nDocumento:       document.getElementById('inputNDoc').value,
+    fechaDocumento:   document.getElementById('inputFechaDoc').value,
+    proveedor:        document.getElementById('inputProveedor').value,
+    descripcionGasto: descripcion,
+    subtotal:         parseInt(document.getElementById('inputSubtotal').value) || 0,
+    iva:              parseInt(document.getElementById('inputIva').value)      || 0,
+    propina:          parseInt(document.getElementById('inputPropina').value)  || 0,
+    total,
+    foto:             estado.fotoActual,
+    datosIA:          JSON.stringify(estado.datosIAActual),
+    datosConfirmados: true,
+    respuestasDudas
+  });
+  toast(`✓ Boleta ${formatCLP(total)} agregada al lote`, 'success');
+  resetearFormularioBoleta();
+  actualizarContadores();
+}
+ 
+function cancelarBoleta() { resetearFormularioBoleta(); }
+ 
+function resetearFormularioBoleta() {
+  estado.fotoActual = null; estado.datosIAActual = null;
+  const zona = document.getElementById('fotoZone');
+  zona.classList.remove('has-image');
+  zona.innerHTML = `<div class="placeholder"><div class="icon">📷</div><p>Toca para fotografiar</p><span>o seleccionar desde galería</span></div>`;
+  document.getElementById('inputFoto').value = '';
+  document.getElementById('fotoActions').style.display = 'none';
+  setIAStatus(null);
+  document.getElementById('iaPreguntas').style.display  = 'none';
+  document.getElementById('formDatos').style.display    = 'none';
+  document.getElementById('botonesFormulario').style.display = 'none';
+  ['inputNDoc','inputFechaDoc','inputProveedor','inputDescripcion',
+   'inputSubtotal','inputIva','inputPropina','inputTotal'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+}
+ 
+function actualizarLoteLabel() {
+  const label = estado.modo === 'OBRA' ? estado.centroCosto : `General — ${estado.categoriaGasto}`;
+  document.getElementById('loteLabel').textContent = label;
+  document.getElementById('headerSub').textContent = label;
+}
+ 
+function actualizarContadores() {
+  const n = estado.lote.length;
+  document.getElementById('contadorBoletas').textContent = `${n} boleta${n !== 1 ? 's' : ''}`;
+  document.getElementById('totalLote').textContent  = n;
+  document.getElementById('totalLote2').textContent = n;
+  actualizarBtnVerLote();
+}
+ 
+function actualizarBtnVerLote() {
+  const show = estado.lote.length > 0;
+  document.getElementById('btnVerLote').style.display   = show ? 'flex' : 'none';
+  document.getElementById('btnIrResumen').style.display = show ? 'block' : 'none';
+}
  
 // ════════════════════════════════════════════════════════════
 // PASO 3: RESUMEN Y ENVÍO
 // ════════════════════════════════════════════════════════════
 function mostrarResumen() {
   document.getElementById('stepNum').textContent = '3';
- 
-  const infoEl = document.getElementById('infoLoteResumen');
-  infoEl.textContent = `${estado.modo === 'OBRA' ? '🏗️' : '🏢'} ${estado.centroCosto}${estado.categoriaGasto ? ' — ' + estado.categoriaGasto : ''} · ${estado.lote.length} documento(s)`;
- 
-  // Lista boletas
+  document.getElementById('infoLoteResumen').textContent =
+    `${estado.modo === 'OBRA' ? '🏗️' : '🏢'} ${estado.centroCosto}${estado.categoriaGasto ? ' — ' + estado.categoriaGasto : ''} · ${estado.lote.length} documento(s)`;
   const listaEl = document.getElementById('listaBoletas');
   listaEl.innerHTML = '';
-  estado.lote.forEach((b, i) => {
+  estado.lote.forEach(b => {
     const thumbHTML = b.foto?.preview
       ? `<div class="boleta-thumb"><img src="${b.foto.preview}" alt="foto"></div>`
       : `<div class="boleta-thumb">🧾</div>`;
@@ -1298,13 +965,10 @@ function mostrarResumen() {
         <div class="boleta-status ok"></div>
       </div>`;
   });
- 
-  // Totales
   const subtotalSum = estado.lote.reduce((a, b) => a + b.subtotal, 0);
   const ivaSum      = estado.lote.reduce((a, b) => a + b.iva, 0);
   const propinaSum  = estado.lote.reduce((a, b) => a + b.propina, 0);
   const totalSum    = estado.lote.reduce((a, b) => a + b.total, 0);
- 
   document.getElementById('totalesLote').innerHTML = `
     ${subtotalSum ? `<div class="resumen-row"><span>Subtotal</span><span>${formatCLP(subtotalSum)}</span></div>` : ''}
     ${ivaSum      ? `<div class="resumen-row"><span>IVA</span><span>${formatCLP(ivaSum)}</span></div>` : ''}
@@ -1316,66 +980,36 @@ function mostrarResumen() {
  
 async function enviarLote() {
   if (estado.lote.length === 0) { toast('No hay boletas en el lote', 'error'); return; }
- 
   loading(true, 'Enviando lote…');
-  const ids = [];
-  let errores = 0;
- 
+  const ids = []; let errores = 0;
   for (let i = 0; i < estado.lote.length; i++) {
     const b = estado.lote[i];
     loading(true, `Enviando ${i + 1} de ${estado.lote.length}…`);
     try {
-      const payload = {
-        accion:           'guardarBoleta',
+      const params = new URLSearchParams({
+        accion: 'guardarBoleta',
         usuario:          estado.usuario,
         fechaRendicion:   estado.fechaRendicion,
         tipo:             estado.modo,
         centroCosto:      estado.centroCosto,
         categoriaGasto:   estado.categoriaGasto,
-        nDocumento:       b.nDocumento,
-        fechaDocumento:   b.fechaDocumento,
-        proveedor:        b.proveedor,
-        descripcionGasto: b.descripcionGasto,
-        subtotal:         b.subtotal,
-        iva:              b.iva,
-        propina:          b.propina,
-        total:            b.total,
-        datosIA:          b.datosIA,
-        datosConfirmados: b.datosConfirmados,
+        nDocumento:       b.nDocumento       || '',
+        fechaDocumento:   b.fechaDocumento   || '',
+        proveedor:        b.proveedor        || '',
+        descripcionGasto: b.descripcionGasto || '',
+        subtotal:         b.subtotal         || 0,
+        iva:              b.iva              || 0,
+        propina:          b.propina          || 0,
+        total:            b.total            || 0,
+        datosIA:          b.datosIA          || '',
+        datosConfirmados: b.datosConfirmados ? 'SI' : 'NO',
         driveFileId:      b.foto?.driveFileId || ''
-      };
- 
-      // Enviamos via GET — imagen ya está en Drive
-      const params = new URLSearchParams({
-        accion:           'guardarBoleta',
-        usuario:          payload.usuario,
-        fechaRendicion:   payload.fechaRendicion,
-        tipo:             payload.tipo,
-        centroCosto:      payload.centroCosto,
-        categoriaGasto:   payload.categoriaGasto,
-        nDocumento:       payload.nDocumento       || '',
-        fechaDocumento:   payload.fechaDocumento   || '',
-        proveedor:        payload.proveedor        || '',
-        descripcionGasto: payload.descripcionGasto || '',
-        subtotal:         payload.subtotal         || 0,
-        iva:              payload.iva              || 0,
-        propina:          payload.propina          || 0,
-        total:            payload.total            || 0,
-        datosIA:          payload.datosIA          || '',
-        datosConfirmados: payload.datosConfirmados ? 'SI' : 'NO',
-        driveFileId:      payload.driveFileId      || ''
       });
       const data = await jsonpCall(BACKEND_URL + '?' + params.toString());
-      if (data.ok) ids.push(data.id);
-      else errores++;
-    } catch(e) {
-      errores++;
-      console.error(e);
-    }
+      if (data.ok) ids.push(data.id); else errores++;
+    } catch(e) { errores++; console.error(e); }
   }
- 
   loading(false);
- 
   if (errores === 0) {
     document.getElementById('exitoMsg').textContent =
       `${ids.length} boleta(s) registradas correctamente para "${estado.centroCosto}".`;
@@ -1383,7 +1017,8 @@ async function enviarLote() {
       ids.map(id => `<span class="badge badge-navy" style="margin:2px;">${id}</span>`).join('');
     irA('screenExito', 100);
   } else {
-    toast(`Se enviaron ${ids.length} boletas. ${errores} fallaron.`, errores === estado.lote.length ? 'error' : 'warning', 5000);
+    toast(`Se enviaron ${ids.length} boletas. ${errores} fallaron.`,
+      errores === estado.lote.length ? 'error' : 'warning', 5000);
   }
 }
  
@@ -1391,11 +1026,8 @@ async function enviarLote() {
 // NUEVO LOTE
 // ════════════════════════════════════════════════════════════
 function nuevaRendicion() {
-  estado.lote          = [];
-  estado.centroCosto   = '';
-  estado.categoriaGasto = '';
-  estado.fotoActual    = null;
-  estado.datosIAActual = null;
+  estado.lote = []; estado.centroCosto = ''; estado.categoriaGasto = '';
+  estado.fotoActual = null; estado.datosIAActual = null;
   document.getElementById('headerStep').style.display = 'none';
   document.getElementById('headerSub').textContent = 'SENERCOM';
   document.getElementById('progressFill').style.width = '0%';
@@ -1404,12 +1036,10 @@ function nuevaRendicion() {
   document.getElementById('stepNum').textContent = '1';
 }
  
-function verSheet() {
-  window.open(SHEET_URL, '_blank');
-}
+function verSheet() { window.open(SHEET_URL, '_blank'); }
  
 // ════════════════════════════════════════════════════════════
-// INTERCEPTAR CAMBIO DE PANTALLA RESUMEN
+// INTERCEPTAR RESUMEN
 // ════════════════════════════════════════════════════════════
 const _irA = irA;
 window.irA = function(screenId, progreso) {
@@ -1428,5 +1058,9 @@ if ('serviceWorker' in navigator) {
 </body>
 </html>
  
+
+
+
+
 
 
