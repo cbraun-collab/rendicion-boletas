@@ -1236,7 +1236,7 @@ async function extraerConIA() {
     setIAStatus('loading', 'Analizando con IA…');
  
     // Paso 2: pedir al backend que analice desde Drive (JSONP)
-    const result = await jsonpCall(BACKEND_URL + '?accion=extraerBoleta&fileId=' + fileId);
+    const result = await jsonpCall(BACKEND_URL + '?accion=extraerBoleta&fileId=' + fileId + '&imagenBase64=' + encodeURIComponent(estado.fotoActual.base64) + '&imagenMime=image%2Fjpeg');
  
     if (!result.ok) throw new Error(result.error || 'Error en servidor');
  
