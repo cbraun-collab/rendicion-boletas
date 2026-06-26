@@ -1,3 +1,6 @@
+
+
+Index · HTML
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -1083,16 +1086,12 @@ async function extraerConIA() {
   document.getElementById('btnExtraerIA').disabled = true;
  
   try {
-    // Llamada POST al backend Apps Script (evita límite de URL)
-    const resp = await fetch(BACKEND_URL, {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({
-        accion:       'extraerBoleta',
-        imagenBase64: estado.fotoActual.base64,
-        imagenMime:   estado.fotoActual.mime
-      })
-    });
+    // Llamada GET al backend Apps Script (sin CORS)
+    const dataImg = encodeURIComponent(JSON.stringify({
+      imagenBase64: estado.fotoActual.base64,
+      imagenMime:   estado.fotoActual.mime
+    }));
+    const resp = await fetch(BACKEND_URL + '?accion=extraerBoleta&data=' + dataImg);
     const result = await resp.json();
  
     if (!result.ok) throw new Error(result.error || 'Error en servidor');
@@ -1395,3 +1394,6 @@ if ('serviceWorker' in navigator) {
 </script>
 </body>
 </html>
+ 
+
+
