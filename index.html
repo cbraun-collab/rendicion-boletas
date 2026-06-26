@@ -1039,7 +1039,8 @@ function fotoSeleccionada(input) {
     // Comprimir imagen antes de enviar al backend
     const img = new Image();
     img.onload = () => {
-      const MAX = 800;
+      // Comprimir agresivamente para que quepa en URL GET
+      const MAX = 1000;
       let w = img.width, h = img.height;
       if (w > MAX || h > MAX) {
         if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
@@ -1048,7 +1049,13 @@ function fotoSeleccionada(input) {
       const canvas = document.createElement('canvas');
       canvas.width = w; canvas.height = h;
       canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      const compressed = canvas.toDataURL('image/jpeg', 0.7);
+      // Comprimir hasta que quepa en URL (~100KB max)
+      let quality = 0.5;
+      let compressed = canvas.toDataURL('image/jpeg', quality);
+      while (compressed.length > 130000 && quality > 0.1) {
+        quality -= 0.05;
+        compressed = canvas.toDataURL('image/jpeg', quality);
+      }
       const base64 = compressed.split(',')[1];
  
       estado.fotoActual = {
