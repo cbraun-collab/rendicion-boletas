@@ -1,3 +1,6 @@
+
+
+Index · HTML
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -960,12 +963,19 @@ function initGIS() {
         const info = await r.json();
         usuarioGoogle = { email: info.email, nombre: info.name, foto: info.picture };
  
-        // Verificar acceso en el backend
-        const vUrl = BACKEND_URL + '?accion=verificarAcceso&email=' + encodeURIComponent(info.email);
-        const vResp = await fetch(vUrl);
-        const vData = await vResp.json();
+        // Verificar acceso por lista local (sin llamada al backend)
+        const AUTORIZADOS = [
+          'cbraun@senercom.cl',
+          'carlos.braun@gmail.com',
+          'cmenendez@senercom.cl',
+          'psalas@senercom.cl',
+          'maro@senercom.cl',
+          'ogallo@senercom.cl',
+          'craddatz@senercom.cl',
+          'lmiranda@senercom.cl'
+        ];
  
-        if (!vData.ok || !vData.autorizado) {
+        if (!AUTORIZADOS.includes(info.email.toLowerCase())) {
           toast('⛔ Tu cuenta no tiene acceso a esta aplicación.', 'error', 6000);
           driveToken    = null;
           usuarioGoogle = null;
