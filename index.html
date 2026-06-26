@@ -1031,7 +1031,7 @@ function jsonpCall(url) {
       delete window[cbName];
       script.remove();
       reject(new Error('JSONP timeout'));
-    }, 30000);
+    }, 60000);
  
     window[cbName] = (data) => {
       clearTimeout(timeout);
