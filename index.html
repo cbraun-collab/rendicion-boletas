@@ -792,21 +792,18 @@ async function extraerConIA() {
  
   try {
     // Paso 1: subir a Drive
-    const fileId = await subirImagenDrive();
-    estado.fotoActual.driveFileId = fileId;
+    const driveFileId = await subirImagenDrive();
+    estado.fotoActual.driveFileId = driveFileId;
  
     setIAStatus('loading', 'Analizando con IA…');
  
-    // Paso 2: enviar base64 via JSONP (imagen pequeña ~20KB)
-// Paso 2: enviar fileId (imagen ya subida a Drive)
-const fileId = estado.fotoActual.driveFileId;
-if (!fileId) throw new Error('No se obtuvo fileId de Drive');
-
-const url = BACKEND_URL
-  + '?accion=extraerBoleta'
-  + '&fileId=' + encodeURIComponent(fileId);
-
-const result = await jsonpCall(url);
+    // Paso 2: enviar fileId (imagen ya subida a Drive)
+    if (!driveFileId) throw new Error('No se obtuvo fileId de Drive');
+    const url = BACKEND_URL
+      + '?accion=extraerBoleta'
+      + '&fileId=' + encodeURIComponent(driveFileId);
+ 
+    const result = await jsonpCall(url);
     if (!result.ok) throw new Error(result.error || 'Error en servidor');
  
     const datosia = result.datos;
@@ -1066,3 +1063,4 @@ if ('serviceWorker' in navigator) {
 
 
 
+Your message was sent, but Claude couldn't respond — try again.
