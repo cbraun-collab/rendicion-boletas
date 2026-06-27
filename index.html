@@ -798,12 +798,15 @@ async function extraerConIA() {
     setIAStatus('loading', 'Analizando con IA…');
  
     // Paso 2: enviar base64 via JSONP (imagen pequeña ~20KB)
-    const url = BACKEND_URL
-      + '?accion=extraerBoleta'
-      + '&imagenBase64=' + encodeURIComponent(estado.fotoActual.base64)
-      + '&imagenMime=image%2Fjpeg';
- 
-    const result = await jsonpCall(url);
+// Paso 2: enviar fileId (imagen ya subida a Drive)
+const fileId = estado.fotoActual.driveFileId;
+if (!fileId) throw new Error('No se obtuvo fileId de Drive');
+
+const url = BACKEND_URL
+  + '?accion=extraerBoleta'
+  + '&fileId=' + encodeURIComponent(fileId);
+
+const result = await jsonpCall(url);
     if (!result.ok) throw new Error(result.error || 'Error en servidor');
  
     const datosia = result.datos;
