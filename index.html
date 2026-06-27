@@ -731,26 +731,40 @@ function fotoSeleccionada(input) {
   reader.onload = e => {
     const img = new Image();
     img.onload = () => {
-      const MAX = 400;
-      let w = img.width, h = img.height;
-      if (w > MAX || h > MAX) {
-        if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
-        else       { w = Math.round(w * MAX / h); h = MAX; }
+      // Preview pequeño solo para mostrar en pantalla
+      const MAX_PREVIEW = 600;
+      let pw = img.width, ph = img.height;
+      if (pw > MAX_PREVIEW || ph > MAX_PREVIEW) {
+        if (pw > ph) { ph = Math.round(ph * MAX_PREVIEW / pw); pw = MAX_PREVIEW; }
+        else         { pw = Math.round(pw * MAX_PREVIEW / ph); ph = MAX_PREVIEW; }
       }
-      const canvas = document.createElement('canvas');
-      canvas.width = w; canvas.height = h;
-      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      let quality = 0.5;
-      let compressed = canvas.toDataURL('image/jpeg', quality);
-      while (compressed.length > 25000 && quality > 0.05) {
-        quality -= 0.05;
-        compressed = canvas.toDataURL('image/jpeg', quality);
+      const canvasPreview = document.createElement('canvas');
+      canvasPreview.width = pw; canvasPreview.height = ph;
+      canvasPreview.getContext('2d').drawImage(img, 0, 0, pw, ph);
+      const preview = canvasPreview.toDataURL('image/jpeg', 0.7);
+ 
+      // Imagen original para Drive (sin reducir, solo convertir a base64)
+      // Máximo 1600px para no saturar Drive pero mantener legibilidad
+      const MAX_DRIVE = 1600;
+      let dw = img.width, dh = img.height;
+      if (dw > MAX_DRIVE || dh > MAX_DRIVE) {
+        if (dw > dh) { dh = Math.round(dh * MAX_DRIVE / dw); dw = MAX_DRIVE; }
+        else         { dw = Math.round(dw * MAX_DRIVE / dh); dh = MAX_DRIVE; }
       }
-      const base64 = compressed.split(',')[1];
-      estado.fotoActual = { base64, mime: 'image/jpeg', nombre: file.name, preview: compressed };
+      const canvasDrive = document.createElement('canvas');
+      canvasDrive.width = dw; canvasDrive.height = dh;
+      canvasDrive.getContext('2d').drawImage(img, 0, 0, dw, dh);
+      const base64Drive = canvasDrive.toDataURL('image/jpeg', 0.92).split(',')[1];
+ 
+      estado.fotoActual = {
+        base64: base64Drive,
+        mime: 'image/jpeg',
+        nombre: file.name,
+        preview
+      };
       const zona = document.getElementById('fotoZone');
       zona.classList.add('has-image');
-      zona.innerHTML = `<img src="${compressed}" alt="Boleta">`;
+      zona.innerHTML = `<img src="${preview}" alt="Boleta">`;
       document.getElementById('fotoActions').style.display = 'flex';
       setIAStatus(null);
       document.getElementById('iaPreguntas').style.display = 'none';
@@ -846,13 +860,7 @@ function mostrarDudas(dudas) {
   let html = `<div class="dudas-box"><div class="duda-title">⚠️ La IA necesita confirmar</div>`;
   dudas.forEach((d, i) => {
     html += `<div class="duda-item"><p>${d.pregunta}</p>`;
-    if (d.opciones && d.opciones.length > 0) {
-      html += `<select id="duda_${i}" data-campo="${d.campo}"><option value="">— Selecciona —</option>`;
-      d.opciones.forEach(op => html += `<option value="${op}">${op}</option>`);
-      html += `</select>`;
-    } else {
-      html += `<input type="text" id="duda_${i}" data-campo="${d.campo}" placeholder="Tu respuesta…">`;
-    }
+    html += `<input type="text" id="duda_${i}" data-campo="${d.campo}" placeholder="Ingresa el dato manualmente…">`;
     html += `</div>`;
   });
   html += `</div>`;
