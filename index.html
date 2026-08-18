@@ -1,6 +1,3 @@
-
-
-Index · HTML
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -10,6 +7,7 @@ Index · HTML
 <meta name="description" content="Rendición de boletas y facturas SENERCOM">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#003B49">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Rendición">
@@ -17,7 +15,7 @@ Index · HTML
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
- 
+
 <style>
 :root {
   --navy:       #003B49;
@@ -55,21 +53,12 @@ img { max-width: 100%; display: block; }
 button { font-family: var(--font); cursor: pointer; border: none; }
 input, select, textarea { font-family: var(--font); }
 .header {
-  background: var(--navy);
-  color: #fff;
-  padding: 14px 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+  background: var(--navy); color: #fff; padding: 14px 20px;
+  display: flex; align-items: center; gap: 12px;
+  position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,.25);
 }
 .header-logo {
-  width: 36px; height: 36px;
-  background: var(--accent);
-  border-radius: 8px;
+  width: 36px; height: 36px; background: var(--accent); border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
   font-weight: 700; font-size: 13px; letter-spacing: .5px; flex-shrink: 0;
 }
@@ -77,10 +66,10 @@ input, select, textarea { font-family: var(--font); }
 .header-title h1 { font-size: 16px; font-weight: 700; line-height: 1.2; }
 .header-title p  { font-size: 11px; opacity: .7; margin-top: 1px; }
 .header-step {
-  background: rgba(255,255,255,.15);
-  border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 600;
+  background: rgba(255,255,255,.15); border-radius: 20px;
+  padding: 4px 12px; font-size: 12px; font-weight: 600;
 }
-.progress-bar { height: 3px; background: rgba(255,255,255,.2); position: relative; }
+.progress-bar { height: 3px; background: rgba(255,255,255,.2); }
 .progress-fill { height: 100%; background: var(--gold); transition: width .4s ease; }
 .screen {
   display: none; padding: 20px 16px;
@@ -173,18 +162,17 @@ input, select, textarea { font-family: var(--font); }
 #inputFoto { display: none; }
 .foto-actions { display: flex; gap: 8px; margin-top: 10px; }
 .ia-status {
-  display: flex; align-items: center; gap: 10px;
-  padding: 12px 14px; border-radius: var(--radius-sm);
-  font-size: 13px; font-weight: 500; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 10px; padding: 12px 14px;
+  border-radius: var(--radius-sm); font-size: 13px; font-weight: 500; margin-bottom: 14px;
 }
 .ia-status.loading  { background: #EBF4F7; color: var(--navy); }
 .ia-status.success  { background: #EAF5EE; color: var(--success); }
 .ia-status.warning  { background: #FEF8EC; color: var(--warning); }
 .ia-status.error    { background: #FDEEEC; color: var(--error); }
 .spinner {
-  width: 18px; height: 18px;
-  border: 2px solid rgba(0,59,73,.2); border-top-color: var(--navy);
-  border-radius: 50%; animation: spin .7s linear infinite; flex-shrink: 0;
+  width: 18px; height: 18px; border: 2px solid rgba(0,59,73,.2);
+  border-top-color: var(--navy); border-radius: 50%;
+  animation: spin .7s linear infinite; flex-shrink: 0;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 .dudas-box {
@@ -209,7 +197,7 @@ input, select, textarea { font-family: var(--font); }
 }
 .boleta-item:hover { border-color: var(--navy); }
 .boleta-thumb {
-  width: 48px; height: 48px; border-radius: 6px; object-fit: cover;
+  width: 48px; height: 48px; border-radius: 6px;
   background: var(--bg); flex-shrink: 0;
   display: flex; align-items: center; justify-content: center; font-size: 20px;
 }
@@ -281,7 +269,7 @@ input, select, textarea { font-family: var(--font); }
 </style>
 </head>
 <body>
- 
+
 <div class="header" id="appHeader">
   <div class="header-logo">SEN</div>
   <div class="header-title">
@@ -293,7 +281,8 @@ input, select, textarea { font-family: var(--font); }
 <div class="progress-bar">
   <div class="progress-fill" id="progressFill" style="width:0%"></div>
 </div>
- 
+
+<!-- PANTALLA LOGIN -->
 <div class="screen active" id="screenLogin">
   <div class="intro-hero">
     <div class="big-icon">🧾</div>
@@ -311,7 +300,8 @@ input, select, textarea { font-family: var(--font); }
     <p class="text-muted mt-12" style="font-size:12px;">Solo cuentas autorizadas por SENERCOM tienen acceso.</p>
   </div>
 </div>
- 
+
+<!-- PANTALLA INICIO -->
 <div class="screen" id="screenInicio">
   <div class="intro-hero">
     <div class="big-icon">🧾</div>
@@ -331,7 +321,7 @@ input, select, textarea { font-family: var(--font); }
     <ul class="tips-list">
       <li><span>📦</span><span><strong>Agrupa primero</strong> — Junta todas las boletas de una misma obra antes de abrir la app.</span></li>
       <li><span>🏗️</span><span><strong>Un lote por obra</strong> — Selecciona la obra una vez y carga todas sus boletas seguidas.</span></li>
-      <li><span>💡</span><span><strong>Buena iluminación</strong> — Foto en plano, sin sombras sobre el monto total.</span></li>
+      <li><span>📄</span><span><strong>Imagen o PDF</strong> — Puedes fotografiar la boleta o adjuntar un PDF directamente.</span></li>
       <li><span>✅</span><span><strong>Revisa los montos</strong> — La IA extrae los datos pero tú confirmas antes de guardar.</span></li>
     </ul>
   </div>
@@ -345,7 +335,8 @@ input, select, textarea { font-family: var(--font); }
     <span>Comenzar rendición</span><span>→</span>
   </button>
 </div>
- 
+
+<!-- PANTALLA LOTE -->
 <div class="screen" id="screenLote">
   <div class="card">
     <div class="card-title">Tipo de gasto</div>
@@ -383,34 +374,38 @@ input, select, textarea { font-family: var(--font); }
     <button class="btn btn-primary" onclick="iniciarLote()">Continuar →</button>
   </div>
 </div>
- 
+
+<!-- PANTALLA BOLETA -->
 <div class="screen" id="screenBoleta">
   <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
     <div>
       <div style="font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.4px;">Lote activo</div>
       <div style="font-weight:700; color:var(--navy);" id="loteLabel">—</div>
     </div>
-    <div style="margin-left:auto; display:flex; align-items:center; gap:8px;">
+    <div style="margin-left:auto;">
       <span class="badge badge-navy" id="contadorBoletas">0 boletas</span>
     </div>
   </div>
+
   <div class="card">
-    <div class="card-title">Foto del documento</div>
+    <div class="card-title">Documento</div>
     <div class="foto-zone" id="fotoZone" onclick="document.getElementById('inputFoto').click()">
       <div class="placeholder">
         <div class="icon">📷</div>
-        <p>Toca para fotografiar</p>
-        <span>o seleccionar desde galería</span>
+        <p>Toca para fotografiar o adjuntar PDF</p>
+        <span>Imagen o archivo PDF</span>
       </div>
     </div>
-    <input type="file" id="inputFoto" accept="image/*" capture="environment" onchange="fotoSeleccionada(this)">
+    <input type="file" id="inputFoto" accept="image/*,application/pdf" onchange="fotoSeleccionada(this)">
     <div class="foto-actions" id="fotoActions" style="display:none">
-      <button class="btn btn-outline btn-sm" onclick="document.getElementById('inputFoto').click()">📷 Cambiar foto</button>
+      <button class="btn btn-outline btn-sm" onclick="document.getElementById('inputFoto').click()">📎 Cambiar archivo</button>
       <button class="btn btn-accent btn-sm" id="btnExtraerIA" onclick="extraerConIA()">✨ Extraer con IA</button>
     </div>
   </div>
+
   <div id="iaStatus" style="display:none"></div>
   <div id="iaPreguntas" style="display:none"></div>
+
   <div class="card" id="formDatos" style="display:none">
     <div class="card-title">Datos del documento</div>
     <div class="field">
@@ -453,6 +448,7 @@ input, select, textarea { font-family: var(--font); }
       </div>
     </div>
   </div>
+
   <div id="botonesFormulario" style="display:none">
     <div class="btn-row">
       <button class="btn btn-outline" onclick="cancelarBoleta()">Cancelar</button>
@@ -471,7 +467,8 @@ input, select, textarea { font-family: var(--font); }
     </button>
   </div>
 </div>
- 
+
+<!-- PANTALLA RESUMEN -->
 <div class="screen" id="screenResumen">
   <div class="card">
     <div class="card-title">Resumen del lote</div>
@@ -490,7 +487,8 @@ input, select, textarea { font-family: var(--font); }
     <button class="btn btn-outline" onclick="nuevaRendicion()">Nuevo lote distinto</button>
   </div>
 </div>
- 
+
+<!-- PANTALLA ÉXITO -->
 <div class="screen" id="screenExito">
   <div class="success-screen">
     <div class="success-icon">✅</div>
@@ -503,13 +501,13 @@ input, select, textarea { font-family: var(--font); }
     </div>
   </div>
 </div>
- 
+
 <div id="loadingOverlay">
   <div class="spinner"></div>
   <span id="loadingMsg">Procesando…</span>
 </div>
 <div id="toast"></div>
- 
+
 <script>
 // ════════════════════════════════════════════════════════════
 // CONFIGURACIÓN
@@ -518,19 +516,19 @@ const BACKEND_URL  = 'https://script.google.com/macros/s/AKfycbzuLYY-8apEzrFyw_S
 const SHEET_URL    = 'https://docs.google.com/spreadsheets/d/1bVZIy8HPkIkOv2MoR34bnO-wXKAa3Y5hF9DtnWorCo8/edit';
 const DRIVE_FOLDER = '1Ynr_uL7mgUz0940PMefgawGXk_z7CeFx';
 const CLIENT_ID    = '72369192874-rgv4vqjl243p39fv0dntkl5a4m13s8k6.apps.googleusercontent.com';
-let driveToken     = null;
-let usuarioGoogle  = null;
- 
+let driveToken    = null;
+let usuarioGoogle = null;
+
 // ════════════════════════════════════════════════════════════
 // ESTADO GLOBAL
 // ════════════════════════════════════════════════════════════
 let estado = {
-  usuario: '', fechaRendicion: '', modo: 'OBRA',
+  usuario: '', emailUsuario: '', fechaRendicion: '', modo: 'OBRA',
   centroCosto: '', categoriaGasto: '',
   lote: [], fotoActual: null, datosIAActual: null,
   obras: [], categorias: []
 };
- 
+
 // ════════════════════════════════════════════════════════════
 // UTILIDADES
 // ════════════════════════════════════════════════════════════
@@ -541,23 +539,23 @@ function toast(msg, tipo = '', ms = 3000) {
   clearTimeout(el._t);
   el._t = setTimeout(() => el.className = '', ms);
 }
- 
+
 function loading(show, msg = 'Procesando…') {
   document.getElementById('loadingMsg').textContent = msg;
   document.getElementById('loadingOverlay').classList.toggle('show', show);
 }
- 
+
 function irA(screenId, progreso) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(screenId).classList.add('active');
   document.getElementById('progressFill').style.width = progreso + '%';
   window.scrollTo(0, 0);
 }
- 
+
 function formatCLP(n) {
   return '$' + (parseInt(n) || 0).toLocaleString('es-CL');
 }
- 
+
 function setIAStatus(tipo, msg) {
   const el = document.getElementById('iaStatus');
   if (!tipo) { el.style.display = 'none'; return; }
@@ -566,9 +564,9 @@ function setIAStatus(tipo, msg) {
   const iconos = { success: '✅', warning: '⚠️', error: '❌' };
   el.innerHTML = `<div class="ia-status ${tipo}">${spinnerHTML}<span>${iconos[tipo] || ''}${msg}</span></div>`;
 }
- 
+
 // ════════════════════════════════════════════════════════════
-// JSONP
+// JSONP — evita CORS con Apps Script
 // ════════════════════════════════════════════════════════════
 function jsonpCall(url) {
   return new Promise((resolve, reject) => {
@@ -590,12 +588,12 @@ function jsonpCall(url) {
     document.head.appendChild(script);
   });
 }
- 
+
 // ════════════════════════════════════════════════════════════
-// INICIALIZACIÓN GIS
+// LOGIN GOOGLE (GIS)
 // ════════════════════════════════════════════════════════════
 let tokenClient;
- 
+
 function initGIS() {
   tokenClient = google.accounts.oauth2.initTokenClient({
     client_id: CLIENT_ID,
@@ -609,6 +607,7 @@ function initGIS() {
         });
         const info = await r.json();
         usuarioGoogle = { email: info.email, nombre: info.name, foto: info.picture };
+
         const AUTORIZADOS = [
           'cbraun@senercom.cl','carlos.braun@gmail.com','cmenendez@senercom.cl',
           'psalas@senercom.cl','maro@senercom.cl','ogallo@senercom.cl',
@@ -618,10 +617,12 @@ function initGIS() {
           toast('⛔ Tu cuenta no tiene acceso a esta aplicación.', 'error', 6000);
           driveToken = null; usuarioGoogle = null; return;
         }
+
         document.getElementById('nombreUsuario').textContent = info.name;
         document.getElementById('emailUsuario').textContent  = info.email;
         const fotoEl = document.getElementById('fotoUsuario');
         if (info.picture) { fotoEl.src = info.picture; fotoEl.style.display = 'block'; }
+
         irA('screenInicio', 0);
         cargarObrasYCategorias();
         document.getElementById('inputFechaRendicion').value = new Date().toISOString().split('T')[0];
@@ -632,7 +633,7 @@ function initGIS() {
     }
   });
 }
- 
+
 function loginGoogle() {
   document.getElementById('btnLogin').disabled = true;
   document.getElementById('btnLogin').textContent = 'Verificando…';
@@ -644,13 +645,17 @@ function loginGoogle() {
     document.getElementById('btnLogin').textContent = 'Iniciar sesión con Google';
   }
 }
- 
+
 function cerrarSesion() {
   driveToken = null; usuarioGoogle = null;
-  google.accounts.oauth2.revoke(driveToken, () => {});
   irA('screenLogin', 0);
+  document.getElementById('btnLogin').disabled = false;
+  document.getElementById('btnLogin').textContent = 'Iniciar sesión con Google';
 }
- 
+
+// ════════════════════════════════════════════════════════════
+// CARGAR DATOS DESDE BACKEND
+// ════════════════════════════════════════════════════════════
 async function cargarObrasYCategorias() {
   try {
     const [dObras, dCats, dProvs] = await Promise.all([
@@ -659,13 +664,11 @@ async function cargarObrasYCategorias() {
       jsonpCall(BACKEND_URL + '?accion=getProveedores')
     ]);
     if (dObras.ok) {
-      estado.obras = dObras.obras;
       const dl = document.getElementById('listaObras');
       dl.innerHTML = '';
       dObras.obras.forEach(o => { const opt = document.createElement('option'); opt.value = o; dl.appendChild(opt); });
     }
     if (dCats.ok) {
-      estado.categorias = dCats.categorias;
       const dl = document.getElementById('listaCategorias');
       dl.innerHTML = '';
       dCats.categorias.forEach(c => { const opt = document.createElement('option'); opt.value = c; dl.appendChild(opt); });
@@ -679,7 +682,7 @@ async function cargarObrasYCategorias() {
     }
   } catch(e) { console.log('Datos no cargados, modo manual'); }
 }
- 
+
 // ════════════════════════════════════════════════════════════
 // PASO 0 → 1
 // ════════════════════════════════════════════════════════════
@@ -693,7 +696,7 @@ function irAPaso1() {
   document.getElementById('stepNum').textContent = '1';
   irA('screenLote', 33);
 }
- 
+
 // ════════════════════════════════════════════════════════════
 // PASO 1: LOTE
 // ════════════════════════════════════════════════════════════
@@ -704,7 +707,7 @@ function seleccionarModo(modo) {
   document.getElementById('campoObra').style.display      = modo === 'OBRA'    ? 'block' : 'none';
   document.getElementById('campoCategoria').style.display = modo === 'GENERAL' ? 'block' : 'none';
 }
- 
+
 function iniciarLote() {
   if (estado.modo === 'OBRA') {
     const obra = document.getElementById('selectObra').value.trim();
@@ -720,51 +723,36 @@ function iniciarLote() {
   document.getElementById('stepNum').textContent = '2';
   irA('screenBoleta', 66);
 }
- 
+
 // ════════════════════════════════════════════════════════════
-// PASO 2: FOTO Y EXTRACCIÓN IA
+// PASO 2: ARCHIVO (IMAGEN O PDF) Y EXTRACCIÓN IA
 // ════════════════════════════════════════════════════════════
 function fotoSeleccionada(input) {
   const file = input.files[0];
   if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    const img = new Image();
-    img.onload = () => {
-      // Preview pequeño solo para mostrar en pantalla
-      const MAX_PREVIEW = 600;
-      let pw = img.width, ph = img.height;
-      if (pw > MAX_PREVIEW || ph > MAX_PREVIEW) {
-        if (pw > ph) { ph = Math.round(ph * MAX_PREVIEW / pw); pw = MAX_PREVIEW; }
-        else         { pw = Math.round(pw * MAX_PREVIEW / ph); ph = MAX_PREVIEW; }
-      }
-      const canvasPreview = document.createElement('canvas');
-      canvasPreview.width = pw; canvasPreview.height = ph;
-      canvasPreview.getContext('2d').drawImage(img, 0, 0, pw, ph);
-      const preview = canvasPreview.toDataURL('image/jpeg', 0.7);
- 
-      // Imagen original para Drive (sin reducir, solo convertir a base64)
-      // Máximo 1600px para no saturar Drive pero mantener legibilidad
-      const MAX_DRIVE = 1600;
-      let dw = img.width, dh = img.height;
-      if (dw > MAX_DRIVE || dh > MAX_DRIVE) {
-        if (dw > dh) { dh = Math.round(dh * MAX_DRIVE / dw); dw = MAX_DRIVE; }
-        else         { dw = Math.round(dw * MAX_DRIVE / dh); dh = MAX_DRIVE; }
-      }
-      const canvasDrive = document.createElement('canvas');
-      canvasDrive.width = dw; canvasDrive.height = dh;
-      canvasDrive.getContext('2d').drawImage(img, 0, 0, dw, dh);
-      const base64Drive = canvasDrive.toDataURL('image/jpeg', 0.92).split(',')[1];
- 
+
+  const esPDF = file.type === 'application/pdf';
+
+  if (esPDF) {
+    // PDF: leer como base64 directamente
+    const reader = new FileReader();
+    reader.onload = e => {
+      const base64 = e.target.result.split(',')[1];
       estado.fotoActual = {
-        base64: base64Drive,
-        mime: 'image/jpeg',
-        nombre: file.name,
-        preview
+        base64,
+        mime:    'application/pdf',
+        nombre:  file.name,
+        preview: null,
+        esPDF:   true
       };
       const zona = document.getElementById('fotoZone');
       zona.classList.add('has-image');
-      zona.innerHTML = `<img src="${preview}" alt="Boleta">`;
+      zona.innerHTML = `
+        <div style="padding:24px; text-align:center;">
+          <div style="font-size:52px; margin-bottom:8px;">📄</div>
+          <div style="font-weight:700; color:var(--navy); font-size:14px;">${file.name}</div>
+          <div style="font-size:12px; color:var(--muted); margin-top:4px;">PDF listo para analizar</div>
+        </div>`;
       document.getElementById('fotoActions').style.display = 'flex';
       setIAStatus(null);
       document.getElementById('iaPreguntas').style.display = 'none';
@@ -772,18 +760,69 @@ function fotoSeleccionada(input) {
       document.getElementById('botonesFormulario').style.display = 'none';
       extraerConIA();
     };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
+
+  } else {
+    // Imagen: comprimir con canvas
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        // Preview para mostrar en pantalla
+        const MAX_PREVIEW = 600;
+        let pw = img.width, ph = img.height;
+        if (pw > MAX_PREVIEW || ph > MAX_PREVIEW) {
+          if (pw > ph) { ph = Math.round(ph * MAX_PREVIEW / pw); pw = MAX_PREVIEW; }
+          else         { pw = Math.round(pw * MAX_PREVIEW / ph); ph = MAX_PREVIEW; }
+        }
+        const canvasPreview = document.createElement('canvas');
+        canvasPreview.width = pw; canvasPreview.height = ph;
+        canvasPreview.getContext('2d').drawImage(img, 0, 0, pw, ph);
+        const preview = canvasPreview.toDataURL('image/jpeg', 0.7);
+
+        // Imagen para Drive (máx 1600px)
+        const MAX_DRIVE = 1600;
+        let dw = img.width, dh = img.height;
+        if (dw > MAX_DRIVE || dh > MAX_DRIVE) {
+          if (dw > dh) { dh = Math.round(dh * MAX_DRIVE / dw); dw = MAX_DRIVE; }
+          else         { dw = Math.round(dw * MAX_DRIVE / dh); dh = MAX_DRIVE; }
+        }
+        const canvasDrive = document.createElement('canvas');
+        canvasDrive.width = dw; canvasDrive.height = dh;
+        canvasDrive.getContext('2d').drawImage(img, 0, 0, dw, dh);
+        const base64Drive = canvasDrive.toDataURL('image/jpeg', 0.92).split(',')[1];
+
+        estado.fotoActual = {
+          base64:  base64Drive,
+          mime:    'image/jpeg',
+          nombre:  file.name,
+          preview,
+          esPDF:   false
+        };
+        const zona = document.getElementById('fotoZone');
+        zona.classList.add('has-image');
+        zona.innerHTML = `<img src="${preview}" alt="Boleta">`;
+        document.getElementById('fotoActions').style.display = 'flex';
+        setIAStatus(null);
+        document.getElementById('iaPreguntas').style.display = 'none';
+        document.getElementById('formDatos').style.display   = 'none';
+        document.getElementById('botonesFormulario').style.display = 'none';
+        extraerConIA();
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
 }
- 
-async function subirImagenDrive() {
-  if (!driveToken) throw new Error('No hay sesión activa. Por favor recarga la página e inicia sesión.');
+
+async function subirArchivoDrive() {
+  if (!driveToken) throw new Error('No hay sesión activa. Recarga e inicia sesión.');
   const byteChars = atob(estado.fotoActual.base64);
   const byteArr   = new Uint8Array(byteChars.length);
   for (let i = 0; i < byteChars.length; i++) byteArr[i] = byteChars.charCodeAt(i);
   const blob = new Blob([byteArr], { type: estado.fotoActual.mime });
-  const nombre = 'boleta_' + Date.now() + '.jpg';
+  const ext    = estado.fotoActual.esPDF ? '.pdf' : '.jpg';
+  const nombre = 'boleta_' + Date.now() + ext;
   const metadata = JSON.stringify({ name: nombre, parents: [DRIVE_FOLDER] });
   const form = new FormData();
   form.append('metadata', new Blob([metadata], { type: 'application/json' }));
@@ -792,51 +831,46 @@ async function subirImagenDrive() {
     method: 'POST', headers: { Authorization: 'Bearer ' + driveToken }, body: form
   });
   const data = await resp.json();
+  if (!data.id) throw new Error('Error subiendo a Drive: ' + JSON.stringify(data));
   return data.id;
 }
- 
+
 async function extraerConIA() {
-  if (!estado.fotoActual) { toast('Primero toma una foto', 'error'); return; }
- 
-  setIAStatus('loading', 'Subiendo imagen…');
+  if (!estado.fotoActual) { toast('Primero selecciona un archivo', 'error'); return; }
+
+  setIAStatus('loading', 'Subiendo archivo…');
   document.getElementById('iaPreguntas').style.display = 'none';
   document.getElementById('formDatos').style.display   = 'none';
   document.getElementById('botonesFormulario').style.display = 'none';
   document.getElementById('btnExtraerIA').disabled = true;
- 
+
   try {
-    // Paso 1: subir a Drive
-    const driveFileId = await subirImagenDrive();
+    const driveFileId = await subirArchivoDrive();
     estado.fotoActual.driveFileId = driveFileId;
- 
+
     setIAStatus('loading', 'Analizando con IA…');
- 
-    // Paso 2: enviar fileId (imagen ya subida a Drive)
-    if (!driveFileId) throw new Error('No se obtuvo fileId de Drive');
-    const url = BACKEND_URL
-      + '?accion=extraerBoleta'
-      + '&fileId=' + encodeURIComponent(driveFileId);
- 
+
+    const url = BACKEND_URL + '?accion=extraerBoleta&fileId=' + encodeURIComponent(driveFileId);
     const result = await jsonpCall(url);
     if (!result.ok) throw new Error(result.error || 'Error en servidor');
- 
+
     const datosia = result.datos;
     estado.datosIAActual = datosia;
     poblarFormulario(datosia);
- 
+
     if (datosia.dudas && datosia.dudas.length > 0) {
       setIAStatus('warning', `IA extrajo los datos — hay ${datosia.dudas.length} punto(s) a confirmar`);
       mostrarDudas(datosia.dudas);
     } else {
       setIAStatus('success', `Datos extraídos con confianza ${datosia.confianza || 'alta'}`);
     }
- 
+
     document.getElementById('formDatos').style.display        = 'block';
     document.getElementById('botonesFormulario').style.display = 'block';
     actualizarBtnVerLote();
- 
+
   } catch(e) {
-    setIAStatus('error', 'No se pudo analizar la imagen. Ingresa los datos manualmente.');
+    setIAStatus('error', 'No se pudo analizar el archivo. Ingresa los datos manualmente.');
     document.getElementById('formDatos').style.display        = 'block';
     document.getElementById('botonesFormulario').style.display = 'block';
     console.error(e);
@@ -844,7 +878,7 @@ async function extraerConIA() {
     document.getElementById('btnExtraerIA').disabled = false;
   }
 }
- 
+
 function poblarFormulario(datos) {
   if (datos.nDocumento)     document.getElementById('inputNDoc').value      = datos.nDocumento;
   if (datos.fechaDocumento) document.getElementById('inputFechaDoc').value  = datos.fechaDocumento;
@@ -854,20 +888,20 @@ function poblarFormulario(datos) {
   if (datos.propina)        document.getElementById('inputPropina').value   = datos.propina;
   if (datos.total)          document.getElementById('inputTotal').value     = datos.total;
 }
- 
+
 function mostrarDudas(dudas) {
   const cont = document.getElementById('iaPreguntas');
   let html = `<div class="dudas-box"><div class="duda-title">⚠️ La IA necesita confirmar</div>`;
   dudas.forEach((d, i) => {
     html += `<div class="duda-item"><p>${d.pregunta}</p>`;
-    html += `<input type="text" id="duda_${i}" data-campo="${d.campo}" placeholder="Ingresa el dato manualmente…">`;
+    html += `<input type="text" id="duda_${i}" data-campo="${d.campo}" placeholder="Ingresa el dato…">`;
     html += `</div>`;
   });
   html += `</div>`;
   cont.innerHTML = html;
   cont.style.display = 'block';
 }
- 
+
 function calcularTotal() {
   const sub     = parseInt(document.getElementById('inputSubtotal').value) || 0;
   const iva     = parseInt(document.getElementById('inputIva').value)      || 0;
@@ -876,12 +910,13 @@ function calcularTotal() {
     document.getElementById('inputTotal').value = sub + iva + propina;
   }
 }
- 
+
 function agregarBoleta() {
   const descripcion = document.getElementById('inputDescripcion').value.trim();
   const total       = parseInt(document.getElementById('inputTotal').value) || 0;
   if (!descripcion) { toast('Agrega una descripción del gasto', 'error'); return; }
   if (total === 0)  { toast('El total no puede ser $0', 'error'); return; }
+
   const respuestasDudas = {};
   if (estado.datosIAActual?.dudas) {
     estado.datosIAActual.dudas.forEach((d, i) => {
@@ -889,8 +924,9 @@ function agregarBoleta() {
       if (el) respuestasDudas[d.campo] = el.value;
     });
   }
+
   estado.lote.push({
-    id: Date.now(),
+    id:               Date.now(),
     nDocumento:       document.getElementById('inputNDoc').value,
     fechaDocumento:   document.getElementById('inputFechaDoc').value,
     proveedor:        document.getElementById('inputProveedor').value,
@@ -904,18 +940,19 @@ function agregarBoleta() {
     datosConfirmados: true,
     respuestasDudas
   });
-  toast(`✓ Boleta ${formatCLP(total)} agregada al lote`, 'success');
+
+  toast(`✓ Documento ${formatCLP(total)} agregado al lote`, 'success');
   resetearFormularioBoleta();
   actualizarContadores();
 }
- 
+
 function cancelarBoleta() { resetearFormularioBoleta(); }
- 
+
 function resetearFormularioBoleta() {
   estado.fotoActual = null; estado.datosIAActual = null;
   const zona = document.getElementById('fotoZone');
   zona.classList.remove('has-image');
-  zona.innerHTML = `<div class="placeholder"><div class="icon">📷</div><p>Toca para fotografiar</p><span>o seleccionar desde galería</span></div>`;
+  zona.innerHTML = `<div class="placeholder"><div class="icon">📷</div><p>Toca para fotografiar o adjuntar PDF</p><span>Imagen o archivo PDF</span></div>`;
   document.getElementById('inputFoto').value = '';
   document.getElementById('fotoActions').style.display = 'none';
   setIAStatus(null);
@@ -927,13 +964,13 @@ function resetearFormularioBoleta() {
     document.getElementById(id).value = '';
   });
 }
- 
+
 function actualizarLoteLabel() {
   const label = estado.modo === 'OBRA' ? estado.centroCosto : `General — ${estado.categoriaGasto}`;
   document.getElementById('loteLabel').textContent = label;
   document.getElementById('headerSub').textContent = label;
 }
- 
+
 function actualizarContadores() {
   const n = estado.lote.length;
   document.getElementById('contadorBoletas').textContent = `${n} boleta${n !== 1 ? 's' : ''}`;
@@ -941,13 +978,13 @@ function actualizarContadores() {
   document.getElementById('totalLote2').textContent = n;
   actualizarBtnVerLote();
 }
- 
+
 function actualizarBtnVerLote() {
   const show = estado.lote.length > 0;
-  document.getElementById('btnVerLote').style.display   = show ? 'flex' : 'none';
+  document.getElementById('btnVerLote').style.display   = show ? 'flex'  : 'none';
   document.getElementById('btnIrResumen').style.display = show ? 'block' : 'none';
 }
- 
+
 // ════════════════════════════════════════════════════════════
 // PASO 3: RESUMEN Y ENVÍO
 // ════════════════════════════════════════════════════════════
@@ -955,12 +992,15 @@ function mostrarResumen() {
   document.getElementById('stepNum').textContent = '3';
   document.getElementById('infoLoteResumen').textContent =
     `${estado.modo === 'OBRA' ? '🏗️' : '🏢'} ${estado.centroCosto}${estado.categoriaGasto ? ' — ' + estado.categoriaGasto : ''} · ${estado.lote.length} documento(s)`;
+
   const listaEl = document.getElementById('listaBoletas');
   listaEl.innerHTML = '';
   estado.lote.forEach(b => {
-    const thumbHTML = b.foto?.preview
-      ? `<div class="boleta-thumb"><img src="${b.foto.preview}" alt="foto"></div>`
-      : `<div class="boleta-thumb">🧾</div>`;
+    const thumbHTML = b.foto?.esPDF
+      ? `<div class="boleta-thumb">📄</div>`
+      : b.foto?.preview
+        ? `<div class="boleta-thumb"><img src="${b.foto.preview}" alt="foto"></div>`
+        : `<div class="boleta-thumb">🧾</div>`;
     listaEl.innerHTML += `
       <div class="boleta-item">
         ${thumbHTML}
@@ -972,10 +1012,12 @@ function mostrarResumen() {
         <div class="boleta-status ok"></div>
       </div>`;
   });
+
   const subtotalSum = estado.lote.reduce((a, b) => a + b.subtotal, 0);
   const ivaSum      = estado.lote.reduce((a, b) => a + b.iva, 0);
   const propinaSum  = estado.lote.reduce((a, b) => a + b.propina, 0);
   const totalSum    = estado.lote.reduce((a, b) => a + b.total, 0);
+
   document.getElementById('totalesLote').innerHTML = `
     ${subtotalSum ? `<div class="resumen-row"><span>Subtotal</span><span>${formatCLP(subtotalSum)}</span></div>` : ''}
     ${ivaSum      ? `<div class="resumen-row"><span>IVA</span><span>${formatCLP(ivaSum)}</span></div>` : ''}
@@ -984,17 +1026,18 @@ function mostrarResumen() {
     <div class="resumen-row"><span style="color:var(--muted); font-size:12px;">${estado.lote.length} documento(s) · Rendido por ${estado.usuario}</span></div>
   `;
 }
- 
+
 async function enviarLote() {
-  if (estado.lote.length === 0) { toast('No hay boletas en el lote', 'error'); return; }
+  if (estado.lote.length === 0) { toast('No hay documentos en el lote', 'error'); return; }
   loading(true, 'Enviando lote…');
   const ids = []; let errores = 0;
+
   for (let i = 0; i < estado.lote.length; i++) {
     const b = estado.lote[i];
     loading(true, `Enviando ${i + 1} de ${estado.lote.length}…`);
     try {
       const params = new URLSearchParams({
-        accion: 'guardarBoleta',
+        accion:           'guardarBoleta',
         usuario:          estado.usuario,
         fechaRendicion:   estado.fechaRendicion,
         tipo:             estado.modo,
@@ -1016,19 +1059,20 @@ async function enviarLote() {
       if (data.ok) ids.push(data.id); else errores++;
     } catch(e) { errores++; console.error(e); }
   }
+
   loading(false);
   if (errores === 0) {
     document.getElementById('exitoMsg').textContent =
-      `${ids.length} boleta(s) registradas correctamente para "${estado.centroCosto}".`;
+      `${ids.length} documento(s) registrado(s) correctamente para "${estado.centroCosto}".`;
     document.getElementById('exitoIds').innerHTML =
       ids.map(id => `<span class="badge badge-navy" style="margin:2px;">${id}</span>`).join('');
     irA('screenExito', 100);
   } else {
-    toast(`Se enviaron ${ids.length} boletas. ${errores} fallaron.`,
+    toast(`Se enviaron ${ids.length} docs. ${errores} fallaron.`,
       errores === estado.lote.length ? 'error' : 'warning', 5000);
   }
 }
- 
+
 // ════════════════════════════════════════════════════════════
 // NUEVO LOTE
 // ════════════════════════════════════════════════════════════
@@ -1042,21 +1086,17 @@ function nuevaRendicion() {
   document.getElementById('headerStep').style.display = 'flex';
   document.getElementById('stepNum').textContent = '1';
 }
- 
+
 function verSheet() { window.open(SHEET_URL, '_blank'); }
- 
-// ════════════════════════════════════════════════════════════
-// INTERCEPTAR RESUMEN
-// ════════════════════════════════════════════════════════════
+
+// Interceptar cambio a resumen
 const _irA = irA;
 window.irA = function(screenId, progreso) {
   if (screenId === 'screenResumen') mostrarResumen();
   _irA(screenId, progreso);
 };
- 
-// ════════════════════════════════════════════════════════════
-// SERVICE WORKER
-// ════════════════════════════════════════════════════════════
+
+// Service Worker
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
 }
@@ -1064,11 +1104,3 @@ if ('serviceWorker' in navigator) {
 <script src="https://accounts.google.com/gsi/client" async defer onload="initGIS()"></script>
 </body>
 </html>
- 
-
-
-
-
-
-
-Your message was sent, but Claude couldn't respond — try again.
